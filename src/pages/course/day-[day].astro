@@ -34,6 +34,9 @@ const nextDay = parseInt(day) < 60 ? parseInt(day) + 1 : null
 // 获取页面元数据
 const pageTitle = `Day ${day}: ${course.data.title} | 60天Web开发课程`
 const pageDescription = course.data.description
+
+// Get the Content component from the course
+const { Content } = await course.render()
 ---
 
 <!DOCTYPE html>
@@ -87,7 +90,7 @@ const pageDescription = course.data.description
 
     <!-- 主要内容 -->
     <article class="course-content">
-      <course.Content />
+      <Content />
     </article>
 
     <!-- 练习部分 -->
