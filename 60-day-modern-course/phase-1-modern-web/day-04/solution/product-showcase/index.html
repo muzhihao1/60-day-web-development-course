@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>现代产品展示 - 完整解决方案</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 固定导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="logo">🛍️</span>
+                <span class="brand-name">ModernShop</span>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#products">产品</a></li>
+                <li><a href="#categories">分类</a></li>
+                <li><a href="#about">关于</a></li>
+                <li><a href="#contact">联系</a></li>
+            </ul>
+            
+            <div class="nav-search">
+                <input type="search" placeholder="搜索产品..." aria-label="搜索">
+                <button type="submit" aria-label="搜索按钮">🔍</button>
+            </div>
+            
+            <button class="nav-toggle" aria-label="切换导航">☰</button>
+        </div>
+    </nav>
+    
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <h2>筛选器</h2>
+            
+            <!-- 分类选择 -->
+            <div class="filter-section">
+                <h3>产品分类</h3>
+                <div class="filter-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="category" value="electronics">
+                        <span>电子产品</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="category" value="clothing">
+                        <span>服装</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="category" value="books">
+                        <span>图书</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="category" value="home">
+                        <span>家居</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- 价格范围 -->
+            <div class="filter-section">
+                <h3>价格范围</h3>
+                <div class="price-range">
+                    <input type="range" id="price-range" min="0" max="1000" value="500">
+                    <div class="price-display">
+                        <span>¥0</span>
+                        <span id="price-value">¥500</span>
+                        <span>¥1000</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 评分筛选 -->
+            <div class="filter-section">
+                <h3>用户评分</h3>
+                <div class="rating-filter">
+                    <label class="radio-label">
+                        <input type="radio" name="rating" value="4">
+                        <span>⭐⭐⭐⭐ 及以上</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="rating" value="3">
+                        <span>⭐⭐⭐ 及以上</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="rating" value="2">
+                        <span>⭐⭐ 及以上</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="rating" value="all" checked>
+                        <span>所有评分</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- 排序选项 -->
+            <div class="filter-section">
+                <h3>排序方式</h3>
+                <select class="sort-select">
+                    <option value="default">默认排序</option>
+                    <option value="price-low">价格从低到高</option>
+                    <option value="price-high">价格从高到低</option>
+                    <option value="rating">评分最高</option>
+                    <option value="newest">最新上架</option>
+                </select>
+            </div>
+            
+            <button class="apply-filters">应用筛选</button>
+        </aside>
+        
+        <!-- 产品网格 -->
+        <main class="product-grid">
+            <!-- 产品卡片 1 - 特价产品 -->
+            <article class="product-card" data-category="electronics">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/400x300/3498db/ffffff?text=智能手表" alt="智能手表">
+                    <span class="price-tag">¥899</span>
+                    <span class="badge badge-sale">特价</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-title">智能运动手表 Pro</h3>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-count">(256)</span>
+                    </div>
+                    <p class="product-description">
+                        专业级运动追踪，心率监测，50米防水，续航7天。
+                        支持多种运动模式，智能通知提醒。
+                    </p>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">加入购物车</button>
+                        <button class="btn btn-secondary">查看详情</button>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 产品卡片 2 - 新品 -->
+            <article class="product-card" data-category="clothing">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/400x300/2ecc71/ffffff?text=运动T恤" alt="运动T恤">
+                    <span class="price-tag">¥199</span>
+                    <span class="badge badge-new">新品</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-title">速干运动T恤</h3>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐</span>
+                        <span class="rating-count">(89)</span>
+                    </div>
+                    <p class="product-description">
+                        采用高科技速干面料，透气排汗，抗菌防臭。
+                        适合各种运动场景，多色可选。
+                    </p>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">加入购物车</button>
+                        <button class="btn btn-secondary">查看详情</button>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 产品卡片 3 - 热销 -->
+            <article class="product-card" data-category="books">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/400x300/e74c3c/ffffff?text=编程书籍" alt="编程书籍">
+                    <span class="price-tag">¥79</span>
+                    <span class="badge badge-hot">热销</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-title">JavaScript高级编程</h3>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-count">(512)</span>
+                    </div>
+                    <p class="product-description">
+                        深入浅出讲解JavaScript核心概念，包含ES6+新特性。
+                        适合中高级开发者提升技能。
+                    </p>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">加入购物车</button>
+                        <button class="btn btn-secondary">查看详情</button>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 产品卡片 4 -->
+            <article class="product-card" data-category="home">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/400x300/f39c12/ffffff?text=智能台灯" alt="智能台灯">
+                    <span class="price-tag">¥299</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-title">护眼智能台灯</h3>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐</span>
+                        <span class="rating-count">(167)</span>
+                    </div>
+                    <p class="product-description">
+                        无频闪护眼光源，智能调光，手机APP控制。
+                        多种场景模式，呵护您的视力健康。
+                    </p>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">加入购物车</button>
+                        <button class="btn btn-secondary">查看详情</button>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 产品卡片 5 -->
+            <article class="product-card" data-category="electronics">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/400x300/9b59b6/ffffff?text=蓝牙耳机" alt="蓝牙耳机">
+                    <span class="price-tag">¥399</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-title">降噪蓝牙耳机</h3>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-count">(423)</span>
+                    </div>
+                    <p class="product-description">
+                        主动降噪技术，Hi-Fi音质，30小时续航。
+                        舒适佩戴，支持快充技术。
+                    </p>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">加入购物车</button>
+                        <button class="btn btn-secondary">查看详情</button>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 产品卡片 6 -->
+            <article class="product-card" data-category="clothing">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/400x300/1abc9c/ffffff?text=瑜伽裤" alt="瑜伽裤">
+                    <span class="price-tag">¥269</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-title">高弹力瑜伽裤</h3>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐</span>
+                        <span class="rating-count">(195)</span>
+                    </div>
+                    <p class="product-description">
+                        四面弹力面料，提臀塑形，高腰设计。
+                        适合瑜伽、健身、日常穿着。
+                    </p>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">加入购物车</button>
+                        <button class="btn btn-secondary">查看详情</button>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 产品卡片 7 -->
+            <article class="product-card" data-category="books">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/400x300/34495e/ffffff?text=设计心理学" alt="设计心理学">
+                    <span class="price-tag">¥59</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-title">设计心理学</h3>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-count">(678)</span>
+                    </div>
+                    <p class="product-description">
+                        探讨优秀设计的心理学原理，必读经典。
+                        适合设计师、产品经理阅读。
+                    </p>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">加入购物车</button>
+                        <button class="btn btn-secondary">查看详情</button>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 产品卡片 8 -->
+            <article class="product-card" data-category="home">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/400x300/e67e22/ffffff?text=香薰机" alt="香薰机">
+                    <span class="price-tag">¥189</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-title">超声波香薰机</h3>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐</span>
+                        <span class="rating-count">(234)</span>
+                    </div>
+                    <p class="product-description">
+                        静音加湿，七彩氛围灯，定时功能。
+                        改善空气质量，营造舒适环境。
+                    </p>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">加入购物车</button>
+                        <button class="btn btn-secondary">查看详情</button>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 产品卡片 9 - 限量版 -->
+            <article class="product-card special-edition" data-category="electronics">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/400x300/c0392b/ffffff?text=限量版键盘" alt="机械键盘">
+                    <span class="price-tag">¥1299</span>
+                    <span class="badge badge-limited">限量版</span>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-title">机械键盘大师版</h3>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-count">(99)</span>
+                    </div>
+                    <p class="product-description">
+                        Cherry轴体，RGB背光，全键无冲。
+                        限量发售，收藏级工艺品质。
+                    </p>
+                    <div class="product-actions">
+                        <button class="btn btn-primary">加入购物车</button>
+                        <button class="btn btn-secondary">查看详情</button>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- 加载更多按钮 -->
+            <div class="load-more-container">
+                <button class="load-more-btn">加载更多产品</button>
+            </div>
+        </main>
+    </div>
+    
+    <!-- 浮动操作按钮 -->
+    <button class="fab" id="backToTop" aria-label="返回顶部">
+        <span>↑</span>
+    </button>
+    
+    <!-- 购物车提示 -->
+    <div class="cart-notification" id="cartNotification">
+        <span>✓ 已添加到购物车</span>
+    </div>
+    
+    <script>
+        // 价格范围滑块
+        const priceRange = document.getElementById('price-range');
+        const priceValue = document.getElementById('price-value');
+        
+        priceRange.addEventListener('input', function() {
+            priceValue.textContent = `¥${this.value}`;
+        });
+        
+        // 返回顶部按钮
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 添加到购物车提示
+        const cartButtons = document.querySelectorAll('.btn-primary');
+        const cartNotification = document.getElementById('cartNotification');
+        
+        cartButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                cartNotification.classList.add('show');
+                setTimeout(() => {
+                    cartNotification.classList.remove('show');
+                }, 2000);
+            });
+        });
+        
+        // 响应式导航切换
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        navToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

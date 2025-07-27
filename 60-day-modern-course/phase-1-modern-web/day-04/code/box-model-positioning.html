@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS盒模型与定位演示</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 3rem;
+        }
+        
+        .section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: #3498db;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin: 1.5rem 0 1rem;
+        }
+        
+        /* 盒模型演示 */
+        .box-model-demo {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .box-example {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        /* content-box（默认） */
+        .box-content {
+            width: 300px;
+            height: 150px;
+            padding: 20px;
+            border: 5px solid #3498db;
+            margin: 20px;
+            background-color: #e3f2fd;
+            position: relative;
+        }
+        
+        /* border-box */
+        .box-border {
+            box-sizing: border-box;
+            width: 300px;
+            height: 150px;
+            padding: 20px;
+            border: 5px solid #e74c3c;
+            margin: 20px;
+            background-color: #fadbd8;
+        }
+        
+        /* 盒模型可视化 */
+        .box-visual {
+            position: relative;
+            width: 320px;
+            margin: 2rem auto;
+        }
+        
+        .box-margin {
+            background-color: #ffeaa7;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .box-border-visual {
+            background-color: #74b9ff;
+            border: 20px solid #0984e3;
+            position: relative;
+        }
+        
+        .box-padding {
+            background-color: #a29bfe;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .box-content-visual {
+            background-color: #fd79a8;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* 标签 */
+        .label {
+            position: absolute;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 2px 8px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        
+        .label-margin { top: 0; left: 0; }
+        .label-border { top: 20px; left: 20px; }
+        .label-padding { top: 40px; left: 40px; }
+        
+        /* 定位演示 */
+        .position-demo {
+            background: #ecf0f1;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            min-height: 300px;
+            position: relative;
+        }
+        
+        /* Static定位（默认） */
+        .pos-static {
+            position: static;
+            background: #3498db;
+            color: white;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Relative定位 */
+        .pos-relative {
+            position: relative;
+            top: 20px;
+            left: 30px;
+            background: #2ecc71;
+            color: white;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .pos-relative-container {
+            background: #e8f5e9;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 2px dashed #2ecc71;
+        }
+        
+        /* Absolute定位 */
+        .pos-absolute-container {
+            position: relative;
+            background: #fff3e0;
+            height: 200px;
+            margin: 1rem 0;
+            border: 2px dashed #f39c12;
+        }
+        
+        .pos-absolute {
+            position: absolute;
+            background: #f39c12;
+            color: white;
+            padding: 1rem;
+        }
+        
+        .pos-absolute-1 { top: 10px; left: 10px; }
+        .pos-absolute-2 { top: 10px; right: 10px; }
+        .pos-absolute-3 { bottom: 10px; left: 10px; }
+        .pos-absolute-4 { bottom: 10px; right: 10px; }
+        
+        .pos-absolute-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #e74c3c;
+            color: white;
+            padding: 1rem;
+        }
+        
+        /* Fixed定位 */
+        .pos-fixed-demo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #9b59b6;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+        
+        /* Sticky定位 */
+        .sticky-container {
+            height: 400px;
+            overflow-y: auto;
+            border: 2px solid #95a5a6;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background: #34495e;
+            color: white;
+            padding: 1rem;
+            z-index: 10;
+        }
+        
+        .sticky-content {
+            padding: 1rem;
+        }
+        
+        .sticky-content p {
+            margin-bottom: 1rem;
+        }
+        
+        /* z-index演示 */
+        .z-index-demo {
+            position: relative;
+            height: 300px;
+            background: #ecf0f1;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .z-box {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .z-box-1 {
+            background: #e74c3c;
+            top: 20px;
+            left: 20px;
+            z-index: 3;
+        }
+        
+        .z-box-2 {
+            background: #3498db;
+            top: 50px;
+            left: 50px;
+            z-index: 2;
+        }
+        
+        .z-box-3 {
+            background: #2ecc71;
+            top: 80px;
+            left: 80px;
+            z-index: 1;
+        }
+        
+        /* 外边距折叠演示 */
+        .margin-collapse-demo {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .margin-box {
+            background: #3498db;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .margin-box-1 {
+            margin-bottom: 30px;
+        }
+        
+        .margin-box-2 {
+            margin-top: 20px;
+        }
+        
+        .no-collapse {
+            display: flow-root; /* 防止外边距折叠 */
+        }
+        
+        /* 实用样式 */
+        code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .box-model-demo {
+                flex-direction: column;
+            }
+            
+            .pos-fixed-demo {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CSS盒模型与定位完整演示</h1>
+        
+        <!-- 盒模型部分 -->
+        <section class="section">
+            <h2>1. CSS盒模型</h2>
+            
+            <h3>盒模型对比</h3>
+            <div class="box-model-demo">
+                <div class="box-example">
+                    <h4>content-box（默认）</h4>
+                    <div class="box-content">
+                        <strong>实际宽度 = 350px</strong><br>
+                        300px (width) + 40px (padding) + 10px (border)
+                    </div>
+                    <code>box-sizing: content-box;</code>
+                </div>
+                
+                <div class="box-example">
+                    <h4>border-box</h4>
+                    <div class="box-border">
+                        <strong>实际宽度 = 300px</strong><br>
+                        内容宽度自动调整为 250px
+                    </div>
+                    <code>box-sizing: border-box;</code>
+                </div>
+            </div>
+            
+            <h3>盒模型可视化</h3>
+            <div class="box-visual">
+                <div class="box-margin">
+                    <span class="label label-margin">Margin</span>
+                    <div class="box-border-visual">
+                        <span class="label label-border">Border</span>
+                        <div class="box-padding">
+                            <span class="label label-padding">Padding</span>
+                            <div class="box-content-visual">
+                                Content
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>外边距折叠</h3>
+            <div class="demo-grid">
+                <div>
+                    <h4>会折叠的外边距</h4>
+                    <div class="margin-collapse-demo">
+                        <div class="margin-box margin-box-1">
+                            margin-bottom: 30px
+                        </div>
+                        <div class="margin-box margin-box-2">
+                            margin-top: 20px
+                        </div>
+                    </div>
+                    <p>实际间距：30px（取较大值）</p>
+                </div>
+                
+                <div>
+                    <h4>防止折叠</h4>
+                    <div class="margin-collapse-demo no-collapse">
+                        <div class="margin-box margin-box-1">
+                            margin-bottom: 30px
+                        </div>
+                        <div class="margin-box margin-box-2">
+                            margin-top: 20px
+                        </div>
+                    </div>
+                    <p>实际间距：50px（不折叠）</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 定位部分 -->
+        <section class="section">
+            <h2>2. CSS定位（Position）</h2>
+            
+            <h3>Static定位（默认）</h3>
+            <div class="position-demo">
+                <div class="pos-static">
+                    position: static - 正常文档流，不受 top/right/bottom/left 影响
+                </div>
+                <div class="info-box">
+                    <code>position: static</code> 是默认值，元素按照正常文档流排列
+                </div>
+            </div>
+            
+            <h3>Relative定位</h3>
+            <div class="position-demo">
+                <div class="pos-relative-container">
+                    原始位置（虚线框）
+                </div>
+                <div class="pos-relative">
+                    position: relative<br>
+                    top: 20px; left: 30px;
+                </div>
+                <div class="info-box">
+                    相对定位：相对于自身原始位置偏移，原始空间保留
+                </div>
+            </div>
+            
+            <h3>Absolute定位</h3>
+            <div class="pos-absolute-container">
+                <div class="pos-absolute pos-absolute-1">左上</div>
+                <div class="pos-absolute pos-absolute-2">右上</div>
+                <div class="pos-absolute pos-absolute-3">左下</div>
+                <div class="pos-absolute pos-absolute-4">右下</div>
+                <div class="pos-absolute-center">居中</div>
+            </div>
+            <div class="info-box">
+                绝对定位：相对于最近的非static父元素定位，脱离文档流
+            </div>
+            
+            <h3>Sticky定位</h3>
+            <div class="sticky-container">
+                <div class="sticky-header">
+                    粘性标题 - 滚动时会固定在顶部
+                </div>
+                <div class="sticky-content">
+                    <p>向下滚动查看效果...</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p>Sed do eiusmod tempor incididunt ut labore et dolore magna.</p>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+                    <p>Duis aute irure dolor in reprehenderit in voluptate velit.</p>
+                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa.</p>
+                    <p>继续滚动...</p>
+                    <p>更多内容...</p>
+                    <p>粘性定位结合了relative和fixed的特性</p>
+                </div>
+            </div>
+            
+            <h3>z-index层叠顺序</h3>
+            <div class="z-index-demo">
+                <div class="z-box z-box-1">z-index: 3</div>
+                <div class="z-box z-box-2">z-index: 2</div>
+                <div class="z-box z-box-3">z-index: 1</div>
+            </div>
+            <div class="warning-box">
+                注意：z-index 只对定位元素（非static）有效
+            </div>
+        </section>
+        
+        <!-- 实际应用示例 -->
+        <section class="section">
+            <h2>3. 实际应用示例</h2>
+            
+            <h3>卡片布局中的定位</h3>
+            <div class="demo-grid">
+                <div style="position: relative; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <div style="height: 200px; background: #3498db; position: relative;">
+                        <span style="position: absolute; top: 10px; right: 10px; background: #e74c3c; color: white; padding: 5px 10px; border-radius: 20px;">特价</span>
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><rect width='100%' height='100%' fill='%233498db'/><text x='50%' y='50%' text-anchor='middle' dy='.3em' fill='white' font-size='24'>产品图片</text></svg>" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 1rem;">
+                        <h4>产品标题</h4>
+                        <p>使用绝对定位添加标签</p>
+                    </div>
+                </div>
+                
+                <div style="position: relative; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <div style="height: 200px; background: #2ecc71; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                        悬停查看效果
+                    </div>
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.8); color: white; padding: 1rem; transform: translateY(100%); transition: transform 0.3s;">
+                        隐藏的详情信息
+                    </div>
+                </div>
+            </div>
+            
+            <h3>固定导航栏模拟</h3>
+            <div style="position: relative; height: 300px; overflow-y: auto; border: 2px solid #95a5a6; border-radius: 8px;">
+                <div style="position: sticky; top: 0; background: #2c3e50; color: white; padding: 1rem; z-index: 100;">
+                    固定导航栏
+                </div>
+                <div style="padding: 2rem;">
+                    <p>页面内容开始...</p>
+                    <p style="height: 100px;">滚动查看导航栏固定效果</p>
+                    <p style="height: 100px;">更多内容...</p>
+                    <p style="height: 100px;">继续滚动...</p>
+                    <p>页面内容结束</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Fixed定位示例 -->
+    <div class="pos-fixed-demo">
+        position: fixed<br>
+        始终固定在视口右下角
+    </div>
+</body>
+</html>

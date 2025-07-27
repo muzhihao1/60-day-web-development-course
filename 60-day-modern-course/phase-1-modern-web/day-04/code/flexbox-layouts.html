@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox布局完整演示</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            color: #3498db;
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+        
+        /* Flex容器演示基础样式 */
+        .demo-container {
+            border: 2px dashed #95a5a6;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            min-height: 150px;
+        }
+        
+        .flex-item {
+            background: #3498db;
+            color: white;
+            padding: 1rem;
+            margin: 5px;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        /* 1. Flex方向演示 */
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        .flex-row-reverse {
+            display: flex;
+            flex-direction: row-reverse;
+        }
+        
+        .flex-column {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .flex-column-reverse {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+        
+        /* 2. 主轴对齐 */
+        .justify-start {
+            display: flex;
+            justify-content: flex-start;
+        }
+        
+        .justify-end {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .justify-center {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .justify-between {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .justify-around {
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .justify-evenly {
+            display: flex;
+            justify-content: space-evenly;
+        }
+        
+        /* 3. 交叉轴对齐 */
+        .align-start {
+            display: flex;
+            align-items: flex-start;
+            height: 200px;
+        }
+        
+        .align-end {
+            display: flex;
+            align-items: flex-end;
+            height: 200px;
+        }
+        
+        .align-center {
+            display: flex;
+            align-items: center;
+            height: 200px;
+        }
+        
+        .align-stretch {
+            display: flex;
+            align-items: stretch;
+            height: 200px;
+        }
+        
+        .align-baseline {
+            display: flex;
+            align-items: baseline;
+            height: 200px;
+        }
+        
+        /* 不同高度的项目 */
+        .item-tall { height: 120px; }
+        .item-medium { height: 80px; }
+        .item-short { height: 40px; }
+        .item-auto { height: auto; }
+        
+        /* 4. Flex换行 */
+        .flex-nowrap {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+        
+        .flex-wrap {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .flex-wrap-reverse {
+            display: flex;
+            flex-wrap: wrap-reverse;
+        }
+        
+        .wide-item {
+            width: 300px;
+            flex-shrink: 0;
+        }
+        
+        /* 5. Flex项目属性 */
+        .flex-grow-demo {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .grow-0 { flex-grow: 0; background: #e74c3c; }
+        .grow-1 { flex-grow: 1; background: #3498db; }
+        .grow-2 { flex-grow: 2; background: #2ecc71; }
+        
+        .flex-shrink-demo {
+            display: flex;
+            width: 400px;
+            overflow: hidden;
+            border: 2px solid #e74c3c;
+        }
+        
+        .shrink-0 { 
+            flex-shrink: 0; 
+            width: 200px;
+            background: #e74c3c;
+        }
+        .shrink-1 { 
+            flex-shrink: 1; 
+            width: 200px;
+            background: #3498db;
+        }
+        .shrink-2 { 
+            flex-shrink: 2; 
+            width: 200px;
+            background: #2ecc71;
+        }
+        
+        /* 6. 实际应用示例 */
+        
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #2c3e50;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #3498db;
+        }
+        
+        /* 卡片布局 */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .card {
+            flex: 1 1 300px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-header {
+            background: #3498db;
+            color: white;
+            padding: 1rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+            flex: 1;
+        }
+        
+        .card-footer {
+            padding: 1rem;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        /* 侧边栏布局 */
+        .app-layout {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+            min-height: 400px;
+        }
+        
+        .sidebar {
+            flex: 0 0 250px;
+            background: #34495e;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        
+        .main-content {
+            flex: 1;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* 圣杯布局 */
+        .holy-grail {
+            display: flex;
+            flex-direction: column;
+            min-height: 500px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .holy-header {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .holy-body {
+            flex: 1;
+            display: flex;
+        }
+        
+        .holy-nav {
+            flex: 0 0 200px;
+            background: #34495e;
+            color: white;
+            padding: 1rem;
+            order: -1;
+        }
+        
+        .holy-main {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        .holy-aside {
+            flex: 0 0 200px;
+            background: #ecf0f1;
+            padding: 1rem;
+        }
+        
+        .holy-footer {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        /* 居中技巧 */
+        .center-demo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            background: #ecf0f1;
+            border-radius: 8px;
+        }
+        
+        .center-content {
+            background: #9b59b6;
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        /* 工具类 */
+        .code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .mt-2 { margin-top: 2rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        
+        /* Gap演示 */
+        .gap-demo {
+            display: flex;
+            gap: 20px;
+            background: #ecf0f1;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .gap-item {
+            background: #e74c3c;
+            color: white;
+            padding: 1rem;
+            border-radius: 5px;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .app-layout {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                flex: 1;
+            }
+            
+            .holy-body {
+                flex-direction: column;
+            }
+            
+            .holy-nav,
+            .holy-aside {
+                flex: 1;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+        /* 交互效果 */
+        .interactive-flex {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: #ecf0f1;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .interactive-item {
+            flex: 1;
+            background: #3498db;
+            color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .interactive-item:hover {
+            flex: 2;
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flexbox布局完整演示</h1>
+        
+        <!-- Flex方向 -->
+        <section class="section">
+            <h2>1. Flex方向（flex-direction）</h2>
+            
+            <h3>row（默认）</h3>
+            <div class="demo-container flex-row">
+                <div class="flex-item">1</div>
+                <div class="flex-item">2</div>
+                <div class="flex-item">3</div>
+            </div>
+            <code class="code">flex-direction: row;</code>
+            
+            <h3>row-reverse</h3>
+            <div class="demo-container flex-row-reverse">
+                <div class="flex-item">1</div>
+                <div class="flex-item">2</div>
+                <div class="flex-item">3</div>
+            </div>
+            <code class="code">flex-direction: row-reverse;</code>
+            
+            <h3>column</h3>
+            <div class="demo-container flex-column" style="height: auto;">
+                <div class="flex-item">1</div>
+                <div class="flex-item">2</div>
+                <div class="flex-item">3</div>
+            </div>
+            <code class="code">flex-direction: column;</code>
+            
+            <h3>column-reverse</h3>
+            <div class="demo-container flex-column-reverse" style="height: auto;">
+                <div class="flex-item">1</div>
+                <div class="flex-item">2</div>
+                <div class="flex-item">3</div>
+            </div>
+            <code class="code">flex-direction: column-reverse;</code>
+        </section>
+        
+        <!-- 主轴对齐 -->
+        <section class="section">
+            <h2>2. 主轴对齐（justify-content）</h2>
+            
+            <h3>flex-start（默认）</h3>
+            <div class="demo-container justify-start">
+                <div class="flex-item">1</div>
+                <div class="flex-item">2</div>
+                <div class="flex-item">3</div>
+            </div>
+            
+            <h3>flex-end</h3>
+            <div class="demo-container justify-end">
+                <div class="flex-item">1</div>
+                <div class="flex-item">2</div>
+                <div class="flex-item">3</div>
+            </div>
+            
+            <h3>center</h3>
+            <div class="demo-container justify-center">
+                <div class="flex-item">1</div>
+                <div class="flex-item">2</div>
+                <div class="flex-item">3</div>
+            </div>
+            
+            <h3>space-between</h3>
+            <div class="demo-container justify-between">
+                <div class="flex-item">1</div>
+                <div class="flex-item">2</div>
+                <div class="flex-item">3</div>
+            </div>
+            
+            <h3>space-around</h3>
+            <div class="demo-container justify-around">
+                <div class="flex-item">1</div>
+                <div class="flex-item">2</div>
+                <div class="flex-item">3</div>
+            </div>
+            
+            <h3>space-evenly</h3>
+            <div class="demo-container justify-evenly">
+                <div class="flex-item">1</div>
+                <div class="flex-item">2</div>
+                <div class="flex-item">3</div>
+            </div>
+        </section>
+        
+        <!-- 交叉轴对齐 -->
+        <section class="section">
+            <h2>3. 交叉轴对齐（align-items）</h2>
+            
+            <h3>flex-start</h3>
+            <div class="demo-container align-start">
+                <div class="flex-item item-tall">高</div>
+                <div class="flex-item item-medium">中</div>
+                <div class="flex-item item-short">矮</div>
+            </div>
+            
+            <h3>flex-end</h3>
+            <div class="demo-container align-end">
+                <div class="flex-item item-tall">高</div>
+                <div class="flex-item item-medium">中</div>
+                <div class="flex-item item-short">矮</div>
+            </div>
+            
+            <h3>center</h3>
+            <div class="demo-container align-center">
+                <div class="flex-item item-tall">高</div>
+                <div class="flex-item item-medium">中</div>
+                <div class="flex-item item-short">矮</div>
+            </div>
+            
+            <h3>stretch（默认）</h3>
+            <div class="demo-container align-stretch">
+                <div class="flex-item item-auto">拉伸1</div>
+                <div class="flex-item item-auto">拉伸2</div>
+                <div class="flex-item item-auto">拉伸3</div>
+            </div>
+            
+            <h3>baseline</h3>
+            <div class="demo-container align-baseline">
+                <div class="flex-item" style="padding-top: 20px;">大字体</div>
+                <div class="flex-item" style="font-size: 24px;">中字体</div>
+                <div class="flex-item" style="font-size: 12px; padding-top: 30px;">小字体</div>
+            </div>
+        </section>
+        
+        <!-- Flex换行 -->
+        <section class="section">
+            <h2>4. Flex换行（flex-wrap）</h2>
+            
+            <h3>nowrap（默认）</h3>
+            <div class="demo-container flex-nowrap">
+                <div class="flex-item wide-item">项目1</div>
+                <div class="flex-item wide-item">项目2</div>
+                <div class="flex-item wide-item">项目3</div>
+            </div>
+            
+            <h3>wrap</h3>
+            <div class="demo-container flex-wrap">
+                <div class="flex-item wide-item">项目1</div>
+                <div class="flex-item wide-item">项目2</div>
+                <div class="flex-item wide-item">项目3</div>
+                <div class="flex-item wide-item">项目4</div>
+            </div>
+            
+            <h3>wrap-reverse</h3>
+            <div class="demo-container flex-wrap-reverse">
+                <div class="flex-item wide-item">项目1</div>
+                <div class="flex-item wide-item">项目2</div>
+                <div class="flex-item wide-item">项目3</div>
+                <div class="flex-item wide-item">项目4</div>
+            </div>
+        </section>
+        
+        <!-- Flex项目属性 -->
+        <section class="section">
+            <h2>5. Flex项目属性</h2>
+            
+            <h3>flex-grow（放大比例）</h3>
+            <div class="demo-container flex-grow-demo">
+                <div class="flex-item grow-0">grow: 0</div>
+                <div class="flex-item grow-1">grow: 1</div>
+                <div class="flex-item grow-2">grow: 2</div>
+            </div>
+            
+            <h3>flex-shrink（缩小比例）</h3>
+            <div class="demo-container flex-shrink-demo">
+                <div class="flex-item shrink-0">shrink: 0</div>
+                <div class="flex-item shrink-1">shrink: 1</div>
+                <div class="flex-item shrink-2">shrink: 2</div>
+            </div>
+            <p style="margin-top: 0.5rem; color: #666;">容器宽度不足时，shrink值越大缩小越多</p>
+            
+            <h3>gap（间距）</h3>
+            <div class="gap-demo">
+                <div class="gap-item">项目1</div>
+                <div class="gap-item">项目2</div>
+                <div class="gap-item">项目3</div>
+                <div class="gap-item">项目4</div>
+            </div>
+            <code class="code">gap: 20px;</code>
+        </section>
+        
+        <!-- 实际应用 -->
+        <section class="section">
+            <h2>6. 实际应用示例</h2>
+            
+            <h3>导航栏</h3>
+            <nav class="navbar">
+                <div class="nav-brand">Logo</div>
+                <ul class="nav-links">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品</a></li>
+                    <li><a href="#">服务</a></li>
+                    <li><a href="#">关于</a></li>
+                    <li><a href="#">联系</a></li>
+                </ul>
+            </nav>
+            
+            <h3>卡片布局</h3>
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>卡片标题 1</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>这是卡片内容，使用flex: 1自动填充剩余空间</p>
+                    </div>
+                    <div class="card-footer">
+                        <button>操作</button>
+                        <span>详情 →</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>卡片标题 2</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>更多内容...</p>
+                        <p>卡片会自动等高</p>
+                    </div>
+                    <div class="card-footer">
+                        <button>操作</button>
+                        <span>详情 →</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>卡片标题 3</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>简短内容</p>
+                    </div>
+                    <div class="card-footer">
+                        <button>操作</button>
+                        <span>详情 →</span>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>侧边栏布局</h3>
+            <div class="app-layout">
+                <aside class="sidebar">
+                    <h4>侧边栏</h4>
+                    <p>固定宽度</p>
+                    <p>flex: 0 0 250px</p>
+                </aside>
+                <main class="main-content">
+                    <h4>主要内容</h4>
+                    <p>自适应宽度，占据剩余空间</p>
+                    <p>flex: 1</p>
+                </main>
+            </div>
+            
+            <h3>圣杯布局</h3>
+            <div class="holy-grail">
+                <header class="holy-header">头部</header>
+                <div class="holy-body">
+                    <nav class="holy-nav">左侧导航</nav>
+                    <main class="holy-main">
+                        <h4>主要内容区</h4>
+                        <p>使用order: -1将导航移到最左</p>
+                    </main>
+                    <aside class="holy-aside">右侧边栏</aside>
+                </div>
+                <footer class="holy-footer">底部</footer>
+            </div>
+            
+            <h3>完美居中</h3>
+            <div class="center-demo">
+                <div class="center-content">
+                    <h4>完美居中</h4>
+                    <p>水平垂直居中</p>
+                </div>
+            </div>
+            
+            <h3>交互式Flex项目</h3>
+            <div class="interactive-flex">
+                <div class="interactive-item">悬停我</div>
+                <div class="interactive-item">悬停我</div>
+                <div class="interactive-item">悬停我</div>
+            </div>
+            <p style="margin-top: 1rem; color: #666;">悬停时flex值增大，实现展开效果</p>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARIA属性使用示例</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .example {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        
+        .example h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        code {
+            background: #e0e0e0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        /* 示例样式 */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            min-width: 200px;
+            z-index: 1000;
+        }
+        
+        .dropdown-menu[aria-hidden="true"] {
+            display: none;
+        }
+        
+        .dropdown-menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .dropdown-menu a:hover,
+        .dropdown-menu a:focus {
+            background: #f0f0f0;
+        }
+        
+        .tabs {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .tab-list {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            background: #f0f0f0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab-list button {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .tab-list button[aria-selected="true"] {
+            background: white;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .tab-panel {
+            padding: 20px;
+        }
+        
+        .tab-panel[aria-hidden="true"] {
+            display: none;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .modal[aria-hidden="true"] {
+            display: none;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .close-button {
+            float: right;
+            font-size: 24px;
+            line-height: 1;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        /* 焦点管理 */
+        :focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+        
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>ARIA属性使用示例</h1>
+    <p>本页面展示了常见的ARIA属性及其正确使用方法。</p>
+    
+    <!-- 示例1：aria-label -->
+    <div class="example">
+        <h2>1. aria-label - 提供可访问的名称</h2>
+        <p>当视觉元素没有文本内容时，使用 <code>aria-label</code> 提供描述。</p>
+        
+        <button aria-label="关闭对话框" class="close-button">&times;</button>
+        <button aria-label="搜索">🔍</button>
+        <button aria-label="添加到收藏夹">⭐</button>
+        
+        <pre><code>&lt;button aria-label="关闭对话框"&gt;&amp;times;&lt;/button&gt;
+&lt;button aria-label="搜索"&gt;🔍&lt;/button&gt;
+&lt;button aria-label="添加到收藏夹"&gt;⭐&lt;/button&gt;</code></pre>
+    </div>
+    
+    <!-- 示例2：aria-labelledby -->
+    <div class="example">
+        <h2>2. aria-labelledby - 关联已有标签</h2>
+        <p>使用 <code>aria-labelledby</code> 关联已存在的文本作为标签。</p>
+        
+        <h3 id="billing">账单地址</h3>
+        <div role="group" aria-labelledby="billing">
+            <label for="billing-name">姓名：</label>
+            <input type="text" id="billing-name">
+            <br>
+            <label for="billing-address">地址：</label>
+            <input type="text" id="billing-address">
+        </div>
+        
+        <pre><code>&lt;h3 id="billing"&gt;账单地址&lt;/h3&gt;
+&lt;div role="group" aria-labelledby="billing"&gt;
+    &lt;label for="billing-name"&gt;姓名：&lt;/label&gt;
+    &lt;input type="text" id="billing-name"&gt;
+    ...
+&lt;/div&gt;</code></pre>
+    </div>
+    
+    <!-- 示例3：aria-describedby -->
+    <div class="example">
+        <h2>3. aria-describedby - 提供额外描述</h2>
+        <p>使用 <code>aria-describedby</code> 关联帮助文本或错误信息。</p>
+        
+        <label for="password">密码：</label>
+        <input type="password" id="password" aria-describedby="pwd-help pwd-error">
+        <span id="pwd-help" style="display: block; font-size: 0.9em; color: #666;">
+            密码必须包含至少8个字符，包括大小写字母和数字
+        </span>
+        <span id="pwd-error" role="alert" style="display: block; color: red;">
+            <!-- 错误信息将在这里显示 -->
+        </span>
+        
+        <pre><code>&lt;input type="password" id="password" 
+       aria-describedby="pwd-help pwd-error"&gt;
+&lt;span id="pwd-help"&gt;密码要求说明...&lt;/span&gt;
+&lt;span id="pwd-error" role="alert"&gt;&lt;/span&gt;</code></pre>
+    </div>
+    
+    <!-- 示例4：aria-expanded 和 aria-controls -->
+    <div class="example">
+        <h2>4. aria-expanded 和 aria-controls - 控制展开/折叠</h2>
+        <p>用于下拉菜单、手风琴等可展开/折叠的组件。</p>
+        
+        <div class="dropdown">
+            <button id="dropdown-button" 
+                    aria-expanded="false" 
+                    aria-controls="dropdown-menu"
+                    aria-haspopup="true"
+                    onclick="toggleDropdown()">
+                选择选项 ▼
+            </button>
+            <div id="dropdown-menu" 
+                 class="dropdown-menu" 
+                 aria-hidden="true"
+                 role="menu"
+                 aria-labelledby="dropdown-button">
+                <ul>
+                    <li role="none"><a href="#" role="menuitem">选项 1</a></li>
+                    <li role="none"><a href="#" role="menuitem">选项 2</a></li>
+                    <li role="none"><a href="#" role="menuitem">选项 3</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <pre><code>&lt;button aria-expanded="false" 
+        aria-controls="dropdown-menu"
+        aria-haspopup="true"&gt;
+    选择选项 ▼
+&lt;/button&gt;
+&lt;div id="dropdown-menu" aria-hidden="true" role="menu"&gt;
+    ...
+&lt;/div&gt;</code></pre>
+    </div>
+    
+    <!-- 示例5：role 和 aria-current -->
+    <div class="example">
+        <h2>5. role 和 aria-current - 定义角色和当前状态</h2>
+        <p>使用 <code>role</code> 定义元素角色，<code>aria-current</code> 标识当前项。</p>
+        
+        <nav role="navigation" aria-label="面包屑">
+            <ol style="list-style: none; display: flex; gap: 10px;">
+                <li><a href="/">首页</a> /</li>
+                <li><a href="/products">产品</a> /</li>
+                <li><a href="/products/laptops" aria-current="page">笔记本电脑</a></li>
+            </ol>
+        </nav>
+        
+        <pre><code>&lt;nav role="navigation" aria-label="面包屑"&gt;
+    &lt;ol&gt;
+        &lt;li&gt;&lt;a href="/"&gt;首页&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/products"&gt;产品&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/products/laptops" 
+               aria-current="page"&gt;笔记本电脑&lt;/a&gt;&lt;/li&gt;
+    &lt;/ol&gt;
+&lt;/nav&gt;</code></pre>
+    </div>
+    
+    <!-- 示例6：aria-live 区域 -->
+    <div class="example">
+        <h2>6. aria-live - 动态内容通知</h2>
+        <p>使用 <code>aria-live</code> 通知屏幕阅读器内容的动态变化。</p>
+        
+        <button onclick="showNotification()">显示通知</button>
+        <div id="notification" aria-live="polite" aria-atomic="true"></div>
+        
+        <button onclick="updateStatus()">更新状态</button>
+        <div id="status" role="status" aria-live="assertive"></div>
+        
+        <pre><code>&lt;!-- 礼貌通知（等当前朗读完成） --&gt;
+&lt;div aria-live="polite" aria-atomic="true"&gt;&lt;/div&gt;
+
+&lt;!-- 紧急通知（立即朗读） --&gt;
+&lt;div role="status" aria-live="assertive"&gt;&lt;/div&gt;</code></pre>
+    </div>
+    
+    <!-- 示例7：表格增强 -->
+    <div class="example">
+        <h2>7. 表格可访问性</h2>
+        <p>使用适当的ARIA属性增强表格可访问性。</p>
+        
+        <table role="table" aria-label="2024年销售数据">
+            <caption>2024年第一季度销售报告</caption>
+            <thead>
+                <tr>
+                    <th scope="col">月份</th>
+                    <th scope="col">销售额</th>
+                    <th scope="col">增长率</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">一月</th>
+                    <td>¥50,000</td>
+                    <td>+15%</td>
+                </tr>
+                <tr>
+                    <th scope="row">二月</th>
+                    <td>¥45,000</td>
+                    <td>+10%</td>
+                </tr>
+                <tr>
+                    <th scope="row">三月</th>
+                    <td>¥60,000</td>
+                    <td>+20%</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <pre><code>&lt;table role="table" aria-label="2024年销售数据"&gt;
+    &lt;caption&gt;2024年第一季度销售报告&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope="col"&gt;月份&lt;/th&gt;
+            &lt;th scope="col"&gt;销售额&lt;/th&gt;
+            &lt;th scope="col"&gt;增长率&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    ...
+&lt;/table&gt;</code></pre>
+    </div>
+    
+    <!-- 示例8：标签页 -->
+    <div class="example">
+        <h2>8. 标签页（Tabs）组件</h2>
+        <p>创建可访问的标签页界面。</p>
+        
+        <div class="tabs">
+            <div role="tablist" aria-label="账户信息" class="tab-list">
+                <button role="tab" 
+                        aria-selected="true" 
+                        aria-controls="panel-1" 
+                        id="tab-1"
+                        onclick="switchTab(1)">
+                    个人信息
+                </button>
+                <button role="tab" 
+                        aria-selected="false" 
+                        aria-controls="panel-2" 
+                        id="tab-2"
+                        onclick="switchTab(2)">
+                    安全设置
+                </button>
+                <button role="tab" 
+                        aria-selected="false" 
+                        aria-controls="panel-3" 
+                        id="tab-3"
+                        onclick="switchTab(3)">
+                    通知偏好
+                </button>
+            </div>
+            
+            <div role="tabpanel" 
+                 id="panel-1" 
+                 aria-labelledby="tab-1" 
+                 class="tab-panel">
+                <h3>个人信息</h3>
+                <p>在这里管理你的个人资料信息。</p>
+            </div>
+            
+            <div role="tabpanel" 
+                 id="panel-2" 
+                 aria-labelledby="tab-2" 
+                 aria-hidden="true"
+                 class="tab-panel">
+                <h3>安全设置</h3>
+                <p>管理密码和两步验证设置。</p>
+            </div>
+            
+            <div role="tabpanel" 
+                 id="panel-3" 
+                 aria-labelledby="tab-3" 
+                 aria-hidden="true"
+                 class="tab-panel">
+                <h3>通知偏好</h3>
+                <p>选择你想要接收的通知类型。</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 示例9：进度指示器 -->
+    <div class="example">
+        <h2>9. 进度和加载状态</h2>
+        <p>使用ARIA属性表示进度和加载状态。</p>
+        
+        <div role="progressbar" 
+             aria-valuenow="60" 
+             aria-valuemin="0" 
+             aria-valuemax="100"
+             aria-label="上传进度">
+            <div style="width: 60%; background: #3498db; height: 20px; border-radius: 10px;"></div>
+        </div>
+        <p>上传进度：60%</p>
+        
+        <div aria-busy="true" aria-label="加载中">
+            <p>正在加载数据，请稍候...</p>
+        </div>
+        
+        <pre><code>&lt;div role="progressbar" 
+     aria-valuenow="60" 
+     aria-valuemin="0" 
+     aria-valuemax="100"
+     aria-label="上传进度"&gt;
+    ...
+&lt;/div&gt;</code></pre>
+    </div>
+    
+    <!-- 示例10：错误处理 -->
+    <div class="example">
+        <h2>10. 表单验证和错误处理</h2>
+        <p>正确标记必填字段和错误信息。</p>
+        
+        <form>
+            <div>
+                <label for="email">
+                    邮箱地址 <span aria-label="必填">*</span>
+                </label>
+                <input type="email" 
+                       id="email" 
+                       aria-required="true"
+                       aria-invalid="false"
+                       aria-describedby="email-error">
+                <span id="email-error" 
+                      role="alert" 
+                      aria-live="assertive"
+                      style="color: red; display: none;">
+                    请输入有效的邮箱地址
+                </span>
+            </div>
+            
+            <div>
+                <label for="phone">电话号码（可选）</label>
+                <input type="tel" 
+                       id="phone" 
+                       aria-required="false">
+            </div>
+        </form>
+        
+        <pre><code>&lt;label for="email"&gt;
+    邮箱地址 &lt;span aria-label="必填"&gt;*&lt;/span&gt;
+&lt;/label&gt;
+&lt;input type="email" 
+       aria-required="true"
+       aria-invalid="false"
+       aria-describedby="email-error"&gt;
+&lt;span id="email-error" role="alert" aria-live="assertive"&gt;
+    错误信息
+&lt;/span&gt;</code></pre>
+    </div>
+    
+    <script>
+        // 下拉菜单切换
+        function toggleDropdown() {
+            const button = document.getElementById('dropdown-button');
+            const menu = document.getElementById('dropdown-menu');
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            
+            button.setAttribute('aria-expanded', !isExpanded);
+            menu.setAttribute('aria-hidden', isExpanded);
+        }
+        
+        // 显示通知
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.innerHTML = '<div class="alert alert-success">操作成功完成！</div>';
+            
+            setTimeout(() => {
+                notification.innerHTML = '';
+            }, 3000);
+        }
+        
+        // 更新状态
+        let statusCount = 0;
+        function updateStatus() {
+            statusCount++;
+            const status = document.getElementById('status');
+            status.innerHTML = `<div class="alert alert-error">状态已更新 ${statusCount} 次</div>`;
+        }
+        
+        // 标签页切换
+        function switchTab(tabNumber) {
+            // 更新所有标签状态
+            for (let i = 1; i <= 3; i++) {
+                const tab = document.getElementById(`tab-${i}`);
+                const panel = document.getElementById(`panel-${i}`);
+                
+                if (i === tabNumber) {
+                    tab.setAttribute('aria-selected', 'true');
+                    panel.setAttribute('aria-hidden', 'false');
+                } else {
+                    tab.setAttribute('aria-selected', 'false');
+                    panel.setAttribute('aria-hidden', 'true');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

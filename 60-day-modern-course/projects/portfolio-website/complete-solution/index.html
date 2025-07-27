@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="张明 - 前端开发工程师作品集，专注于创建美观、响应式的Web应用">
+    <meta name="keywords" content="前端开发, Web开发, HTML, CSS, JavaScript, 作品集">
+    <meta name="author" content="张明">
+    <title>张明 - 前端开发工程师</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+    
+    <!-- CSS文件 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- 跳转到主要内容（可访问性） -->
+    <a href="#main" class="skip-link">跳转到主要内容</a>
+    
+    <!-- 导航栏 -->
+    <header id="header">
+        <nav class="main-nav" role="navigation" aria-label="主导航">
+            <div class="nav-container">
+                <a href="index.html" class="logo" aria-label="张明 - 主页">
+                    <span class="logo-text">张明</span>
+                    <span class="logo-subtitle">前端开发</span>
+                </a>
+                
+                <!-- 移动端菜单按钮 -->
+                <button class="nav-toggle" aria-label="切换导航菜单" aria-expanded="false">
+                    <span class="hamburger"></span>
+                </button>
+                
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active">主页</a></li>
+                    <li><a href="about.html" class="nav-link">关于我</a></li>
+                    <li><a href="projects.html" class="nav-link">项目</a></li>
+                    <li><a href="contact.html" class="nav-link">联系</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 主要内容 -->
+    <main id="main">
+        <!-- 英雄区域 -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        你好，我是<span class="highlight">张明</span>
+                    </h1>
+                    <p class="hero-subtitle">专注于创建优雅、高效的Web体验</p>
+                    <p class="hero-description">
+                        我是一名充满激情的前端开发工程师，拥有3年的Web开发经验。
+                        我专注于使用现代技术栈创建响应式、用户友好的Web应用。
+                    </p>
+                    <div class="hero-actions">
+                        <a href="projects.html" class="btn btn-primary">查看我的作品</a>
+                        <a href="contact.html" class="btn btn-secondary">联系我</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="assets/images/profile.jpg" alt="张明的个人照片" class="profile-img">
+                </div>
+            </div>
+            
+            <!-- 滚动提示 -->
+            <div class="scroll-indicator">
+                <span class="scroll-text">向下滚动</span>
+                <div class="scroll-arrow"></div>
+            </div>
+        </section>
+
+        <!-- 特色项目展示 -->
+        <section class="featured-projects" id="projects">
+            <div class="container">
+                <h2 class="section-title">特色项目</h2>
+                <p class="section-subtitle">我最近完成的一些精选作品</p>
+                
+                <div class="projects-grid">
+                    <!-- 项目 1 -->
+                    <article class="project-card card">
+                        <div class="project-image-wrapper">
+                            <img src="assets/images/project-1.jpg" alt="电商平台项目截图" class="project-image">
+                            <div class="project-overlay">
+                                <a href="projects.html#project-1" class="btn btn-primary btn-sm">查看详情</a>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">现代电商平台</h3>
+                            <p class="project-description">
+                                一个功能完整的响应式电商网站，包含产品展示、购物车和结账功能。
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">HTML5</span>
+                                <span class="tag">CSS3</span>
+                                <span class="tag">JavaScript</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- 项目 2 -->
+                    <article class="project-card card">
+                        <div class="project-image-wrapper">
+                            <img src="assets/images/project-2.jpg" alt="任务管理应用截图" class="project-image">
+                            <div class="project-overlay">
+                                <a href="projects.html#project-2" class="btn btn-primary btn-sm">查看详情</a>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">任务管理应用</h3>
+                            <p class="project-description">
+                                一个简洁高效的任务管理工具，支持任务分类、优先级设置和进度跟踪。
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">React</span>
+                                <span class="tag">Redux</span>
+                                <span class="tag">Material-UI</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- 项目 3 -->
+                    <article class="project-card card">
+                        <div class="project-image-wrapper">
+                            <img src="assets/images/project-3.jpg" alt="天气应用截图" class="project-image">
+                            <div class="project-overlay">
+                                <a href="projects.html#project-3" class="btn btn-primary btn-sm">查看详情</a>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">天气预报应用</h3>
+                            <p class="project-description">
+                                实时天气信息应用，提供详细的天气预报和美观的数据可视化。
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">Vue.js</span>
+                                <span class="tag">Chart.js</span>
+                                <span class="tag">API集成</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                
+                <div class="section-cta">
+                    <a href="projects.html" class="btn btn-primary">查看所有项目</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技能展示 -->
+        <section class="skills" id="skills">
+            <div class="container">
+                <h2 class="section-title">技术栈</h2>
+                <p class="section-subtitle">我掌握的技术和工具</p>
+                
+                <div class="skills-grid">
+                    <!-- 前端技能 -->
+                    <div class="skill-category">
+                        <h3 class="category-title">前端开发</h3>
+                        <div class="skill-list">
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">HTML5 & CSS3</span>
+                                    <span class="skill-level">精通</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 95%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">JavaScript (ES6+)</span>
+                                    <span class="skill-level">精通</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">React.js</span>
+                                    <span class="skill-level">熟练</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">Vue.js</span>
+                                    <span class="skill-level">熟练</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 工具和其他 -->
+                    <div class="skill-category">
+                        <h3 class="category-title">工具 & 其他</h3>
+                        <div class="skill-list">
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">Git & GitHub</span>
+                                    <span class="skill-level">精通</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">Webpack & Vite</span>
+                                    <span class="skill-level">熟练</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 75%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">响应式设计</span>
+                                    <span class="skill-level">精通</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 95%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">UI/UX设计</span>
+                                    <span class="skill-level">良好</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 70%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA区域 -->
+        <section class="cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2 class="cta-title">让我们一起创造精彩</h2>
+                    <p class="cta-description">
+                        我正在寻找新的机会和挑战。如果您有项目需要合作，欢迎与我联系！
+                    </p>
+                    <a href="contact.html" class="btn btn-primary btn-lg">开始对话</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-title">张明</h3>
+                <p class="footer-description">
+                    前端开发工程师，致力于创建优秀的Web体验
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h3 class="footer-title">快速链接</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">主页</a></li>
+                    <li><a href="about.html">关于</a></li>
+                    <li><a href="projects.html">项目</a></li>
+                    <li><a href="contact.html">联系</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3 class="footer-title">联系我</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="GitHub">
+                        <svg class="social-icon" viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">
+                        <svg class="social-icon" viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Email">
+                        <svg class="social-icon" viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 张明. 保留所有权利。</p>
+            <p class="footer-note">用 ❤️ 设计和编码</p>
+        </div>
+    </footer>
+    
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" aria-label="返回顶部" hidden>
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <path d="M12 2l-8 8h6v12h4v-12h6z"/>
+        </svg>
+    </button>
+</body>
+</html>

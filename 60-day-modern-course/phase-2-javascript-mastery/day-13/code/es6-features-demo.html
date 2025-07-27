@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ES6+ 特性交互式演示</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .feature-section {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-section h2 {
+            color: #2563eb;
+            margin-top: 0;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+        
+        .code-example {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 16px;
+            border-radius: 4px;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+        
+        .demo-button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+        
+        .demo-button:hover {
+            background: #2563eb;
+        }
+        
+        .output {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 16px;
+            border-radius: 4px;
+            margin-top: 12px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            min-height: 50px;
+        }
+        
+        .input-group {
+            margin: 12px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .input-group textarea {
+            min-height: 80px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .highlight {
+            background: #fef3c7;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+        
+        .warning {
+            background: #fef2f2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 12px 0;
+            border-left: 4px solid #dc2626;
+        }
+        
+        .success {
+            background: #f0fdf4;
+            color: #166534;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 12px 0;
+            border-left: 4px solid #22c55e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ES6+ 特性交互式演示</h1>
+        
+        <!-- let/const vs var -->
+        <div class="feature-section">
+            <h2>1. let/const vs var</h2>
+            <p>探索变量声明的作用域和提升差异</p>
+            
+            <div class="code-example">
+// 点击按钮查看不同的作用域行为
+function testScopes() {
+    if (true) {
+        var varVariable = 'var可以在块外访问';
+        let letVariable = 'let只能在块内访问';
+        const constVariable = 'const也只能在块内访问';
+    }
+    
+    console.log(varVariable); // 可以访问
+    // console.log(letVariable); // ReferenceError
+    // console.log(constVariable); // ReferenceError
+}
+            </div>
+            
+            <button class="demo-button" onclick="demoLetConstVar()">运行作用域测试</button>
+            <button class="demo-button" onclick="demoHoisting()">测试变量提升</button>
+            <button class="demo-button" onclick="demoLoopClosure()">循环闭包对比</button>
+            
+            <div id="let-const-output" class="output">点击按钮查看结果...</div>
+        </div>
+        
+        <!-- 解构赋值 -->
+        <div class="feature-section">
+            <h2>2. 解构赋值</h2>
+            <p>从数组和对象中提取值的优雅方式</p>
+            
+            <div class="input-group">
+                <label>输入JSON对象（用于解构演示）：</label>
+                <textarea id="destructure-input">{
+  "user": {
+    "name": "Alice",
+    "age": 30,
+    "skills": ["JavaScript", "React", "Node.js"],
+    "address": {
+      "city": "Beijing",
+      "country": "China"
+    }
+  }
+}</textarea>
+            </div>
+            
+            <button class="demo-button" onclick="demoArrayDestructuring()">数组解构</button>
+            <button class="demo-button" onclick="demoObjectDestructuring()">对象解构</button>
+            <button class="demo-button" onclick="demoNestedDestructuring()">嵌套解构</button>
+            <button class="demo-button" onclick="demoDestructuringWithDefaults()">带默认值的解构</button>
+            
+            <div id="destructure-output" class="output">点击按钮查看结果...</div>
+        </div>
+        
+        <!-- 模板字符串 -->
+        <div class="feature-section">
+            <h2>3. 模板字符串</h2>
+            <p>更强大的字符串处理功能</p>
+            
+            <div class="input-group">
+                <label>姓名：</label>
+                <input type="text" id="template-name" value="张三">
+            </div>
+            <div class="input-group">
+                <label>年龄：</label>
+                <input type="number" id="template-age" value="25">
+            </div>
+            <div class="input-group">
+                <label>城市：</label>
+                <input type="text" id="template-city" value="上海">
+            </div>
+            
+            <button class="demo-button" onclick="demoTemplateStrings()">基本模板字符串</button>
+            <button class="demo-button" onclick="demoMultilineTemplate()">多行字符串</button>
+            <button class="demo-button" onclick="demoTaggedTemplate()">标签模板</button>
+            
+            <div id="template-output" class="output">点击按钮查看结果...</div>
+        </div>
+        
+        <!-- 箭头函数 -->
+        <div class="feature-section">
+            <h2>4. 箭头函数</h2>
+            <p>简洁的函数语法和不同的this绑定</p>
+            
+            <div class="code-example">
+// 传统函数 vs 箭头函数
+const traditional = function(x) { return x * 2; }
+const arrow = x => x * 2;
+
+// this绑定差异
+const obj = {
+    name: 'MyObject',
+    traditional: function() { return this.name; },
+    arrow: () => this.name // this指向外层作用域
+};
+            </div>
+            
+            <button class="demo-button" onclick="demoArrowSyntax()">语法对比</button>
+            <button class="demo-button" onclick="demoArrowThis()">this绑定演示</button>
+            <button class="demo-button" onclick="demoArrowArrayMethods()">数组方法中使用</button>
+            
+            <div id="arrow-output" class="output">点击按钮查看结果...</div>
+        </div>
+        
+        <!-- 默认参数 -->
+        <div class="feature-section">
+            <h2>5. 默认参数</h2>
+            <p>为函数参数设置默认值</p>
+            
+            <div class="input-group">
+                <label>测试函数调用（留空使用默认值）：</label>
+                <input type="text" id="default-name" placeholder="姓名（默认：'游客'）">
+                <input type="text" id="default-greeting" placeholder="问候语（默认：'你好'）">
+            </div>
+            
+            <button class="demo-button" onclick="demoDefaultParams()">测试默认参数</button>
+            <button class="demo-button" onclick="demoDefaultExpression()">默认值表达式</button>
+            
+            <div id="default-output" class="output">点击按钮查看结果...</div>
+        </div>
+        
+        <!-- 展开运算符和剩余参数 -->
+        <div class="feature-section">
+            <h2>6. 展开运算符和剩余参数</h2>
+            <p>处理数组和对象的强大工具</p>
+            
+            <div class="code-example">
+// 展开运算符
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5]; // [1, 2, 3, 4, 5]
+
+// 剩余参数
+function sum(...numbers) {
+    return numbers.reduce((a, b) => a + b, 0);
+}
+            </div>
+            
+            <button class="demo-button" onclick="demoSpreadArray()">数组展开</button>
+            <button class="demo-button" onclick="demoSpreadObject()">对象展开</button>
+            <button class="demo-button" onclick="demoRestParams()">剩余参数</button>
+            <button class="demo-button" onclick="demoDestructureRest()">解构中的剩余</button>
+            
+            <div id="spread-output" class="output">点击按钮查看结果...</div>
+        </div>
+        
+        <!-- 对象字面量增强 -->
+        <div class="feature-section">
+            <h2>7. 对象字面量增强</h2>
+            <p>更简洁的对象创建语法</p>
+            
+            <div class="input-group">
+                <label>属性名：</label>
+                <input type="text" id="obj-name" value="username">
+                <label>属性值：</label>
+                <input type="text" id="obj-value" value="alice123">
+            </div>
+            
+            <button class="demo-button" onclick="demoPropertyShorthand()">属性简写</button>
+            <button class="demo-button" onclick="demoMethodShorthand()">方法简写</button>
+            <button class="demo-button" onclick="demoComputedProperty()">计算属性名</button>
+            
+            <div id="object-output" class="output">点击按钮查看结果...</div>
+        </div>
+        
+        <!-- 综合示例 -->
+        <div class="feature-section">
+            <h2>8. 综合应用</h2>
+            <p>结合多个ES6+特性的实际例子</p>
+            
+            <button class="demo-button" onclick="demoModernClass()">现代类语法</button>
+            <button class="demo-button" onclick="demoAsyncAwait()">异步处理</button>
+            <button class="demo-button" onclick="demoModernArrayMethods()">数组处理链</button>
+            
+            <div id="combined-output" class="output">点击按钮查看结果...</div>
+        </div>
+    </div>
+    
+    <script>
+        // 工具函数：格式化输出
+        function formatOutput(title, code, result, error = null) {
+            let output = `=== ${title} ===\n\n`;
+            output += `代码：\n${code}\n\n`;
+            
+            if (error) {
+                output += `错误：${error.message || error}\n`;
+            } else {
+                output += `结果：\n${typeof result === 'object' ? JSON.stringify(result, null, 2) : result}\n`;
+            }
+            
+            return output;
+        }
+        
+        // 1. let/const vs var 演示
+        function demoLetConstVar() {
+            const output = document.getElementById('let-const-output');
+            
+            let result = '=== 作用域测试 ===\n\n';
+            
+            // var 的函数作用域
+            function testVar() {
+                if (true) {
+                    var x = 1;
+                }
+                return x; // 可以访问
+            }
+            
+            // let 的块级作用域
+            function testLet() {
+                if (true) {
+                    let x = 1;
+                }
+                try {
+                    return x; // 会报错
+                } catch (e) {
+                    return 'ReferenceError: x is not defined';
+                }
+            }
+            
+            result += `var 函数作用域：${testVar()}\n`;
+            result += `let 块级作用域：${testLet()}\n\n`;
+            
+            // const 不可重新赋值
+            result += 'const 测试：\n';
+            try {
+                const PI = 3.14;
+                result += `const PI = 3.14 ✓\n`;
+                PI = 3.14159; // 错误
+            } catch (e) {
+                result += `重新赋值错误: ${e.message}\n`;
+            }
+            
+            // const 对象可修改
+            const obj = { count: 0 };
+            obj.count++;
+            result += `\nconst 对象内容可修改：obj.count = ${obj.count}`;
+            
+            output.textContent = result;
+        }
+        
+        function demoHoisting() {
+            const output = document.getElementById('let-const-output');
+            let result = '=== 变量提升测试 ===\n\n';
+            
+            // var 提升
+            result += 'var 提升（声明提升，但值为undefined）：\n';
+            result += 'console.log(myVar); // ' + typeof myVar + '\n';
+            var myVar = 5;
+            result += 'var myVar = 5;\n';
+            result += 'console.log(myVar); // ' + myVar + '\n\n';
+            
+            // let 不提升
+            result += 'let 不提升（暂时性死区）：\n';
+            result += '// console.log(myLet); // ReferenceError\n';
+            result += 'let myLet = 5;\n';
+            result += '// 必须先声明后使用\n';
+            
+            output.textContent = result;
+        }
+        
+        function demoLoopClosure() {
+            const output = document.getElementById('let-const-output');
+            let result = '=== 循环闭包问题 ===\n\n';
+            
+            result += 'var 的问题：\n';
+            for (var i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    result += `var循环输出: ${i}\n`; // 都是3
+                    if (i === 3) {
+                        result += '\nlet 的解决方案：\n';
+                        for (let j = 0; j < 3; j++) {
+                            setTimeout(() => {
+                                result += `let循环输出: ${j}\n`; // 0, 1, 2
+                                output.textContent = result;
+                            }, 100 * (j + 1));
+                        }
+                    }
+                }, 50);
+            }
+            
+            output.textContent = result + '等待异步结果...';
+        }
+        
+        // 2. 解构赋值演示
+        function demoArrayDestructuring() {
+            const output = document.getElementById('destructure-output');
+            
+            const code = `// 数组解构
+const colors = ['red', 'green', 'blue', 'yellow'];
+const [primary, secondary, ...others] = colors;
+
+// 交换变量
+let x = 1, y = 2;
+[x, y] = [y, x];
+
+// 跳过元素
+const [first, , third] = colors;
+
+// 默认值
+const [a, b, c, d, e = 'purple'] = colors;`;
+            
+            const colors = ['red', 'green', 'blue', 'yellow'];
+            const [primary, secondary, ...others] = colors;
+            
+            let x = 1, y = 2;
+            [x, y] = [y, x];
+            
+            const [first, , third] = colors;
+            const [a, b, c, d, e = 'purple'] = colors;
+            
+            const result = {
+                primary,
+                secondary,
+                others,
+                swapped: { x, y },
+                skipped: { first, third },
+                withDefault: { e }
+            };
+            
+            output.textContent = formatOutput('数组解构', code, result);
+        }
+        
+        function demoObjectDestructuring() {
+            const output = document.getElementById('destructure-output');
+            
+            try {
+                const data = JSON.parse(document.getElementById('destructure-input').value);
+                
+                const code = `// 对象解构
+const { name, age, skills } = data.user;
+
+// 重命名
+const { name: userName, age: userAge } = data.user;
+
+// 默认值
+const { name, age, gender = 'unknown' } = data.user;`;
+                
+                const { name, age, skills } = data.user;
+                const { name: userName, age: userAge } = data.user;
+                const { gender = 'unknown' } = data.user;
+                
+                const result = {
+                    基本解构: { name, age, skills },
+                    重命名: { userName, userAge },
+                    默认值: { gender }
+                };
+                
+                output.textContent = formatOutput('对象解构', code, result);
+            } catch (e) {
+                output.textContent = `错误：${e.message}`;
+            }
+        }
+        
+        function demoNestedDestructuring() {
+            const output = document.getElementById('destructure-output');
+            
+            try {
+                const data = JSON.parse(document.getElementById('destructure-input').value);
+                
+                const code = `// 嵌套解构
+const { 
+    user: { 
+        name, 
+        address: { city, country } 
+    } 
+} = data;
+
+// 数组和对象混合解构
+const {
+    user: {
+        skills: [firstSkill, secondSkill]
+    }
+} = data;`;
+                
+                const { 
+                    user: { 
+                        name, 
+                        address: { city, country } 
+                    } 
+                } = data;
+                
+                const {
+                    user: {
+                        skills: [firstSkill, secondSkill]
+                    }
+                } = data;
+                
+                const result = {
+                    嵌套解构: { name, city, country },
+                    混合解构: { firstSkill, secondSkill }
+                };
+                
+                output.textContent = formatOutput('嵌套解构', code, result);
+            } catch (e) {
+                output.textContent = `错误：${e.message}`;
+            }
+        }
+        
+        function demoDestructuringWithDefaults() {
+            const output = document.getElementById('destructure-output');
+            
+            const code = `// 函数参数解构与默认值
+function createUser({ 
+    name = 'Anonymous', 
+    age = 0, 
+    active = true 
+} = {}) {
+    return { name, age, active };
+}
+
+// 不同调用方式
+const user1 = createUser();
+const user2 = createUser({ name: 'Alice' });
+const user3 = createUser({ name: 'Bob', age: 30, active: false });`;
+            
+            function createUser({ 
+                name = 'Anonymous', 
+                age = 0, 
+                active = true 
+            } = {}) {
+                return { name, age, active };
+            }
+            
+            const result = {
+                无参数: createUser(),
+                部分参数: createUser({ name: 'Alice' }),
+                全部参数: createUser({ name: 'Bob', age: 30, active: false })
+            };
+            
+            output.textContent = formatOutput('解构与默认值', code, result);
+        }
+        
+        // 3. 模板字符串演示
+        function demoTemplateStrings() {
+            const output = document.getElementById('template-output');
+            const name = document.getElementById('template-name').value;
+            const age = document.getElementById('template-age').value;
+            const city = document.getElementById('template-city').value;
+            
+            const code = `// 传统字符串拼接
+const old = 'Hello, ' + name + '! You are ' + age + ' years old and live in ' + city + '.';
+
+// 模板字符串
+const modern = \`Hello, \${name}! You are \${age} years old and live in \${city}.\`;
+
+// 表达式计算
+const message = \`In 10 years, you'll be \${Number(age) + 10} years old!\`;`;
+            
+            const old = 'Hello, ' + name + '! You are ' + age + ' years old and live in ' + city + '.';
+            const modern = `Hello, ${name}! You are ${age} years old and live in ${city}.`;
+            const message = `In 10 years, you'll be ${Number(age) + 10} years old!`;
+            
+            const result = {
+                传统方式: old,
+                模板字符串: modern,
+                表达式计算: message
+            };
+            
+            output.textContent = formatOutput('模板字符串', code, result);
+        }
+        
+        function demoMultilineTemplate() {
+            const output = document.getElementById('template-output');
+            const name = document.getElementById('template-name').value;
+            
+            const code = `// 多行字符串
+const poem = \`
+    春眠不觉晓，
+    处处闻啼鸟。
+    夜来风雨声，
+    花落知多少。
+\`;
+
+// 保留缩进和格式
+const html = \`
+    <div class="card">
+        <h2>\${name}</h2>
+        <p>Welcome to ES6+!</p>
+    </div>
+\`;`;
+            
+            const poem = `
+    春眠不觉晓，
+    处处闻啼鸟。
+    夜来风雨声，
+    花落知多少。
+`;
+            
+            const html = `
+    <div class="card">
+        <h2>${name}</h2>
+        <p>Welcome to ES6+!</p>
+    </div>
+`;
+            
+            output.textContent = `=== 多行字符串 ===\n\n诗词：${poem}\n\nHTML：${html}`;
+        }
+        
+        function demoTaggedTemplate() {
+            const output = document.getElementById('template-output');
+            
+            const code = `// 标签模板函数
+function highlight(strings, ...values) {
+    return strings.reduce((result, str, i) => {
+        const value = values[i] !== undefined ? \`<mark>\${values[i]}</mark>\` : '';
+        return result + str + value;
+    }, '');
+}
+
+// 使用标签模板
+const price = 99.99;
+const product = 'ES6 Course';
+const html = highlight\`The \${product} costs $\${price}!\`;`;
+            
+            function highlight(strings, ...values) {
+                return strings.reduce((result, str, i) => {
+                    const value = values[i] !== undefined ? `<mark>${values[i]}</mark>` : '';
+                    return result + str + value;
+                }, '');
+            }
+            
+            const price = 99.99;
+            const product = 'ES6 Course';
+            const html = highlight`The ${product} costs $${price}!`;
+            
+            output.innerHTML = `=== 标签模板 ===\n\n${code}\n\n结果（HTML）：\n${html}\n\n渲染效果：\n` + html;
+        }
+        
+        // 4. 箭头函数演示
+        function demoArrowSyntax() {
+            const output = document.getElementById('arrow-output');
+            
+            const code = `// 语法对比
+// 传统函数
+const add1 = function(a, b) {
+    return a + b;
+};
+
+// 箭头函数
+const add2 = (a, b) => a + b;
+
+// 单参数可省略括号
+const double = n => n * 2;
+
+// 无参数需要括号
+const getRandom = () => Math.random();
+
+// 返回对象需要括号
+const createUser = name => ({ name, createdAt: new Date() });`;
+            
+            const add1 = function(a, b) {
+                return a + b;
+            };
+            const add2 = (a, b) => a + b;
+            const double = n => n * 2;
+            const getRandom = () => Math.random();
+            const createUser = name => ({ name, createdAt: new Date() });
+            
+            const result = {
+                传统函数: add1(5, 3),
+                箭头函数: add2(5, 3),
+                单参数: double(7),
+                无参数: getRandom(),
+                返回对象: createUser('Alice')
+            };
+            
+            output.textContent = formatOutput('箭头函数语法', code, result);
+        }
+        
+        function demoArrowThis() {
+            const output = document.getElementById('arrow-output');
+            
+            const code = `// this 绑定差异
+const obj = {
+    name: 'MyObject',
+    
+    // 传统函数：this 指向调用者
+    traditionalMethod: function() {
+        return this.name;
+    },
+    
+    // 箭头函数：this 指向定义时的外层 this
+    arrowMethod: () => {
+        return this.name; // window.name 或 undefined
+    },
+    
+    // 嵌套函数中的 this
+    delayedGreet: function() {
+        // 传统函数需要保存 this
+        const self = this;
+        setTimeout(function() {
+            console.log('Traditional:', self.name);
+        }, 100);
+        
+        // 箭头函数自动绑定外层 this
+        setTimeout(() => {
+            console.log('Arrow:', this.name);
+        }, 200);
+    }
+};`;
+            
+            const obj = {
+                name: 'MyObject',
+                
+                traditionalMethod: function() {
+                    return this.name;
+                },
+                
+                arrowMethod: () => {
+                    return this.name;
+                },
+                
+                getThisComparison: function() {
+                    const traditional = function() {
+                        return this;
+                    };
+                    const arrow = () => this;
+                    
+                    return {
+                        traditional: traditional() === window ? 'window' : 'object',
+                        arrow: arrow === this ? 'object' : 'other'
+                    };
+                }
+            };
+            
+            const result = {
+                '传统方法this': obj.traditionalMethod(),
+                '箭头方法this': obj.arrowMethod() || 'undefined',
+                'this比较': obj.getThisComparison()
+            };
+            
+            output.textContent = formatOutput('this 绑定演示', code, result);
+        }
+        
+        function demoArrowArrayMethods() {
+            const output = document.getElementById('arrow-output');
+            
+            const code = `// 数组方法中使用箭头函数
+const numbers = [1, 2, 3, 4, 5];
+
+// 传统写法
+const doubled1 = numbers.map(function(n) {
+    return n * 2;
+});
+
+// 箭头函数
+const doubled2 = numbers.map(n => n * 2);
+
+// 链式调用
+const result = numbers
+    .filter(n => n % 2 === 0)    // 筛选偶数
+    .map(n => n * n)              // 平方
+    .reduce((sum, n) => sum + n); // 求和`;
+            
+            const numbers = [1, 2, 3, 4, 5];
+            
+            const doubled1 = numbers.map(function(n) {
+                return n * 2;
+            });
+            
+            const doubled2 = numbers.map(n => n * 2);
+            
+            const chainResult = numbers
+                .filter(n => n % 2 === 0)
+                .map(n => n * n)
+                .reduce((sum, n) => sum + n);
+            
+            const result = {
+                原数组: numbers,
+                传统map: doubled1,
+                箭头map: doubled2,
+                链式调用结果: chainResult,
+                '链式调用过程': '2,4 → 4,16 → 20'
+            };
+            
+            output.textContent = formatOutput('数组方法中的箭头函数', code, result);
+        }
+        
+        // 5. 默认参数演示
+        function demoDefaultParams() {
+            const output = document.getElementById('default-output');
+            const name = document.getElementById('default-name').value || undefined;
+            const greeting = document.getElementById('default-greeting').value || undefined;
+            
+            const code = `// 默认参数
+function greet(name = '游客', greeting = '你好') {
+    return \`\${greeting}, \${name}!\`;
+}
+
+// 不同调用方式
+greet()                    // 使用所有默认值
+greet('Alice')             // 使用部分默认值
+greet('Bob', 'Hi')         // 不使用默认值
+greet(undefined, 'Hello')  // 显式 undefined 触发默认值`;
+            
+            function greet(name = '游客', greeting = '你好') {
+                return `${greeting}, ${name}!`;
+            }
+            
+            const result = {
+                '无参数': greet(),
+                '只有名字': greet(name),
+                '都提供': greet(name, greeting),
+                '跳过第一个': greet(undefined, greeting || 'Hello')
+            };
+            
+            output.textContent = formatOutput('默认参数', code, result);
+        }
+        
+        function demoDefaultExpression() {
+            const output = document.getElementById('default-output');
+            
+            const code = `// 默认值可以是表达式
+function createId(prefix = 'ID', timestamp = Date.now()) {
+    return \`\${prefix}_\${timestamp}\`;
+}
+
+// 后面的参数可以使用前面的参数
+function makeGreeting(name, greeting = \`Hello \${name}\`) {
+    return greeting;
+}
+
+// 默认值只在需要时计算
+let callCount = 0;
+function getDefault() {
+    callCount++;
+    return \`default_\${callCount}\`;
+}
+
+function test(value = getDefault()) {
+    return value;
+}`;
+            
+            function createId(prefix = 'ID', timestamp = Date.now()) {
+                return `${prefix}_${timestamp}`;
+            }
+            
+            function makeGreeting(name, greeting = `Hello ${name}`) {
+                return greeting;
+            }
+            
+            let callCount = 0;
+            function getDefault() {
+                callCount++;
+                return `default_${callCount}`;
+            }
+            
+            function test(value = getDefault()) {
+                return value;
+            }
+            
+            const result = {
+                'ID生成': createId(),
+                '自定义前缀': createId('USER'),
+                '使用前面参数': makeGreeting('Alice'),
+                '覆盖默认问候': makeGreeting('Bob', 'Hi Bob!'),
+                '默认值计算1': test(),
+                '默认值计算2': test('provided'),
+                '默认值计算3': test(),
+                '调用次数': callCount
+            };
+            
+            output.textContent = formatOutput('默认值表达式', code, result);
+        }
+        
+        // 6. 展开运算符和剩余参数演示
+        function demoSpreadArray() {
+            const output = document.getElementById('spread-output');
+            
+            const code = `// 数组展开
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+
+// 合并数组
+const combined = [...arr1, ...arr2];
+
+// 复制数组
+const copy = [...arr1];
+copy[0] = 99; // 不影响原数组
+
+// 在函数调用中使用
+const numbers = [5, 6, 2, 8, 1];
+const max = Math.max(...numbers);
+
+// 转换类数组对象
+const nodeList = document.querySelectorAll('div');
+const divArray = [...nodeList];`;
+            
+            const arr1 = [1, 2, 3];
+            const arr2 = [4, 5, 6];
+            const combined = [...arr1, ...arr2];
+            
+            const copy = [...arr1];
+            copy[0] = 99;
+            
+            const numbers = [5, 6, 2, 8, 1];
+            const max = Math.max(...numbers);
+            
+            const nodeList = document.querySelectorAll('div');
+            const divArray = [...nodeList];
+            
+            const result = {
+                原数组1: arr1,
+                原数组2: arr2,
+                合并结果: combined,
+                复制数组: copy,
+                原数组未变: arr1,
+                最大值: max,
+                'NodeList转数组': `${divArray.length} 个div元素`
+            };
+            
+            output.textContent = formatOutput('数组展开', code, result);
+        }
+        
+        function demoSpreadObject() {
+            const output = document.getElementById('spread-output');
+            
+            const code = `// 对象展开
+const person = { name: 'Alice', age: 30 };
+const job = { title: 'Developer', company: 'Tech Co' };
+
+// 合并对象
+const employee = { ...person, ...job };
+
+// 覆盖属性
+const updated = { ...person, age: 31, city: 'Beijing' };
+
+// 浅复制
+const clone = { ...person };
+
+// 条件属性
+const conditionalProps = {
+    ...person,
+    ...(person.age >= 18 && { isAdult: true }),
+    ...(person.age >= 65 && { isSenior: true })
+};`;
+            
+            const person = { name: 'Alice', age: 30 };
+            const job = { title: 'Developer', company: 'Tech Co' };
+            
+            const employee = { ...person, ...job };
+            const updated = { ...person, age: 31, city: 'Beijing' };
+            const clone = { ...person };
+            
+            const conditionalProps = {
+                ...person,
+                ...(person.age >= 18 && { isAdult: true }),
+                ...(person.age >= 65 && { isSenior: true })
+            };
+            
+            const result = {
+                原对象: person,
+                职位信息: job,
+                合并结果: employee,
+                更新属性: updated,
+                条件属性: conditionalProps
+            };
+            
+            output.textContent = formatOutput('对象展开', code, result);
+        }
+        
+        function demoRestParams() {
+            const output = document.getElementById('spread-output');
+            
+            const code = `// 剩余参数
+function sum(...numbers) {
+    return numbers.reduce((total, n) => total + n, 0);
+}
+
+// 可变参数数量
+sum(1, 2)           // 3
+sum(1, 2, 3, 4, 5)  // 15
+
+// 结合普通参数
+function multiply(factor, ...numbers) {
+    return numbers.map(n => n * factor);
+}
+
+multiply(2, 1, 2, 3)  // [2, 4, 6]
+
+// 替代 arguments
+function logAll(...args) {
+    args.forEach((arg, index) => {
+        console.log(\`Arg \${index}: \${arg}\`);
+    });
+}`;
+            
+            function sum(...numbers) {
+                return numbers.reduce((total, n) => total + n, 0);
+            }
+            
+            function multiply(factor, ...numbers) {
+                return numbers.map(n => n * factor);
+            }
+            
+            function countArgs(...args) {
+                return args.length;
+            }
+            
+            const result = {
+                'sum(1, 2)': sum(1, 2),
+                'sum(1, 2, 3, 4, 5)': sum(1, 2, 3, 4, 5),
+                'sum()': sum(),
+                'multiply(2, 1, 2, 3)': multiply(2, 1, 2, 3),
+                'multiply(10, 5, 8)': multiply(10, 5, 8),
+                '参数数量': {
+                    '无参数': countArgs(),
+                    '三个参数': countArgs('a', 'b', 'c'),
+                    '五个参数': countArgs(1, 2, 3, 4, 5)
+                }
+            };
+            
+            output.textContent = formatOutput('剩余参数', code, result);
+        }
+        
+        function demoDestructureRest() {
+            const output = document.getElementById('spread-output');
+            
+            const code = `// 解构中的剩余
+// 数组解构
+const [first, second, ...rest] = [1, 2, 3, 4, 5];
+
+// 对象解构
+const person = {
+    name: 'Alice',
+    age: 30,
+    city: 'Beijing',
+    country: 'China'
+};
+
+const { name, ...otherInfo } = person;
+
+// 函数参数解构与剩余
+function processUser({ name, age, ...extras }) {
+    return {
+        basicInfo: { name, age },
+        additionalInfo: extras
+    };
+}`;
+            
+            const [first, second, ...rest] = [1, 2, 3, 4, 5];
+            
+            const person = {
+                name: 'Alice',
+                age: 30,
+                city: 'Beijing',
+                country: 'China'
+            };
+            
+            const { name, ...otherInfo } = person;
+            
+            function processUser({ name, age, ...extras }) {
+                return {
+                    basicInfo: { name, age },
+                    additionalInfo: extras
+                };
+            }
+            
+            const result = {
+                数组解构: {
+                    first,
+                    second,
+                    rest
+                },
+                对象解构: {
+                    name,
+                    otherInfo
+                },
+                函数处理: processUser(person)
+            };
+            
+            output.textContent = formatOutput('解构中的剩余', code, result);
+        }
+        
+        // 7. 对象字面量增强演示
+        function demoPropertyShorthand() {
+            const output = document.getElementById('object-output');
+            const propName = document.getElementById('obj-name').value;
+            const propValue = document.getElementById('obj-value').value;
+            
+            const code = `// 属性简写
+const ${propName} = '${propValue}';
+const age = 25;
+
+// 传统方式
+const obj1 = {
+    ${propName}: ${propName},
+    age: age
+};
+
+// ES6 简写
+const obj2 = {
+    ${propName},
+    age
+};
+
+// 动态创建对象
+function createObject(x, y) {
+    return { x, y, sum: x + y };
+}`;
+            
+            const name = 'username';
+            const age = 25;
+            
+            const obj1 = {
+                [propName]: propValue,
+                age: age
+            };
+            
+            const obj2 = {
+                [propName]: propValue,
+                age
+            };
+            
+            function createObject(x, y) {
+                return { x, y, sum: x + y };
+            }
+            
+            const result = {
+                传统方式: obj1,
+                ES6简写: obj2,
+                函数返回: createObject(10, 20)
+            };
+            
+            output.textContent = formatOutput('属性简写', code, result);
+        }
+        
+        function demoMethodShorthand() {
+            const output = document.getElementById('object-output');
+            
+            const code = `// 方法简写
+const calculator = {
+    // 传统方式
+    add: function(a, b) {
+        return a + b;
+    },
+    
+    // ES6 简写
+    subtract(a, b) {
+        return a - b;
+    },
+    
+    // 结合箭头函数（注意 this）
+    multiply: (a, b) => a * b,
+    
+    // getter/setter
+    _value: 0,
+    get value() {
+        return this._value;
+    },
+    set value(val) {
+        this._value = val;
+    }
+};`;
+            
+            const calculator = {
+                add: function(a, b) {
+                    return a + b;
+                },
+                
+                subtract(a, b) {
+                    return a - b;
+                },
+                
+                multiply: (a, b) => a * b,
+                
+                _value: 0,
+                get value() {
+                    return this._value;
+                },
+                set value(val) {
+                    this._value = val;
+                }
+            };
+            
+            calculator.value = 100;
+            
+            const result = {
+                '加法(5, 3)': calculator.add(5, 3),
+                '减法(10, 4)': calculator.subtract(10, 4),
+                '乘法(6, 7)': calculator.multiply(6, 7),
+                'getter测试': calculator.value
+            };
+            
+            output.textContent = formatOutput('方法简写', code, result);
+        }
+        
+        function demoComputedProperty() {
+            const output = document.getElementById('object-output');
+            const propName = document.getElementById('obj-name').value;
+            
+            const code = `// 计算属性名
+const prefix = 'user';
+const suffix = 'Info';
+
+const obj = {
+    // 计算属性名
+    [\`\${prefix}_id\`]: 123,
+    [\`\${prefix}_\${suffix}\`]: 'Details',
+    
+    // 表达式作为属性名
+    ['prop_' + Date.now()]: 'timestamp',
+    
+    // Symbol 作为属性名
+    [Symbol.for('id')]: 'unique_id'
+};
+
+// 动态方法名
+const methodName = 'dynamicMethod';
+const obj2 = {
+    [methodName]() {
+        return 'Called dynamic method';
+    }
+};`;
+            
+            const prefix = 'user';
+            const suffix = 'Info';
+            
+            const obj = {
+                [`${prefix}_id`]: 123,
+                [`${prefix}_${suffix}`]: 'Details',
+                [`${propName}_custom`]: 'Custom Property',
+                ['prop_' + Date.now()]: 'timestamp',
+                [Symbol.for('id')]: 'unique_id'
+            };
+            
+            const methodName = 'dynamicMethod';
+            const obj2 = {
+                [methodName]() {
+                    return 'Called dynamic method';
+                }
+            };
+            
+            const result = {
+                计算属性: Object.keys(obj).reduce((acc, key) => {
+                    acc[key] = obj[key];
+                    return acc;
+                }, {}),
+                Symbol属性: obj[Symbol.for('id')],
+                动态方法调用: obj2.dynamicMethod()
+            };
+            
+            output.textContent = formatOutput('计算属性名', code, result);
+        }
+        
+        // 8. 综合应用演示
+        function demoModernClass() {
+            const output = document.getElementById('combined-output');
+            
+            const code = `// ES6 类语法
+class User {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    // 方法简写
+    greet() {
+        return \`Hello, I'm \${this.name}\`;
+    }
+    
+    // getter
+    get info() {
+        return \`\${this.name} (\${this.age})\`;
+    }
+    
+    // 静态方法
+    static createAnonymous() {
+        return new User('Anonymous', 0);
+    }
+}
+
+// 继承
+class Student extends User {
+    constructor(name, age, grade) {
+        super(name, age);
+        this.grade = grade;
+    }
+    
+    study() {
+        return \`\${this.name} is studying in grade \${this.grade}\`;
+    }
+}`;
+            
+            class User {
+                constructor(name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+                
+                greet() {
+                    return `Hello, I'm ${this.name}`;
+                }
+                
+                get info() {
+                    return `${this.name} (${this.age})`;
+                }
+                
+                static createAnonymous() {
+                    return new User('Anonymous', 0);
+                }
+            }
+            
+            class Student extends User {
+                constructor(name, age, grade) {
+                    super(name, age);
+                    this.grade = grade;
+                }
+                
+                study() {
+                    return `${this.name} is studying in grade ${this.grade}`;
+                }
+            }
+            
+            const user = new User('Alice', 30);
+            const student = new Student('Bob', 18, 12);
+            const anonymous = User.createAnonymous();
+            
+            const result = {
+                用户实例: {
+                    greeting: user.greet(),
+                    info: user.info
+                },
+                学生实例: {
+                    greeting: student.greet(),
+                    study: student.study(),
+                    info: student.info
+                },
+                静态方法: {
+                    info: anonymous.info
+                }
+            };
+            
+            output.textContent = formatOutput('ES6 类', code, result);
+        }
+        
+        function demoAsyncAwait() {
+            const output = document.getElementById('combined-output');
+            
+            const code = `// Promise 和 async/await
+// 模拟异步操作
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+// 传统 Promise 链
+function loadDataPromise() {
+    return delay(1000)
+        .then(() => 'Data loaded')
+        .then(data => data + ' and processed')
+        .catch(err => 'Error: ' + err);
+}
+
+// async/await 方式
+async function loadDataAsync() {
+    try {
+        await delay(1000);
+        const data = 'Data loaded';
+        return data + ' and processed';
+    } catch (err) {
+        return 'Error: ' + err;
+    }
+}
+
+// 并行执行
+async function loadMultiple() {
+    const [result1, result2] = await Promise.all([
+        delay(500).then(() => 'First'),
+        delay(800).then(() => 'Second')
+    ]);
+    return { result1, result2 };
+}`;
+            
+            output.textContent = code + '\n\n正在执行异步操作...';
+            
+            const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+            
+            async function loadDataAsync() {
+                try {
+                    await delay(1000);
+                    const data = 'Data loaded';
+                    return data + ' and processed';
+                } catch (err) {
+                    return 'Error: ' + err;
+                }
+            }
+            
+            async function loadMultiple() {
+                const [result1, result2] = await Promise.all([
+                    delay(500).then(() => 'First'),
+                    delay(800).then(() => 'Second')
+                ]);
+                return { result1, result2 };
+            }
+            
+            Promise.all([
+                loadDataAsync(),
+                loadMultiple()
+            ]).then(([single, multiple]) => {
+                const result = {
+                    单个异步操作: single,
+                    并行操作: multiple
+                };
+                output.textContent = formatOutput('Async/Await', code, result);
+            });
+        }
+        
+        function demoModernArrayMethods() {
+            const output = document.getElementById('combined-output');
+            
+            const code = `// 现代数组处理
+const users = [
+    { name: 'Alice', age: 30, active: true },
+    { name: 'Bob', age: 25, active: false },
+    { name: 'Charlie', age: 35, active: true },
+    { name: 'David', age: 28, active: true }
+];
+
+// 链式处理
+const result = users
+    .filter(user => user.active)           // 筛选活跃用户
+    .map(user => ({                        // 转换数据结构
+        ...user,
+        ageGroup: user.age >= 30 ? 'senior' : 'junior'
+    }))
+    .sort((a, b) => b.age - a.age)        // 按年龄降序
+    .reduce((acc, user) => {              // 分组统计
+        acc[user.ageGroup] = (acc[user.ageGroup] || 0) + 1;
+        return acc;
+    }, {});
+
+// 其他有用的方法
+const hasActiveUser = users.some(user => user.active);
+const allAdults = users.every(user => user.age >= 18);
+const firstActive = users.find(user => user.active);
+const bobIndex = users.findIndex(user => user.name === 'Bob');`;
+            
+            const users = [
+                { name: 'Alice', age: 30, active: true },
+                { name: 'Bob', age: 25, active: false },
+                { name: 'Charlie', age: 35, active: true },
+                { name: 'David', age: 28, active: true }
+            ];
+            
+            const processedResult = users
+                .filter(user => user.active)
+                .map(user => ({
+                    ...user,
+                    ageGroup: user.age >= 30 ? 'senior' : 'junior'
+                }))
+                .sort((a, b) => b.age - a.age)
+                .reduce((acc, user) => {
+                    acc[user.ageGroup] = (acc[user.ageGroup] || 0) + 1;
+                    return acc;
+                }, {});
+            
+            const hasActiveUser = users.some(user => user.active);
+            const allAdults = users.every(user => user.age >= 18);
+            const firstActive = users.find(user => user.active);
+            const bobIndex = users.findIndex(user => user.name === 'Bob');
+            
+            const result = {
+                原始数据: users,
+                链式处理结果: processedResult,
+                其他方法: {
+                    '有活跃用户': hasActiveUser,
+                    '都是成年人': allAdults,
+                    '第一个活跃用户': firstActive,
+                    'Bob的索引': bobIndex
+                }
+            };
+            
+            output.textContent = formatOutput('现代数组方法', code, result);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HTML5语义化标签和Web可访问性示例">
+    <title>语义化HTML结构示例</title>
+    <style>
+        /* 基础样式 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        /* 跳转链接样式 */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #000;
+            color: #fff;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 0 0 4px 0;
+            z-index: 100;
+        }
+        
+        .skip-link:focus {
+            top: 0;
+        }
+        
+        /* 视觉隐藏但屏幕阅读器可见 */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* 容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 页眉样式 */
+        header[role="banner"] {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        
+        /* 导航样式 */
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover,
+        nav a:focus {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        nav a[aria-current="page"] {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+        }
+        
+        /* 主内容区 */
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 文章样式 */
+        article {
+            border: 1px solid #ddd;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+        
+        article header {
+            margin-bottom: 1rem;
+        }
+        
+        article h2 {
+            margin: 0 0 0.5rem 0;
+            color: #2c3e50;
+        }
+        
+        article time {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* 侧边栏 */
+        aside {
+            background: #f4f4f4;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        
+        aside section {
+            margin-bottom: 2rem;
+        }
+        
+        aside h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        /* 页脚 */
+        footer[role="contentinfo"] {
+            background: #34495e;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        footer a {
+            color: #3498db;
+        }
+        
+        /* 焦点样式 */
+        a:focus,
+        button:focus,
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+        
+        /* 按钮样式 */
+        .button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .button:hover,
+        .button:focus {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <!-- 跳转到主内容的链接 -->
+    <a href="#main-content" class="skip-link">跳转到主要内容</a>
+    
+    <!-- 页眉 -->
+    <header role="banner">
+        <div class="container">
+            <h1>我的技术博客</h1>
+            
+            <!-- 主导航 -->
+            <nav role="navigation" aria-label="主导航">
+                <ul>
+                    <li><a href="/" aria-current="page">首页</a></li>
+                    <li><a href="/articles">文章</a></li>
+                    <li><a href="/projects">项目</a></li>
+                    <li><a href="/about">关于我</a></li>
+                    <li><a href="/contact">联系方式</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="content-wrapper">
+            <!-- 主要内容区 -->
+            <main id="main-content" role="main">
+                <h2 class="visually-hidden">最新文章</h2>
+                
+                <!-- 文章列表 -->
+                <article>
+                    <header>
+                        <h2>
+                            <a href="/article/semantic-html">
+                                掌握HTML5语义化：构建更好的Web
+                            </a>
+                        </h2>
+                        <p>
+                            <time datetime="2024-01-27">2024年1月27日</time>
+                            作者：<a href="/author/zhangsan" rel="author">张三</a>
+                        </p>
+                    </header>
+                    
+                    <p>
+                        语义化HTML不仅让你的代码更清晰，还能提升网站的可访问性和SEO表现。
+                        本文将深入探讨HTML5语义化标签的使用方法和最佳实践...
+                    </p>
+                    
+                    <footer>
+                        <a href="/article/semantic-html" 
+                           class="button"
+                           aria-label="阅读完整文章：掌握HTML5语义化">
+                            继续阅读 <span aria-hidden="true">→</span>
+                        </a>
+                    </footer>
+                </article>
+                
+                <article>
+                    <header>
+                        <h2>
+                            <a href="/article/css-grid">
+                                CSS Grid布局完全指南
+                            </a>
+                        </h2>
+                        <p>
+                            <time datetime="2024-01-26">2024年1月26日</time>
+                            作者：<a href="/author/lisi" rel="author">李四</a>
+                        </p>
+                    </header>
+                    
+                    <p>
+                        CSS Grid是现代Web布局的强大工具。通过本指南，你将学会如何使用Grid
+                        创建复杂的响应式布局，告别传统的float和定位技巧...
+                    </p>
+                    
+                    <footer>
+                        <a href="/article/css-grid" 
+                           class="button"
+                           aria-label="阅读完整文章：CSS Grid布局完全指南">
+                            继续阅读 <span aria-hidden="true">→</span>
+                        </a>
+                    </footer>
+                </article>
+                
+                <article>
+                    <header>
+                        <h2>
+                            <a href="/article/javascript-async">
+                                深入理解JavaScript异步编程
+                            </a>
+                        </h2>
+                        <p>
+                            <time datetime="2024-01-25">2024年1月25日</time>
+                            作者：<a href="/author/wangwu" rel="author">王五</a>
+                        </p>
+                    </header>
+                    
+                    <p>
+                        从回调函数到Promise，再到async/await，JavaScript的异步编程模式
+                        经历了巨大的演变。本文将带你深入理解这些概念...
+                    </p>
+                    
+                    <footer>
+                        <a href="/article/javascript-async" 
+                           class="button"
+                           aria-label="阅读完整文章：深入理解JavaScript异步编程">
+                            继续阅读 <span aria-hidden="true">→</span>
+                        </a>
+                    </footer>
+                </article>
+            </main>
+            
+            <!-- 侧边栏 -->
+            <aside aria-labelledby="sidebar-title">
+                <h2 id="sidebar-title" class="visually-hidden">侧边栏</h2>
+                
+                <!-- 关于作者 -->
+                <section aria-labelledby="about-author">
+                    <h3 id="about-author">关于作者</h3>
+                    <figure>
+                        <img src="author-avatar.jpg" 
+                             alt="作者张三的照片，戴着眼镜，面带微笑"
+                             width="200"
+                             height="200">
+                        <figcaption>张三 - 前端开发工程师</figcaption>
+                    </figure>
+                    <p>
+                        热爱Web开发，专注于现代前端技术。
+                        喜欢分享学习心得，帮助更多人成长。
+                    </p>
+                </section>
+                
+                <!-- 文章分类 -->
+                <section aria-labelledby="categories">
+                    <h3 id="categories">文章分类</h3>
+                    <ul>
+                        <li><a href="/category/html">HTML (15)</a></li>
+                        <li><a href="/category/css">CSS (23)</a></li>
+                        <li><a href="/category/javascript">JavaScript (31)</a></li>
+                        <li><a href="/category/react">React (12)</a></li>
+                        <li><a href="/category/nodejs">Node.js (8)</a></li>
+                    </ul>
+                </section>
+                
+                <!-- 热门标签 -->
+                <section aria-labelledby="popular-tags">
+                    <h3 id="popular-tags">热门标签</h3>
+                    <ul role="list" style="list-style: none; padding: 0;">
+                        <li style="display: inline-block; margin: 0.25rem;">
+                            <a href="/tag/semantic-html" 
+                               rel="tag"
+                               style="padding: 0.25rem 0.5rem; background: #e0e0e0; border-radius: 4px; text-decoration: none;">
+                                语义化HTML
+                            </a>
+                        </li>
+                        <li style="display: inline-block; margin: 0.25rem;">
+                            <a href="/tag/accessibility" 
+                               rel="tag"
+                               style="padding: 0.25rem 0.5rem; background: #e0e0e0; border-radius: 4px; text-decoration: none;">
+                                可访问性
+                            </a>
+                        </li>
+                        <li style="display: inline-block; margin: 0.25rem;">
+                            <a href="/tag/responsive" 
+                               rel="tag"
+                               style="padding: 0.25rem 0.5rem; background: #e0e0e0; border-radius: 4px; text-decoration: none;">
+                                响应式设计
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+            </aside>
+        </div>
+    </div>
+    
+    <!-- 页脚 -->
+    <footer role="contentinfo">
+        <div class="container">
+            <h2 class="visually-hidden">网站信息</h2>
+            
+            <section>
+                <h3>联系方式</h3>
+                <address>
+                    <p>
+                        邮箱：<a href="mailto:contact@example.com">contact@example.com</a><br>
+                        GitHub：<a href="https://github.com/username" rel="external">@username</a><br>
+                        Twitter：<a href="https://twitter.com/username" rel="external">@username</a>
+                    </p>
+                </address>
+            </section>
+            
+            <section>
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="/privacy">隐私政策</a></li>
+                    <li><a href="/terms">使用条款</a></li>
+                    <li><a href="/sitemap">网站地图</a></li>
+                    <li><a href="/rss">RSS订阅</a></li>
+                </ul>
+            </section>
+            
+            <p>
+                <small>&copy; 2024 我的技术博客. 保留所有权利.</small>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
