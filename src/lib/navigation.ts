@@ -154,7 +154,7 @@ export function getPhaseNavigation(phaseId: number): NavItem[] {
 
   return phase.days.map(day => ({
     label: `Day ${day}`,
-    href: `/day-${day}`,
+    href: `/course/day-${day}`,
     type: 'overview',
     children: getDayNavigation(day)
   }));
@@ -167,8 +167,8 @@ export function generateBreadcrumbs(path: string) {
     { label: '首页', href: '/' }
   ];
 
-  if (parts[0]?.startsWith('day-')) {
-    const day = parseInt(parts[0].replace('day-', ''));
+  if (parts[0] === 'course' && parts[1]?.startsWith('day-')) {
+    const day = parseInt(parts[1].replace('day-', ''));
     const phase = phases.find(p => p.days.includes(day));
     
     if (phase) {
@@ -180,10 +180,10 @@ export function generateBreadcrumbs(path: string) {
 
     breadcrumbs.push({
       label: `Day ${day}`,
-      href: `/day-${day}`
+      href: `/course/day-${day}`
     });
 
-    if (parts[1]) {
+    if (parts[2]) {
       const subPages: Record<string, string> = {
         'code': '代码示例',
         'exercise': '练习',
@@ -191,7 +191,7 @@ export function generateBreadcrumbs(path: string) {
       };
       
       breadcrumbs.push({
-        label: subPages[parts[1]] || parts[1],
+        label: subPages[parts[2]] || parts[2],
         href: `/${parts.join('/')}`
       });
     }

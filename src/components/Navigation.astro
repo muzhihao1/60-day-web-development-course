@@ -10,8 +10,8 @@ const { currentPath } = Astro.props;
 
 // 解析当前路径信息
 const pathParts = currentPath.split('/').filter(Boolean);
-const currentDay = pathParts[0]?.startsWith('day-') 
-  ? parseInt(pathParts[0].replace('day-', ''))
+const currentDay = pathParts[0] === 'course' && pathParts[1]?.startsWith('day-') 
+  ? parseInt(pathParts[1].replace('day-', ''))
   : null;
 
 const currentPhase = currentDay 
@@ -82,7 +82,7 @@ function isDayCompleted(day: number): boolean {
             return (
               <div class="day-section">
                 <a 
-                  href={`/day-${day}`} 
+                  href={`/course/day-${day}`} 
                   class={`day-link ${isCurrentDay ? 'active' : ''} ${isDayCompleted(day) ? 'completed' : ''}`}
                 >
                   <span class="day-status">
