@@ -26,7 +26,7 @@ resources:
     type: "documentation"
   - title: "Grid Garden"
     url: "https://cssgridgarden.com/"
-    type: "game"
+    type: "tool"
 ---
 
 # Day 05: CSS Grid与现代布局
