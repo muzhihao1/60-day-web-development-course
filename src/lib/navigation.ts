@@ -54,92 +54,92 @@ export function getDayNavigation(day: number): NavItem[] {
   return [
     {
       label: '📚 学习内容',
-      href: `/day-${day}`,
+      href: `/course/day-${day}`,
       type: 'theory',
       icon: '📚',
       children: [
         {
           label: '今日概览',
-          href: `/day-${day}#overview`,
+          href: `/course/day-${day}#overview`,
           type: 'overview'
         },
         {
           label: '核心概念',
-          href: `/day-${day}#concepts`,
+          href: `/course/day-${day}#concepts`,
           type: 'theory'
         },
         {
           label: '详细讲解',
-          href: `/day-${day}#details`,
+          href: `/course/day-${day}#details`,
           type: 'theory'
         }
       ]
     },
     {
       label: '代码示例',
-      href: `/day-${day}/code`,
+      href: `/course/day-${day}/code`,
       type: 'practice',
       icon: '💻',
       children: [
         {
           label: '基础示例',
-          href: `/day-${day}/code#basic`,
+          href: `/course/day-${day}/code#basic`,
           type: 'practice'
         },
         {
           label: '进阶示例',
-          href: `/day-${day}/code#advanced`,
+          href: `/course/day-${day}/code#advanced`,
           type: 'practice'
         },
         {
           label: '实战案例',
-          href: `/day-${day}/code#real-world`,
+          href: `/course/day-${day}/code#real-world`,
           type: 'practice'
         }
       ]
     },
     {
       label: '今日练习',
-      href: `/day-${day}/exercise`,
+      href: `/course/day-${day}/exercise`,
       type: 'practice',
       icon: '✍️',
       children: [
         {
           label: '练习说明',
-          href: `/day-${day}/exercise#instructions`,
+          href: `/course/day-${day}/exercise#instructions`,
           type: 'practice'
         },
         {
           label: '评分标准',
-          href: `/day-${day}/exercise#criteria`,
+          href: `/course/day-${day}/exercise#criteria`,
           type: 'practice'
         },
         {
           label: '提示',
-          href: `/day-${day}/exercise#hints`,
+          href: `/course/day-${day}/exercise#hints`,
           type: 'practice'
         }
       ]
     },
     {
       label: '解决方案',
-      href: `/day-${day}/solution`,
+      href: `/course/day-${day}/solution`,
       type: 'solution',
       icon: '✅',
       children: [
         {
           label: '完整代码',
-          href: `/day-${day}/solution#code`,
+          href: `/course/day-${day}/solution#code`,
           type: 'solution'
         },
         {
           label: '解题思路',
-          href: `/day-${day}/solution#approach`,
+          href: `/course/day-${day}/solution#approach`,
           type: 'solution'
         },
         {
           label: '优化建议',
-          href: `/day-${day}/solution#optimization`,
+          href: `/course/day-${day}/solution#optimization`,
           type: 'solution'
         }
       ]
