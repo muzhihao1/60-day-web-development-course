@@ -1,0 +1,390 @@
+---
+/**
+ * 阶段概览页面
+ * 显示每个学习阶段的详细信息和包含的天数
+ */
+import { getCollection } from 'astro:content'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import { phases } from '@lib/navigation'
+
+export async function getStaticPaths() {
+  const phaseData = await getCollection('phases')
+  
+  return phaseData.map((phase) => {
+    const phaseInfo = phases.find(p => p.id === phase.data.number)
+    return {
+      params: { phase: phase.data.number.toString() },
+      props: { phase, phaseInfo }
+    }
+  })
+}
+
+const { phase } = Astro.params
+const { phase: phaseData, phaseInfo } = Astro.props
+
+// 获取该阶段的所有课程
+const courses = await getCollection('courses', ({ data }) => data.phase === parseInt(phase))
+const sortedCourses = courses.sort((a, b) => a.data.day - b.data.day)
+
+const pageTitle = `${phaseData.data.name} | 60天Web开发课程`
+const pageDescription = phaseData.data.description
+---
+
+<BaseLayout title={phaseData.data.name} description={pageDescription}>
+  <div class="phase-overview-container">
+    <!-- 阶段头部 -->
+    <header class="phase-header">
+      <div class="phase-icon-large">{phaseData.data.icon}</div>
+      <h1 class="phase-title">{phaseData.data.name}</h1>
+      <p class="phase-description">{phaseData.data.description}</p>
+      
+      <div class="phase-meta">
+        <span class="meta-item">
+          📅 Day {phaseData.data.startDay} - Day {phaseData.data.endDay}
+        </span>
+        <span class="meta-item">
+          📚 {courses.length} 天课程
+        </span>
+      </div>
+    </header>
+
+    <!-- 学习目标 -->
+    {phaseData.data.objectives && phaseData.data.objectives.length > 0 && (
+      <section class="objectives-section">
+        <h2>🎯 学习目标</h2>
+        <div class="objectives-grid">
+          {phaseData.data.objectives.map((objective) => (
+            <div class="objective-card">
+              <div class="objective-icon">✨</div>
+              <p>{objective}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- 先修要求 -->
+    {phaseData.data.prerequisites && phaseData.data.prerequisites.length > 0 && (
+      <section class="prerequisites-section">
+        <h2>📋 先修要求</h2>
+        <ul class="prerequisites-list">
+          {phaseData.data.prerequisites.map((prerequisite) => (
+            <li>{prerequisite}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <!-- 课程列表 -->
+    <section class="courses-section">
+      <h2>📚 课程内容</h2>
+      <div class="courses-grid">
+        {sortedCourses.map((course) => (
+          <a href={`/course/day-${course.data.day}`} class="course-card">
+            <div class="course-card-header">
+              <span class="day-badge">Day {course.data.day}</span>
+              <span class={`difficulty-badge ${course.data.difficulty}`}>
+                {course.data.difficulty === 'beginner' ? '初级' : 
+                 course.data.difficulty === 'intermediate' ? '中级' : '高级'}
+              </span>
+            </div>
+            <h3 class="course-card-title">{course.data.title}</h3>
+            <p class="course-card-description">{course.data.description}</p>
+            <div class="course-card-footer">
+              <span class="time-estimate">⏱️ {course.data.estimatedTime}分钟</span>
+              <span class="start-learning">开始学习 →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- 导航 -->
+    <nav class="phase-navigation">
+      {phaseInfo && phaseInfo.id > 1 && (
+        <a href={`/course/phase-${phaseInfo.id - 1}`} class="nav-prev">
+          ← 上一阶段
+        </a>
+      )}
+      
+      <a href="/" class="nav-home">返回首页</a>
+      
+      {phaseInfo && phaseInfo.id < 5 && (
+        <a href={`/course/phase-${phaseInfo.id + 1}`} class="nav-next">
+          下一阶段 →
+        </a>
+      )}
+    </nav>
+  </div>
+
+  <style>
+    .phase-overview-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* 阶段头部 */
+    .phase-header {
+      text-align: center;
+      padding: 3rem 0;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .phase-icon-large {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .phase-title {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 1rem;
+    }
+
+    .phase-description {
+      font-size: 1.25rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .phase-meta {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-weight: 500;
+    }
+
+    /* 学习目标 */
+    .objectives-section,
+    .prerequisites-section,
+    .courses-section {
+      margin-bottom: 3rem;
+    }
+
+    .objectives-section h2,
+    .prerequisites-section h2,
+    .courses-section h2 {
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+      color: var(--color-text);
+    }
+
+    .objectives-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .objective-card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .objective-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .objective-card p {
+      margin: 0;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* 先修要求 */
+    .prerequisites-list {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 2rem;
+      list-style: none;
+    }
+
+    .prerequisites-list li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    .prerequisites-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--color-primary);
+      font-weight: bold;
+    }
+
+    /* 课程网格 */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .course-card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      text-decoration: none;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .course-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--color-primary);
+    }
+
+    .course-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .day-badge {
+      background: var(--color-primary);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .difficulty-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 500;
+      border: 1px solid;
+    }
+
+    .difficulty-badge.beginner {
+      color: var(--color-success);
+      border-color: var(--color-success);
+      background: rgba(82, 196, 26, 0.1);
+    }
+
+    .difficulty-badge.intermediate {
+      color: var(--color-warning);
+      border-color: var(--color-warning);
+      background: rgba(247, 223, 30, 0.1);
+    }
+
+    .difficulty-badge.advanced {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+      background: rgba(255, 107, 107, 0.1);
+    }
+
+    .course-card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 0.75rem;
+    }
+
+    .course-card-description {
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      flex: 1;
+      margin-bottom: 1rem;
+    }
+
+    .course-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .time-estimate {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+
+    .start-learning {
+      color: var(--color-primary);
+      font-weight: 500;
+      font-size: 0.875rem;
+    }
+
+    /* 导航 */
+    .phase-navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3rem 0;
+      margin-top: 3rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .nav-prev,
+    .nav-next,
+    .nav-home {
+      padding: 0.75rem 1.5rem;
+      color: var(--color-text);
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+
+    .nav-prev:hover,
+    .nav-next:hover,
+    .nav-home:hover {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .phase-title {
+        font-size: 2rem;
+      }
+
+      .phase-description {
+        font-size: 1.125rem;
+      }
+
+      .courses-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .phase-navigation {
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+    }
+  </style>
+</BaseLayout>

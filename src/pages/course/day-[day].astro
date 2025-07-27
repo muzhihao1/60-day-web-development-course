@@ -4,8 +4,8 @@
  * 动态路由，根据day参数渲染对应的课程内容
  */
 import { getCollection, getEntry } from 'astro:content'
+import BaseLayout from '@layouts/BaseLayout.astro'
 import type { DayContent, PhaseInfo } from '../../types'
-import '../../styles/global.css'
 
 export async function getStaticPaths() {
   const courses = await getCollection('courses')
@@ -40,25 +40,8 @@ const pageDescription = course.data.description
 const { Content } = await course.render()
 ---
 
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{pageTitle}</title>
-  <meta name="description" content={pageDescription}>
-</head>
-<body>
+<BaseLayout title={course.data.title} description={pageDescription} currentDay={parseInt(day)}>
   <div class="course-container">
-    <!-- 面包屑导航 -->
-    <nav class="breadcrumb" aria-label="面包屑导航">
-      <ol>
-        <li><a href="/">首页</a></li>
-        <li><a href="/course">课程</a></li>
-        <li><a href={`/course/phase-${phase.data.number}`}>{phase.data.name}</a></li>
-        <li aria-current="page">Day {day}</li>
-      </ol>
-    </nav>
 
     <!-- 课程头部 -->
     <header class="course-header">
@@ -220,5 +203,337 @@ const { Content } = await course.render()
       }
     }
   </script>
-</body>
-</html>
+
+  <style>
+    .course-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .course-header {
+      margin-bottom: 2rem;
+    }
+
+    .course-meta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .phase-badge,
+    .difficulty-badge,
+    .time-estimate {
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .phase-badge {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .difficulty-badge {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+    }
+
+    .difficulty-badge.difficulty-beginner {
+      border-color: var(--color-success);
+      color: var(--color-success);
+    }
+
+    .difficulty-badge.difficulty-intermediate {
+      border-color: var(--color-warning);
+      color: var(--color-warning);
+    }
+
+    .difficulty-badge.difficulty-advanced {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .course-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--color-text);
+    }
+
+    .day-number {
+      color: var(--color-primary);
+      font-size: 1.125rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .course-description {
+      font-size: 1.125rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* 学习目标 */
+    .learning-objectives {
+      background: var(--color-bg);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--color-border);
+    }
+
+    .learning-objectives h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--color-text);
+    }
+
+    .learning-objectives ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .learning-objectives li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      color: var(--color-text-secondary);
+    }
+
+    .learning-objectives li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--color-success);
+      font-weight: bold;
+    }
+
+    /* 内容样式 */
+    .course-content {
+      background: var(--color-bg);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    .course-content h2 {
+      font-size: 1.75rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: var(--color-text);
+    }
+
+    .course-content h3 {
+      font-size: 1.375rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--color-text);
+    }
+
+    .course-content p {
+      margin-bottom: 1rem;
+      color: var(--color-text-secondary);
+    }
+
+    .course-content pre {
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+
+    .course-content code {
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.875rem;
+    }
+
+    /* 代码示例和练习卡片 */
+    .code-examples-section,
+    .exercises-section,
+    .resources-section {
+      margin-bottom: 2rem;
+    }
+
+    .code-examples-section h2,
+    .exercises-section h2,
+    .resources-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--color-text);
+    }
+
+    .code-example-card,
+    .exercise-card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .code-example-card h3,
+    .exercise-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+    }
+
+    .exercise-meta {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .exercise-meta span {
+      padding: 0.25rem 0.75rem;
+      background: var(--color-bg-secondary);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+    }
+
+    /* 按钮样式 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-md);
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      margin-right: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(66, 184, 131, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--color-bg-secondary);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-border);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-success {
+      background: var(--color-success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      opacity: 0.9;
+    }
+
+    .btn-success.completed {
+      background: var(--color-bg-secondary);
+      color: var(--color-success);
+      border: 1px solid var(--color-success);
+    }
+
+    /* 资源列表 */
+    .resources-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .resources-list li {
+      margin-bottom: 0.75rem;
+    }
+
+    .resources-list a {
+      color: var(--color-primary);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .resources-list a:hover {
+      text-decoration: underline;
+    }
+
+    /* 导航按钮 */
+    .course-navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 0;
+      margin: 2rem 0;
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .nav-prev,
+    .nav-next,
+    .nav-overview {
+      padding: 0.5rem 1rem;
+      color: var(--color-text);
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      transition: all 0.2s;
+    }
+
+    .nav-prev:hover,
+    .nav-next:hover,
+    .nav-overview:hover {
+      background: var(--color-bg);
+      color: var(--color-primary);
+    }
+
+    /* 进度追踪 */
+    .progress-tracker {
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .mark-complete {
+      font-size: 1.125rem;
+      padding: 1rem 2rem;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .course-title {
+        font-size: 2rem;
+      }
+
+      .course-content {
+        padding: 1.5rem;
+      }
+
+      .course-navigation {
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+    }
+  </style>
+</BaseLayout>
