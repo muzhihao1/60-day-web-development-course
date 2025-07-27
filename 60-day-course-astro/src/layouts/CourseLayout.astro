@@ -1,0 +1,56 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Navigation from '../components/common/Navigation.astro';
+import Sidebar from '../components/common/Sidebar.astro';
+import Footer from '../components/common/Footer.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+  phase?: number;
+  day?: number;
+}
+
+const { title, description, phase, day } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <Navigation />
+    
+    <div class="flex">
+      <!-- 侧边栏 -->
+      <aside class="hidden lg:block w-80 h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <Sidebar currentPhase={phase} currentDay={day} />
+      </aside>
+      
+      <!-- 主内容区 -->
+      <main class="flex-1 px-4 py-8 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <article class="prose prose-lg dark:prose-invert max-w-none">
+          <slot />
+        </article>
+      </main>
+    </div>
+    
+    <Footer />
+  </div>
+</BaseLayout>
+
+<style>
+  /* 自定义滚动条样式 */
+  aside::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  aside::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  aside::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+  }
+  
+  aside::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400 dark:bg-gray-500;
+  }
+</style>

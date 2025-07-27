@@ -1,0 +1,254 @@
+---
+import CourseLayout from '../../../layouts/CourseLayout.astro';
+
+const lessonInfo = {
+  title: 'Day 1: Git与版本控制基础',
+  description: '学习版本控制的概念，掌握Git基本操作，创建你的第一个仓库',
+  phase: 1,
+  day: 1,
+};
+---
+
+<CourseLayout {...lessonInfo}>
+  <header class="mb-12">
+    <div class="flex items-center gap-4 mb-4">
+      <span class="badge badge-new">基础</span>
+      <span class="text-sm text-gray-600 dark:text-gray-400">预计学习时间：1-2小时</span>
+    </div>
+    <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+      Git与版本控制基础
+    </h1>
+    <p class="text-xl text-gray-600 dark:text-gray-300">
+      今天，我们将学习现代软件开发的基石——版本控制系统Git。掌握Git不仅是成为Web开发者的必备技能，
+      更是参与开源项目、团队协作的重要工具。
+    </p>
+  </header>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      📚 今日学习目标
+    </h2>
+    <ul class="space-y-3">
+      <li class="flex items-start">
+        <svg class="w-6 h-6 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+        </svg>
+        <span>理解版本控制的概念和重要性</span>
+      </li>
+      <li class="flex items-start">
+        <svg class="w-6 h-6 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+        </svg>
+        <span>安装和配置Git环境</span>
+      </li>
+      <li class="flex items-start">
+        <svg class="w-6 h-6 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+        </svg>
+        <span>掌握Git基本命令（init、add、commit、status）</span>
+      </li>
+      <li class="flex items-start">
+        <svg class="w-6 h-6 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+        </svg>
+        <span>创建你的第一个Git仓库</span>
+      </li>
+      <li class="flex items-start">
+        <svg class="w-6 h-6 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+        </svg>
+        <span>了解.gitignore文件的作用</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      🤔 什么是版本控制？
+    </h2>
+    <div class="prose prose-lg dark:prose-invert max-w-none">
+      <p>
+        想象一下，你正在写一篇重要的文档。每次修改后，你都会另存为一个新文件：
+        "文档_v1.doc"、"文档_v2_修改.doc"、"文档_最终版.doc"、"文档_最终版_真的是最终版.doc"...
+        是不是很混乱？
+      </p>
+      <p>
+        版本控制系统就是解决这个问题的工具。它能够：
+      </p>
+      <ul>
+        <li>记录文件的每一次修改</li>
+        <li>查看修改历史</li>
+        <li>回退到之前的版本</li>
+        <li>多人协作时避免冲突</li>
+        <li>创建不同的开发分支</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      🛠️ 安装Git
+    </h2>
+    
+    <div class="space-y-6">
+      <div class="card p-6">
+        <h3 class="text-lg font-semibold mb-4">Windows用户</h3>
+        <ol class="list-decimal list-inside space-y-2">
+          <li>访问 <a href="https://git-scm.com/download/win" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary-dark">Git官网下载页面</a></li>
+          <li>下载并运行安装程序</li>
+          <li>使用默认设置完成安装</li>
+        </ol>
+      </div>
+
+      <div class="card p-6">
+        <h3 class="text-lg font-semibold mb-4">macOS用户</h3>
+        <p class="mb-4">打开终端，运行以下命令：</p>
+        <pre><code class="language-bash">brew install git</code></pre>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+          如果没有安装Homebrew，先访问 <a href="https://brew.sh" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary-dark">brew.sh</a> 安装
+        </p>
+      </div>
+
+      <div class="card p-6">
+        <h3 class="text-lg font-semibold mb-4">Linux用户</h3>
+        <p class="mb-4">根据你的发行版，使用相应的包管理器：</p>
+        <pre><code class="language-bash"># Ubuntu/Debian
+sudo apt-get install git
+
+# Fedora
+sudo dnf install git
+
+# Arch
+sudo pacman -S git</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      ⚙️ 配置Git
+    </h2>
+    <p class="mb-4">安装完成后，我们需要配置用户信息。打开终端（Windows用户使用Git Bash），运行：</p>
+    
+    <pre><code class="language-bash"># 设置用户名（使用你的真实姓名）
+git config --global user.name "你的名字"
+
+# 设置邮箱（使用你的常用邮箱）
+git config --global user.email "your.email@example.com"
+
+# 查看配置是否成功
+git config --list</code></pre>
+
+    <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-4 mt-6">
+      <p class="text-sm">
+        <strong>💡 提示：</strong>这里的用户名和邮箱会显示在你的提交记录中，建议使用真实信息。
+      </p>
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      🎯 实践：创建你的第一个Git仓库
+    </h2>
+    
+    <div class="space-y-6">
+      <div class="card p-6">
+        <h3 class="text-lg font-semibold mb-4">步骤1：创建项目文件夹</h3>
+        <pre><code class="language-bash"># 创建一个新文件夹
+mkdir my-first-repo
+cd my-first-repo</code></pre>
+      </div>
+
+      <div class="card p-6">
+        <h3 class="text-lg font-semibold mb-4">步骤2：初始化Git仓库</h3>
+        <pre><code class="language-bash"># 初始化Git仓库
+git init
+
+# 你会看到类似这样的输出：
+# Initialized empty Git repository in /path/to/my-first-repo/.git/</code></pre>
+      </div>
+
+      <div class="card p-6">
+        <h3 class="text-lg font-semibold mb-4">步骤3：创建第一个文件</h3>
+        <pre><code class="language-bash"># 创建README文件
+echo "# 我的第一个Git仓库" > README.md
+
+# 查看文件状态
+git status</code></pre>
+      </div>
+
+      <div class="card p-6">
+        <h3 class="text-lg font-semibold mb-4">步骤4：添加文件到暂存区</h3>
+        <pre><code class="language-bash"># 添加文件到暂存区
+git add README.md
+
+# 再次查看状态
+git status</code></pre>
+      </div>
+
+      <div class="card p-6">
+        <h3 class="text-lg font-semibold mb-4">步骤5：提交更改</h3>
+        <pre><code class="language-bash"># 提交更改
+git commit -m "初始提交：添加README文件"
+
+# 查看提交历史
+git log</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      📝 今日练习
+    </h2>
+    
+    <div class="card p-6 bg-gray-50 dark:bg-gray-700">
+      <h3 class="text-lg font-semibold mb-4">练习任务</h3>
+      <ol class="list-decimal list-inside space-y-3">
+        <li>创建一个名为 "web-learning-journal" 的Git仓库</li>
+        <li>在仓库中创建以下文件：
+          <ul class="list-disc list-inside ml-6 mt-2">
+            <li>README.md - 写下你学习Web开发的目标</li>
+            <li>day-01-notes.md - 记录今天学到的Git命令</li>
+          </ul>
+        </li>
+        <li>使用合适的提交信息，分别提交这两个文件</li>
+        <li>创建.gitignore文件，添加一些常见的忽略规则</li>
+        <li>查看你的提交历史</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      🎉 今日总结
+    </h2>
+    <p class="text-lg mb-6">
+      恭喜你完成了第一天的学习！今天我们学习了：
+    </p>
+    <ul class="space-y-2">
+      <li>✅ 版本控制的概念和重要性</li>
+      <li>✅ 如何安装和配置Git</li>
+      <li>✅ Git的基本命令：init、add、commit、status、log</li>
+      <li>✅ 创建和管理Git仓库</li>
+    </ul>
+    
+    <div class="mt-8 p-6 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+      <p class="text-lg font-semibold text-green-800 dark:text-green-200 mb-2">
+        🌟 明天预告
+      </p>
+      <p class="text-green-700 dark:text-green-300">
+        明天我们将学习HTML5的语义化标签和Web可访问性，开始构建你的第一个网页！
+      </p>
+    </div>
+  </section>
+
+  <nav class="flex justify-between items-center mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+    <a href="/course" class="btn btn-secondary">
+      ← 返回课程列表
+    </a>
+    <a href="/course/phase-1/day-2" class="btn btn-primary">
+      下一课：HTML5语义化 →
+    </a>
+  </nav>
+</CourseLayout>

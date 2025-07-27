@@ -1,0 +1,166 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navigation from '../../components/common/Navigation.astro';
+import Footer from '../../components/common/Footer.astro';
+
+// 课程阶段数据
+const phases = [
+  {
+    id: 1,
+    title: '现代Web基础',
+    description: '从零开始学习Web开发的基础知识，包括Git、HTML、CSS等',
+    duration: '12天',
+    badge: 'new',
+    color: 'from-blue-400 to-blue-600',
+    topics: ['Git版本控制', 'HTML5语义化', 'CSS布局', '响应式设计', '性能优化'],
+  },
+  {
+    id: 2,
+    title: 'JavaScript现代编程',
+    description: '深入学习JavaScript语言，掌握现代ES6+语法和编程技巧',
+    duration: '12天',
+    badge: 'hot',
+    color: 'from-purple-400 to-purple-600',
+    topics: ['ES6+语法', '异步编程', 'DOM操作', '函数式编程', '设计模式'],
+  },
+  {
+    id: 3,
+    title: 'React现代开发',
+    description: '学习React框架，构建现代化的单页应用',
+    duration: '16天',
+    badge: 'pro',
+    color: 'from-pink-400 to-pink-600',
+    topics: ['组件开发', 'Hooks', '状态管理', 'React Router', '性能优化'],
+  },
+  {
+    id: 4,
+    title: '后端开发与数据库',
+    description: '使用Node.js构建后端API，学习数据库设计与操作',
+    duration: '12天',
+    color: 'from-green-400 to-green-600',
+    topics: ['Node.js', 'Express', 'MongoDB', 'RESTful API', '认证授权'],
+  },
+  {
+    id: 5,
+    title: '全栈开发与部署',
+    description: '整合前后端知识，学习项目部署和运维',
+    duration: '8天',
+    color: 'from-orange-400 to-orange-600',
+    topics: ['Docker', 'CI/CD', '云服务', '安全实践', '性能监控'],
+  },
+];
+---
+
+<BaseLayout title="课程大纲 - 60天Web开发课程">
+  <Navigation />
+  
+  <main class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <!-- 页面标题 -->
+    <section class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          课程大纲
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-300">
+          5个阶段，60天系统学习，从零基础到全栈工程师
+        </p>
+      </div>
+    </section>
+
+    <!-- 课程阶段列表 -->
+    <section class="py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-8">
+          {phases.map((phase) => (
+            <div class="card hover:shadow-xl transition-shadow duration-300">
+              <div class="p-8">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                  <!-- 左侧内容 -->
+                  <div class="flex-1">
+                    <div class="flex items-center mb-4">
+                      <div class={`text-5xl font-bold bg-gradient-to-r ${phase.color} bg-clip-text text-transparent mr-4`}>
+                        {phase.id}
+                      </div>
+                      <div>
+                        <div class="flex items-center gap-3">
+                          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+                            {phase.title}
+                          </h2>
+                          {phase.badge && (
+                            <span class={`badge badge-${phase.badge}`}>
+                              {phase.badge === 'new' ? '基础' : phase.badge === 'hot' ? '核心' : '进阶'}
+                            </span>
+                          )}
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                          {phase.duration}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <p class="text-gray-700 dark:text-gray-300 mb-6">
+                      {phase.description}
+                    </p>
+                    
+                    <!-- 主题标签 -->
+                    <div class="flex flex-wrap gap-2 mb-6">
+                      {phase.topics.map((topic) => (
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm">
+                          {topic}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <!-- 右侧操作 -->
+                  <div class="mt-6 lg:mt-0 lg:ml-8">
+                    <a 
+                      href={`/course/phase-${phase.id}/day-${(phase.id - 1) * 12 + 1}`} 
+                      class="btn btn-primary"
+                    >
+                      开始学习 →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 学习建议 -->
+    <section class="py-12 bg-white dark:bg-gray-800">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+          学习建议
+        </h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="text-center">
+            <div class="text-4xl mb-4">📅</div>
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">每天1-2小时</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              保持稳定的学习节奏，每天投入固定时间
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="text-4xl mb-4">💻</div>
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">动手实践</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              完成每日练习，将知识转化为实际技能
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="text-4xl mb-4">🤝</div>
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">社区交流</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              遇到问题及时交流，与其他学习者共同进步
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <Footer />
+</BaseLayout>
