@@ -4,6 +4,18 @@ import { phases } from '@lib/navigation';
 
 const title = '60天现代Web开发课程';
 const description = '从零开始，系统学习现代Web开发技术栈';
+
+const codeExample = `// 你的Web开发之旅从这里开始
+function startLearning() {
+  const skills = [
+    'HTML5', 'CSS3', 'JavaScript',
+    'React', 'Node.js', 'TypeScript'
+  ];
+  
+  return skills.map(skill => 
+    master(skill)
+  );
+}`;
 ---
 
 <BaseLayout title={title} description={description} showProgress={false}>
@@ -52,17 +64,7 @@ const description = '从零开始，系统学习现代Web开发技术栈';
           <span class="dot yellow"></span>
           <span class="dot green"></span>
         </div>
-        <pre><code class="language-javascript">// 你的Web开发之旅从这里开始
-function startLearning() {
-  const skills = [
-    'HTML5', 'CSS3', 'JavaScript',
-    'React', 'Node.js', 'TypeScript'
-  ];
-  
-  return skills.map(skill => 
-    master(skill)
-  );
-}</code></pre>
+        <pre><code class="language-javascript">{codeExample}</code></pre>
       </div>
     </div>
   </section>
