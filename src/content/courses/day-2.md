@@ -26,7 +26,7 @@ resources:
     type: "documentation"
   - title: "WebAIM: 可访问性介绍"
     url: "https://webaim.org/intro/"
-    type: "guide"
+    type: "documentation"
 ---
 
 # Day 02: HTML5语义化与可访问性
