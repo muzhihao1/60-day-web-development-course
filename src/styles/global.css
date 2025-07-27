@@ -469,6 +469,27 @@ h6 {
   border-radius: var(--radius-sm);
 }
 
+/* 代码示例部分 */
+.code-examples-section {
+  margin-bottom: var(--space-8);
+}
+.code-example-card {
+  background-color: var(--bg-secondary);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-4);
+}
+.code-example-card h3 {
+  margin-bottom: var(--space-3);
+}
+.code-example-card p {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-4);
+}
+.code-example-card .btn {
+  margin-right: var(--space-3);
+}
+
 /* 练习部分 */
 .exercises-section {
   margin-bottom: var(--space-8);

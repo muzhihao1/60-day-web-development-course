@@ -26,6 +26,7 @@ const { course, phase } = Astro.props
 // 获取相关的练习和解决方案
 const exercises = await getCollection('exercises', ({ data }) => data.day === parseInt(day))
 const solutions = await getCollection('solutions', ({ data }) => data.day === parseInt(day))
+const codeExamples = await getCollection('codeExamples', ({ data }) => data.day === parseInt(day))
 
 // 计算前一天和后一天的链接
 const prevDay = parseInt(day) > 1 ? parseInt(day) - 1 : null
@@ -93,6 +94,22 @@ const { Content } = await course.render()
       <Content />
     </article>
 
+    <!-- 代码示例部分 -->
+    {codeExamples.length > 0 && (
+      <section class="code-examples-section">
+        <h2>💻 代码示例</h2>
+        {codeExamples.map((example) => (
+          <div class="code-example-card">
+            <h3>{example.data.title}</h3>
+            <p>{example.data.description}</p>
+            <a href={`/course/day-${day}/code`} class="btn btn-secondary">
+              查看代码
+            </a>
+          </div>
+        ))}
+      </section>
+    )}
+
     <!-- 练习部分 -->
     {exercises.length > 0 && (
       <section class="exercises-section">
@@ -108,6 +125,11 @@ const { Content } = await course.render()
             <a href={`/course/day-${day}/exercise`} class="btn btn-primary">
               开始练习
             </a>
+            {solutions.length > 0 && (
+              <a href={`/course/day-${day}/solution`} class="btn btn-outline">
+                查看解决方案
+              </a>
+            )}
           </div>
         ))}
       </section>
