@@ -28,6 +28,9 @@ const { exercise, course, phase } = Astro.props
 
 const pageTitle = `练习 - Day ${day}: ${exercise.data.title} | 60天Web开发课程`
 const pageDescription = exercise.data.description
+
+// Get the Content component from the exercise
+const { Content } = await exercise.render()
 ---
 
 <!DOCTYPE html>
@@ -108,7 +111,7 @@ const pageDescription = exercise.data.description
 
     <!-- 练习内容 -->
     <article class="exercise-content">
-      <exercise.Content />
+      <Content />
     </article>
 
     <!-- 提示部分 -->

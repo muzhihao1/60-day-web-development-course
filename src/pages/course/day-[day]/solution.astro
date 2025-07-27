@@ -30,6 +30,9 @@ const { solution, course, exercise, phase } = Astro.props
 
 const pageTitle = `解决方案 - Day ${day}: ${solution.data.exerciseTitle} | 60天Web开发课程`
 const pageDescription = `Day ${day} 练习的参考解决方案：${solution.data.approach}`
+
+// Get the Content component from the solution
+const { Content } = await solution.render()
 ---
 
 <!DOCTYPE html>
@@ -85,7 +88,7 @@ const pageDescription = `Day ${day} 练习的参考解决方案：${solution.dat
     <!-- 解决方案内容 -->
     <article class="solution-content">
       <h2>📝 详细解释</h2>
-      <solution.Content />
+      <Content />
     </article>
 
     <!-- 代码文件 -->
