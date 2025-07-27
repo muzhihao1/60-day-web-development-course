@@ -490,6 +490,26 @@ h6 {
   margin-right: var(--space-3);
 }
 
+/* 内容错误提示 */
+.content-error {
+  background-color: var(--color-error);
+  color: white;
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  margin: var(--space-6) 0;
+}
+.content-error summary {
+  cursor: pointer;
+  margin-top: var(--space-3);
+}
+.content-error pre {
+  background-color: rgba(0,0,0,0.2);
+  padding: var(--space-4);
+  margin-top: var(--space-3);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+}
+
 /* 练习部分 */
 .exercises-section {
   margin-bottom: var(--space-8);
