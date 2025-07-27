@@ -179,10 +179,14 @@ const pageDescription = '从零基础到全栈开发，60天系统学习Web开�
     </section>
   </div>
 
-  <script>
+  <script define:vars={{ totalDays, phaseDataForScript: phaseData.map(p => ({
+    phaseId: p.phaseId,
+    startDay: p.phase.startDay,
+    endDay: p.phase.endDay,
+    totalDays: p.totalDays
+  })) }}>
     // 获取已完成的课程
     const completedDays = JSON.parse(localStorage.getItem('completedDays') || '[]')
-    const totalDays = {totalDays}
     
     // 更新整体进度
     function updateOverallProgress() {
@@ -198,12 +202,7 @@ const pageDescription = '从零基础到全栈开发，60天系统学习Web开�
     
     // 更新阶段进度
     function updatePhaseProgress() {
-      const phaseData = {JSON.stringify(phaseData.map(p => ({
-        phaseId: p.phaseId,
-        startDay: p.phase.startDay,
-        endDay: p.phase.endDay,
-        totalDays: p.totalDays
-      })))}
+      const phaseData = phaseDataForScript
       
       phaseData.forEach(phase => {
         const phaseCompleted = completedDays.filter((day: string) => {
