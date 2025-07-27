@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/60-day-modern-course/$1"
+    },
+    {
+      "source": "/",
+      "destination": "/60-day-modern-course/index.html"
+    }
+  ]
+}
