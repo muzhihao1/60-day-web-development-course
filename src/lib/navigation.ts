@@ -76,7 +76,7 @@ export function getDayNavigation(day: number): NavItem[] {
       ]
     },
     {
-      label: '💻 代码示例',
+      label: '代码示例',
       href: `/day-${day}/code`,
       type: 'practice',
       icon: '💻',
@@ -99,7 +99,7 @@ export function getDayNavigation(day: number): NavItem[] {
       ]
     },
     {
-      label: '✍️ 今日练习',
+      label: '今日练习',
       href: `/day-${day}/exercise`,
       type: 'practice',
       icon: '✍️',
@@ -122,7 +122,7 @@ export function getDayNavigation(day: number): NavItem[] {
       ]
     },
     {
-      label: '✅ 解决方案',
+      label: '解决方案',
       href: `/day-${day}/solution`,
       type: 'solution',
       icon: '✅',

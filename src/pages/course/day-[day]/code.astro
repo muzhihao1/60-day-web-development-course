@@ -1,0 +1,258 @@
+---
+/**
+ * 代码示例页面模板
+ * 展示每日课程的代码示例
+ */
+import { getCollection } from 'astro:content'
+import '../../../styles/global.css'
+
+export async function getStaticPaths() {
+  const codeExamples = await getCollection('codeExamples')
+  const courses = await getCollection('courses')
+  const phases = await getCollection('phases')
+  
+  // Generate paths for all 60 days
+  const paths = []
+  for (let day = 1; day <= 60; day++) {
+    const dayCodeExamples = codeExamples.filter(ex => ex.data.day === day)
+    const course = courses.find(c => c.data.day === day)
+    const phase = course ? phases.find(p => p.id === course.data.phase) : null
+    
+    paths.push({
+      params: { day: day.toString() },
+      props: { 
+        codeExamples: dayCodeExamples,
+        course,
+        phase,
+        day
+      }
+    })
+  }
+  
+  return paths
+}
+
+const { day } = Astro.params
+const { codeExamples, course, phase } = Astro.props
+
+const pageTitle = `代码示例 - Day ${day} | 60天Web开发课程`
+const pageDescription = `Day ${day} 的代码示例和参考`
+
+// Get Content components for code examples
+const examplesWithContent = await Promise.all(
+  codeExamples.map(async (example) => ({
+    ...example,
+    Content: (await example.render()).Content
+  }))
+)
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription}>
+</head>
+<body>
+  <div class="course-container">
+    <!-- 面包屑导航 -->
+    <nav class="breadcrumb" aria-label="面包屑导航">
+      <ol>
+        <li><a href="/">首页</a></li>
+        <li><a href="/course">课程</a></li>
+        {phase && (
+          <>
+            <li><a href={`/course/phase-${phase.data.number}`}>{phase.data.name}</a></li>
+          </>
+        )}
+        <li><a href={`/course/day-${day}`}>Day {day}</a></li>
+        <li aria-current="page">代码示例</li>
+      </ol>
+    </nav>
+
+    <!-- 页面头部 -->
+    <header class="code-header">
+      <h1 class="code-title">
+        <span class="code-label">Day {day} 代码示例</span>
+        {course && course.data.title}
+      </h1>
+      
+      <p class="code-description">以下是今天课程的代码示例和参考实现</p>
+    </header>
+
+    {codeExamples.length > 0 ? (
+      <!-- 代码示例列表 -->
+      <div class="code-examples">
+        {examplesWithContent.map((example, index) => (
+          <section class="code-example-section" key={index}>
+            <h2>{example.data.title}</h2>
+            <p class="example-description">{example.data.description}</p>
+            
+            <div class="example-meta">
+              <span class="language-badge">{example.data.language}</span>
+              {example.data.concepts && (
+                <div class="concepts">
+                  {example.data.concepts.map(concept => (
+                    <span class="concept-tag">{concept}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+            
+            <article class="example-content">
+              <example.Content />
+            </article>
+          </section>
+        ))}
+      </div>
+    ) : (
+      <!-- 占位内容 -->
+      <div class="empty-state">
+        <p>暂无代码示例</p>
+        <p class="empty-description">Day {day} 的代码示例即将添加</p>
+      </div>
+    )}
+
+    <!-- 导航按钮 -->
+    <nav class="code-navigation">
+      <a href={`/course/day-${day}`} class="nav-back">
+        ← 返回课程
+      </a>
+      
+      <a href={`/course/day-${day}/exercise`} class="btn btn-primary">
+        开始练习 →
+      </a>
+    </nav>
+  </div>
+
+  <style>
+    /* 代码示例页面特定样式 */
+    .code-header {
+      margin-bottom: var(--space-8);
+    }
+
+    .code-label {
+      color: var(--color-primary);
+      font-size: var(--text-xl);
+      display: block;
+      margin-bottom: var(--space-2);
+    }
+
+    .code-title {
+      font-size: var(--text-3xl);
+      margin-bottom: var(--space-4);
+    }
+
+    .code-description {
+      font-size: var(--text-lg);
+      color: var(--text-secondary);
+    }
+
+    .code-examples {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    .code-example-section {
+      background-color: var(--bg-secondary);
+      padding: var(--space-6);
+      border-radius: var(--radius-lg);
+    }
+
+    .code-example-section h2 {
+      margin-bottom: var(--space-3);
+    }
+
+    .example-description {
+      color: var(--text-secondary);
+      margin-bottom: var(--space-4);
+    }
+
+    .example-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+
+    .language-badge {
+      background-color: var(--color-primary);
+      color: white;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+    }
+
+    .concepts {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .concept-tag {
+      background-color: var(--bg-tertiary);
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    .example-content {
+      margin-top: var(--space-4);
+    }
+
+    .example-content pre {
+      background-color: var(--bg-primary);
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+    }
+
+    .example-content code {
+      font-family: 'Consolas', 'Monaco', monospace;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: var(--space-12) var(--space-4);
+      color: var(--text-secondary);
+    }
+
+    .empty-state p:first-child {
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-2);
+    }
+
+    .code-navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: var(--space-8);
+      padding-top: var(--space-8);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 768px) {
+      .example-meta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .code-navigation {
+        flex-direction: column;
+        gap: var(--space-4);
+      }
+    }
+  </style>
+</body>
+</html>
