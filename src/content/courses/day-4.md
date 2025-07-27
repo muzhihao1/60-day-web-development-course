@@ -26,7 +26,7 @@ resources:
     type: "documentation"
   - title: "MDN: Flexbox完整指南"
     url: "https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flexible_Box_Layout"
-    type: "guide"
+    type: "documentation"
 ---
 
 # Day 04: CSS3核心概念

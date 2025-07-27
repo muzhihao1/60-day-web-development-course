@@ -26,7 +26,7 @@ resources:
     type: "documentation"
   - title: "MDN: 使用HTML5音频和视频"
     url: "https://developer.mozilla.org/zh-CN/docs/Web/Guide/Audio_and_video_delivery"
-    type: "guide"
+    type: "documentation"
 ---
 
 # Day 03: HTML5表单与多媒体
