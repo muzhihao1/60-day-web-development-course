@@ -213,11 +213,15 @@ const { Content } = await exercise.render()
     // 恢复保存的进度
     const savedStates = localStorage.getItem(`exercise-${Astro.params.day}-checkpoints`)
     if (savedStates) {
-      const states = JSON.parse(savedStates)
-      checkboxes.forEach((cb: any, index) => {
-        cb.checked = states[index] || false
-      })
-      updateProgress()
+      try {
+        const states = JSON.parse(savedStates)
+        checkboxes.forEach((cb: any, index) => {
+          cb.checked = states[index] || false
+        })
+        updateProgress()
+      } catch (error) {
+        console.error('Error parsing saved checkpoints:', error)
+      }
     }
     
     // 监听checkbox变化
@@ -233,7 +237,13 @@ const { Content } = await exercise.render()
         timestamp: new Date().toISOString()
       }
       
-      const allProgress = JSON.parse(localStorage.getItem('exerciseProgress') || '{}')
+      let allProgress = {}
+      try {
+        allProgress = JSON.parse(localStorage.getItem('exerciseProgress') || '{}')
+      } catch (error) {
+        console.error('Error parsing exerciseProgress:', error)
+        allProgress = {}
+      }
       allProgress[`day-${Astro.params.day}`] = progress
       localStorage.setItem('exerciseProgress', JSON.stringify(allProgress))
       

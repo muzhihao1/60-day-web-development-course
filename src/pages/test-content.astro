@@ -1,0 +1,36 @@
+---
+import { getEntry } from 'astro:content'
+
+// 获取day-2的内容
+const course = await getEntry('courses', 'day-2')
+const { Content } = await course.render()
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试内容渲染</title>
+</head>
+<body>
+  <h1>测试内容渲染</h1>
+  
+  <div style="border: 2px solid blue; padding: 20px; margin: 20px;">
+    <h2>内容信息</h2>
+    <p>标题: {course.data.title}</p>
+    <p>Body存在: {course.body ? '是' : '否'}</p>
+    <p>Body长度: {course.body?.length || 0}</p>
+  </div>
+
+  <div style="border: 2px solid green; padding: 20px; margin: 20px;">
+    <h2>使用Content组件渲染</h2>
+    <Content />
+  </div>
+
+  <div style="border: 2px solid red; padding: 20px; margin: 20px;">
+    <h2>直接显示body前500字符</h2>
+    <pre>{course.body?.substring(0, 500)}</pre>
+  </div>
+</body>
+</html>

@@ -89,17 +89,6 @@ const { Content } = await course.render()
       </ul>
     </section>
 
-    <!-- 调试信息 -->
-    <div class="debug-info" style="background: #f0f0f0; padding: 1rem; margin: 1rem 0; border: 2px solid red;">
-      <h3>🔍 调试信息</h3>
-      <p><strong>Day:</strong> {day}</p>
-      <p><strong>Title:</strong> {course.data.title}</p>
-      <p><strong>Body exists:</strong> {course.body ? 'Yes' : 'No'}</p>
-      <p><strong>Body length:</strong> {course.body?.length || 0} characters</p>
-      <p><strong>First 200 chars of body:</strong></p>
-      <pre style="white-space: pre-wrap;">{course.body?.substring(0, 200) || 'No body content'}</pre>
-    </div>
-
     <!-- 主要内容 -->
     <article class="course-content">
       <Content />
@@ -195,7 +184,14 @@ const { Content } = await course.render()
     // 进度追踪脚本
     document.querySelector('.mark-complete')?.addEventListener('click', (e) => {
       const day = (e.target as HTMLElement).dataset.day
-      const completed = JSON.parse(localStorage.getItem('completedDays') || '[]')
+      let completed = []
+      
+      try {
+        completed = JSON.parse(localStorage.getItem('completedDays') || '[]')
+      } catch (error) {
+        console.error('Error parsing completedDays:', error)
+        completed = []
+      }
       
       if (!completed.includes(day)) {
         completed.push(day)
@@ -206,13 +202,22 @@ const { Content } = await course.render()
     })
 
     // 检查是否已完成
-    const completedDays = JSON.parse(localStorage.getItem('completedDays') || '[]')
+    let completedDays = []
+    try {
+      completedDays = JSON.parse(localStorage.getItem('completedDays') || '[]')
+    } catch (error) {
+      console.error('Error parsing completedDays:', error)
+      completedDays = []
+    }
+    
     const currentDay = document.querySelector('.mark-complete')?.getAttribute('data-day')
     
     if (completedDays.includes(currentDay)) {
       const btn = document.querySelector('.mark-complete') as HTMLElement
-      btn.textContent = '✓ 已完成'
-      btn.classList.add('completed')
+      if (btn) {
+        btn.textContent = '✓ 已完成'
+        btn.classList.add('completed')
+      }
     }
   </script>
 </body>
