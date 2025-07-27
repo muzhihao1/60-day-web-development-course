@@ -1,0 +1,317 @@
+---
+import { calculateProgress } from '@lib/navigation';
+
+export interface Props {
+  currentDay?: number;
+}
+
+const { currentDay } = Astro.props;
+
+// 从localStorage获取已完成的天数（客户端会更新这个值）
+// 这里使用示例数据，实际应该从用户数据中获取
+const completedDays = [1, 2, 3]; // 示例数据
+const progress = calculateProgress(completedDays);
+const totalDays = 60;
+const currentProgress = currentDay || Math.max(...completedDays, 0);
+---
+
+<div class="progress-container" id="progress-bar">
+  <div class="progress-info">
+    <span class="progress-label">学习进度</span>
+    <span class="progress-stats">
+      <span class="current-day">Day {currentProgress}</span>
+      <span class="separator">/</span>
+      <span class="total-days">{totalDays}</span>
+    </span>
+  </div>
+  
+  <div class="progress-track">
+    <div 
+      class="progress-bar-fill" 
+      style={`width: ${progress.overall}%`}
+      role="progressbar"
+      aria-valuenow={progress.overall}
+      aria-valuemin="0"
+      aria-valuemax="100"
+    >
+      <span class="progress-percentage">{progress.overall}%</span>
+    </div>
+    
+    <!-- 里程碑标记 -->
+    <div class="milestones">
+      {[20, 40, 60, 80].map(milestone => (
+        <div 
+          class={`milestone ${progress.overall >= milestone ? 'reached' : ''}`}
+          style={`left: ${milestone}%`}
+          title={`${milestone}% 完成`}
+        />
+      ))}
+    </div>
+  </div>
+  
+  <!-- 阶段进度详情 -->
+  <button class="progress-details-toggle" aria-label="查看详细进度">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+  
+  <div class="progress-details" id="progress-details">
+    {progress.phases.map((phase, index) => (
+      <div class="phase-progress-item">
+        <span class="phase-name">阶段 {index + 1}</span>
+        <div class="phase-progress-bar">
+          <div 
+            class="phase-progress-fill"
+            style={`width: ${phase.progress}%`}
+          />
+        </div>
+        <span class="phase-percentage">{phase.progress}%</span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .progress-container {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.75rem 1.5rem;
+    z-index: 90;
+    transition: all 0.3s ease;
+  }
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .progress-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .progress-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .current-day {
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .progress-track {
+    position: relative;
+    height: 8px;
+    background: var(--color-bg-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      var(--color-primary) 0%,
+      var(--color-accent) 100%
+    );
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    position: relative;
+  }
+
+  .progress-percentage {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  /* 里程碑 */
+  .milestones {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .milestone {
+    position: absolute;
+    top: -2px;
+    width: 2px;
+    height: calc(100% + 4px);
+    background: var(--color-border);
+    transition: all 0.3s ease;
+  }
+
+  .milestone.reached {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  /* 详情切换按钮 */
+  .progress-details-toggle {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .progress-details-toggle:hover {
+    background: var(--color-border);
+  }
+
+  .progress-details-toggle svg {
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .progress-container.expanded .progress-details-toggle svg {
+    transform: rotate(180deg);
+  }
+
+  /* 详细进度 */
+  .progress-details {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    gap: 0.75rem;
+  }
+
+  .progress-container.expanded .progress-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .phase-progress-item {
+    display: grid;
+    grid-template-columns: 80px 1fr 50px;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .phase-name {
+    font-size: 0.813rem;
+    color: var(--color-text-secondary);
+  }
+
+  .phase-progress-bar {
+    height: 4px;
+    background: var(--color-bg-secondary);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .phase-progress-fill {
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  .phase-percentage {
+    font-size: 0.813rem;
+    font-weight: 500;
+    color: var(--color-text);
+    text-align: right;
+  }
+
+  /* 自动隐藏效果 */
+  .progress-container.minimized {
+    transform: translateY(-100%);
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .progress-container {
+      padding: 0.5rem 1rem;
+    }
+
+    .progress-label {
+      font-size: 0.813rem;
+    }
+
+    .progress-track {
+      height: 6px;
+    }
+
+    .phase-progress-item {
+      grid-template-columns: 60px 1fr 40px;
+      gap: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  // 展开/收起详情
+  const container = document.getElementById('progress-bar');
+  const toggleBtn = document.querySelector('.progress-details-toggle');
+  
+  toggleBtn?.addEventListener('click', () => {
+    container?.classList.toggle('expanded');
+  });
+
+  // 滚动时自动隐藏/显示
+  let lastScrollY = 0;
+  let scrollTimer: number;
+
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+    
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      // 向下滚动时隐藏
+      container?.classList.add('minimized');
+    } else {
+      // 向上滚动时显示
+      container?.classList.remove('minimized');
+    }
+    
+    lastScrollY = currentScrollY;
+    
+    // 清除之前的定时器
+    clearTimeout(scrollTimer);
+    
+    // 设置新的定时器，在停止滚动后显示进度条
+    scrollTimer = setTimeout(() => {
+      container?.classList.remove('minimized');
+    }, 1000);
+  });
+
+  // 更新进度（从localStorage读取）
+  function updateProgress() {
+    const savedProgress = localStorage.getItem('courseProgress');
+    if (savedProgress) {
+      const data = JSON.parse(savedProgress);
+      // 这里可以更新进度条的显示
+      // 实际项目中需要重新计算并更新DOM
+    }
+  }
+
+  // 页面加载时更新进度
+  updateProgress();
+
+  // 监听进度更新事件
+  window.addEventListener('progressUpdate', updateProgress);
+</script>

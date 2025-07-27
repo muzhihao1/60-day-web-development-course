@@ -1,0 +1,540 @@
+---
+/**
+ * 解决方案页面模板
+ * 展示每日练习的参考解决方案
+ */
+import { getCollection } from 'astro:content'
+import type { Solution, PhaseInfo } from '../../../types'
+import '../../../styles/global.css'
+
+export async function getStaticPaths() {
+  const solutions = await getCollection('solutions')
+  const courses = await getCollection('courses')
+  const exercises = await getCollection('exercises')
+  const phases = await getCollection('phases')
+  
+  return solutions.map((solution) => {
+    const course = courses.find(c => c.data.day === solution.data.day)
+    const exercise = exercises.find(e => e.data.day === solution.data.day)
+    const phase = phases.find(p => p.id === course?.data.phase)
+    
+    return {
+      params: { day: solution.data.day.toString() },
+      props: { solution, course, exercise, phase }
+    }
+  })
+}
+
+const { day } = Astro.params
+const { solution, course, exercise, phase } = Astro.props
+
+const pageTitle = `解决方案 - Day ${day}: ${solution.data.exerciseTitle} | 60天Web开发课程`
+const pageDescription = `Day ${day} 练习的参考解决方案：${solution.data.approach}`
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription}>
+</head>
+<body>
+  <div class="course-container">
+    <!-- 面包屑导航 -->
+    <nav class="breadcrumb" aria-label="面包屑导航">
+      <ol>
+        <li><a href="/">首页</a></li>
+        <li><a href="/course">课程</a></li>
+        <li><a href={`/course/phase-${phase.data.number}`}>{phase.data.name}</a></li>
+        <li><a href={`/course/day-${day}`}>Day {day}</a></li>
+        <li><a href={`/course/day-${day}/exercise`}>练习</a></li>
+        <li aria-current="page">解决方案</li>
+      </ol>
+    </nav>
+
+    <!-- 解决方案头部 -->
+    <header class="solution-header">
+      <div class="solution-meta">
+        <span class="phase-badge">{phase.data.name}</span>
+        <span class="solution-badge">参考解决方案</span>
+      </div>
+      
+      <h1 class="solution-title">
+        <span class="solution-label">Day {day} 解决方案</span>
+        {solution.data.exerciseTitle}
+      </h1>
+      
+      <div class="solution-approach">
+        <h2>💡 解决思路</h2>
+        <p>{solution.data.approach}</p>
+      </div>
+    </header>
+
+    <!-- 关键要点 -->
+    <section class="key-takeaways">
+      <h2>🎯 关键要点</h2>
+      <ul>
+        {solution.data.keyTakeaways.map((takeaway) => (
+          <li>{takeaway}</li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- 解决方案内容 -->
+    <article class="solution-content">
+      <h2>📝 详细解释</h2>
+      <solution.Content />
+    </article>
+
+    <!-- 代码文件 -->
+    <section class="solution-files">
+      <h2>💻 完整代码</h2>
+      <div class="files-list">
+        {solution.data.files.map((file) => (
+          <div class="file-item">
+            <div class="file-header">
+              <h3>{file.path}</h3>
+              <span class="file-language">{file.language}</span>
+            </div>
+            {file.description && (
+              <p class="file-description">{file.description}</p>
+            )}
+            <div class="file-actions">
+              <button 
+                class="btn btn-secondary copy-code" 
+                data-file-path={file.path}
+              >
+                📋 复制代码
+              </button>
+              <a 
+                href={`/course/day-${day}/solution/${file.path}`} 
+                class="btn btn-secondary"
+                target="_blank"
+              >
+                🔗 查看完整文件
+              </a>
+            </div>
+            <div class="code-preview">
+              <pre><code class={`language-${file.language}`}>
+                {/* 这里将在内容迁移时填充实际代码内容 */}
+                <span class="code-placeholder">代码内容将在这里显示...</span>
+              </code></pre>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- 常见错误 -->
+    {solution.data.commonMistakes && solution.data.commonMistakes.length > 0 && (
+      <section class="common-mistakes">
+        <h2>⚠️ 常见错误</h2>
+        <div class="mistakes-list">
+          {solution.data.commonMistakes.map((mistake, index) => (
+            <div class="mistake-item">
+              <span class="mistake-number">{index + 1}</span>
+              <p>{mistake}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- 扩展练习 -->
+    {solution.data.extensions && solution.data.extensions.length > 0 && (
+      <section class="extensions">
+        <h2>🚀 扩展练习</h2>
+        <p>完成基础练习后，可以尝试以下扩展挑战：</p>
+        <div class="extensions-list">
+          {solution.data.extensions.map((extension) => (
+            <div class="extension-item">
+              <h3>{extension.title}</h3>
+              <p>{extension.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- 学习反馈 -->
+    <section class="learning-feedback">
+      <h2>📊 学习反馈</h2>
+      <div class="feedback-options">
+        <p>这个解决方案对你有帮助吗？</p>
+        <div class="feedback-buttons">
+          <button class="btn btn-success feedback-btn" data-feedback="helpful">
+            👍 很有帮助
+          </button>
+          <button class="btn btn-secondary feedback-btn" data-feedback="neutral">
+            😐 一般般
+          </button>
+          <button class="btn btn-secondary feedback-btn" data-feedback="confusing">
+            😕 还是不懂
+          </button>
+        </div>
+        <div class="feedback-message" style="display: none;">
+          <p>感谢你的反馈！</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 导航按钮 -->
+    <nav class="solution-navigation">
+      <a href={`/course/day-${day}/exercise`} class="nav-back">
+        ← 返回练习
+      </a>
+      
+      <div class="nav-actions">
+        <a href={`/course/day-${day}`} class="btn btn-secondary">
+          回到课程
+        </a>
+        {parseInt(day) < 60 && (
+          <a href={`/course/day-${parseInt(day) + 1}`} class="btn btn-primary">
+            下一天课程 →
+          </a>
+        )}
+      </div>
+    </nav>
+  </div>
+
+  <script>
+    // 复制代码功能
+    document.querySelectorAll('.copy-code').forEach(button => {
+      button.addEventListener('click', async (e) => {
+        const btn = e.target as HTMLElement
+        const filePath = btn.dataset.filePath
+        const codeBlock = btn.closest('.file-item')?.querySelector('code')
+        
+        if (codeBlock) {
+          try {
+            await navigator.clipboard.writeText(codeBlock.textContent || '')
+            const originalText = btn.textContent
+            btn.textContent = '✓ 已复制'
+            btn.classList.add('copied')
+            
+            setTimeout(() => {
+              btn.textContent = originalText
+              btn.classList.remove('copied')
+            }, 2000)
+          } catch (err) {
+            console.error('复制失败:', err)
+          }
+        }
+      })
+    })
+    
+    // 学习反馈
+    const feedbackBtns = document.querySelectorAll('.feedback-btn')
+    const feedbackMessage = document.querySelector('.feedback-message') as HTMLElement
+    
+    feedbackBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const feedback = (e.target as HTMLElement).dataset.feedback
+        
+        // 保存反馈到localStorage
+        const feedbackData = {
+          day: Astro.params.day,
+          feedback: feedback,
+          timestamp: new Date().toISOString()
+        }
+        
+        const allFeedback = JSON.parse(localStorage.getItem('solutionFeedback') || '{}')
+        allFeedback[`day-${Astro.params.day}`] = feedbackData
+        localStorage.setItem('solutionFeedback', JSON.stringify(allFeedback))
+        
+        // 显示反馈消息
+        feedbackBtns.forEach(b => b.classList.remove('active'))
+        ;(e.target as HTMLElement).classList.add('active')
+        
+        if (feedbackMessage) {
+          feedbackMessage.style.display = 'block'
+          
+          // 根据反馈类型显示不同消息
+          const messages = {
+            helpful: '太好了！继续加油！🎉',
+            neutral: '如果有疑问，可以重新复习课程内容。',
+            confusing: '建议重新阅读课程内容，或在社区寻求帮助。'
+          }
+          
+          feedbackMessage.innerHTML = `<p>感谢你的反馈！${messages[feedback as keyof typeof messages]}</p>`
+        }
+      })
+    })
+    
+    // 恢复之前的反馈
+    const savedFeedback = JSON.parse(localStorage.getItem('solutionFeedback') || '{}')
+    const dayFeedback = savedFeedback[`day-${Astro.params.day}`]
+    
+    if (dayFeedback) {
+      const btn = document.querySelector(`[data-feedback="${dayFeedback.feedback}"]`)
+      if (btn) {
+        btn.classList.add('active')
+      }
+    }
+  </script>
+
+  <style>
+    /* 解决方案页面特定样式 */
+    .solution-header {
+      margin-bottom: var(--space-8);
+    }
+
+    .solution-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    .solution-badge {
+      background-color: var(--color-success);
+      color: white;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+      font-weight: 500;
+    }
+
+    .solution-label {
+      color: var(--color-success);
+      font-size: var(--text-xl);
+      display: block;
+      margin-bottom: var(--space-2);
+    }
+
+    .solution-approach {
+      background-color: var(--bg-secondary);
+      padding: var(--space-6);
+      border-radius: var(--radius-lg);
+      margin-top: var(--space-6);
+    }
+
+    .solution-approach h2 {
+      margin-bottom: var(--space-3);
+    }
+
+    .key-takeaways {
+      background-color: var(--bg-tertiary);
+      padding: var(--space-6);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-8);
+    }
+
+    .key-takeaways ul {
+      list-style-position: inside;
+      color: var(--text-secondary);
+    }
+
+    .key-takeaways li {
+      margin-bottom: var(--space-2);
+    }
+
+    .solution-files {
+      margin-bottom: var(--space-8);
+    }
+
+    .files-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .file-item {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .file-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-4) var(--space-6);
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .file-header h3 {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: var(--text-base);
+    }
+
+    .file-language {
+      background-color: var(--bg-tertiary);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    .file-description {
+      padding: var(--space-4) var(--space-6);
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-color);
+      margin: 0;
+    }
+
+    .file-actions {
+      display: flex;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-6);
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .copy-code.copied {
+      background-color: var(--color-success);
+      color: white;
+    }
+
+    .code-preview {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .code-preview pre {
+      margin: 0;
+      padding: var(--space-6);
+      background-color: var(--bg-primary);
+    }
+
+    .code-placeholder {
+      color: var(--text-tertiary);
+      font-style: italic;
+    }
+
+    .common-mistakes {
+      background-color: var(--bg-secondary);
+      padding: var(--space-6);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-8);
+      border: 1px solid var(--color-warning);
+    }
+
+    .mistakes-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .mistake-item {
+      display: flex;
+      gap: var(--space-3);
+    }
+
+    .mistake-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      background-color: var(--color-warning);
+      color: white;
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .extensions {
+      margin-bottom: var(--space-8);
+    }
+
+    .extensions-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+    }
+
+    .extension-item {
+      background-color: var(--bg-secondary);
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-primary);
+    }
+
+    .extension-item h3 {
+      color: var(--color-primary);
+      margin-bottom: var(--space-2);
+    }
+
+    .extension-item p {
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .learning-feedback {
+      background-color: var(--bg-secondary);
+      padding: var(--space-6);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-8);
+      text-align: center;
+    }
+
+    .feedback-buttons {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-3);
+      margin: var(--space-4) 0;
+    }
+
+    .feedback-btn.active {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .feedback-message {
+      margin-top: var(--space-4);
+      color: var(--color-success);
+      font-weight: 500;
+    }
+
+    .solution-navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: var(--space-8);
+      padding-top: var(--space-8);
+      border-top: 1px solid var(--border-color);
+    }
+
+    @media (max-width: 768px) {
+      .file-actions {
+        flex-direction: column;
+      }
+
+      .file-actions .btn {
+        width: 100%;
+      }
+
+      .feedback-buttons {
+        flex-direction: column;
+      }
+
+      .feedback-btn {
+        width: 100%;
+      }
+
+      .solution-navigation {
+        flex-direction: column;
+        gap: var(--space-4);
+      }
+
+      .nav-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+      }
+
+      .nav-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</body>
+</html>

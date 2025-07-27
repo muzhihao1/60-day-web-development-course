@@ -1,0 +1,17 @@
+{
+  "number": 5,
+  "name": "全栈部署",
+  "description": "整合前后端知识，学习DevOps实践、云部署、CI/CD和性能优化",
+  "startDay": 53,
+  "endDay": 60,
+  "icon": "🌐",
+  "objectives": [
+    "整合前后端构建全栈应用",
+    "掌握Docker容器化技术",
+    "学会使用CI/CD流程",
+    "部署到云平台(Vercel/AWS/Railway)",
+    "实现性能监控和优化",
+    "完成一个完整的全栈项目"
+  ],
+  "prerequisites": ["React开发经验", "Node.js后端开发", "数据库基础"]
+}

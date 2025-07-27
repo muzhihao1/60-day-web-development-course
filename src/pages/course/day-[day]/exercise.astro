@@ -1,0 +1,450 @@
+---
+/**
+ * 练习页面模板
+ * 展示每日课程的练习内容
+ */
+import { getCollection } from 'astro:content'
+import type { Exercise, PhaseInfo } from '../../../types'
+import '../../../styles/global.css'
+
+export async function getStaticPaths() {
+  const exercises = await getCollection('exercises')
+  const courses = await getCollection('courses')
+  const phases = await getCollection('phases')
+  
+  return exercises.map((exercise) => {
+    const course = courses.find(c => c.data.day === exercise.data.day)
+    const phase = phases.find(p => p.id === course?.data.phase)
+    
+    return {
+      params: { day: exercise.data.day.toString() },
+      props: { exercise, course, phase }
+    }
+  })
+}
+
+const { day } = Astro.params
+const { exercise, course, phase } = Astro.props
+
+const pageTitle = `练习 - Day ${day}: ${exercise.data.title} | 60天Web开发课程`
+const pageDescription = exercise.data.description
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription}>
+</head>
+<body>
+  <div class="course-container">
+    <!-- 面包屑导航 -->
+    <nav class="breadcrumb" aria-label="面包屑导航">
+      <ol>
+        <li><a href="/">首页</a></li>
+        <li><a href="/course">课程</a></li>
+        <li><a href={`/course/phase-${phase.data.number}`}>{phase.data.name}</a></li>
+        <li><a href={`/course/day-${day}`}>Day {day}</a></li>
+        <li aria-current="page">练习</li>
+      </ol>
+    </nav>
+
+    <!-- 练习头部 -->
+    <header class="exercise-header">
+      <div class="exercise-meta-top">
+        <span class="phase-badge">{phase.data.name}</span>
+        <span class="difficulty-badge difficulty-{exercise.data.difficulty}">
+          {exercise.data.difficulty === 'beginner' ? '初级' : 
+           exercise.data.difficulty === 'intermediate' ? '中级' : '高级'}
+        </span>
+        <span class="time-estimate">预计时间：{exercise.data.estimatedTime}分钟</span>
+      </div>
+      
+      <h1 class="exercise-title">
+        <span class="exercise-label">Day {day} 练习</span>
+        {exercise.data.title}
+      </h1>
+      
+      <p class="exercise-description">{exercise.data.description}</p>
+    </header>
+
+    <!-- 练习要求 -->
+    <section class="exercise-requirements">
+      <h2>📝 练习要求</h2>
+      <ul>
+        {exercise.data.requirements.map((requirement) => (
+          <li>{requirement}</li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- 任务清单 -->
+    {exercise.data.checkpoints && exercise.data.checkpoints.length > 0 && (
+      <section class="exercise-checkpoints">
+        <h2>✅ 任务清单</h2>
+        <div class="checkpoints-list">
+          {exercise.data.checkpoints.map((checkpoint, index) => (
+            <div class="checkpoint-item">
+              <input 
+                type="checkbox" 
+                id={`checkpoint-${index}`}
+                data-checkpoint={index}
+                class="checkpoint-checkbox"
+              />
+              <label for={`checkpoint-${index}`}>{checkpoint.task}</label>
+            </div>
+          ))}
+        </div>
+        <div class="checkpoint-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%"></div>
+          </div>
+          <span class="progress-text">0 / {exercise.data.checkpoints.length} 完成</span>
+        </div>
+      </section>
+    )}
+
+    <!-- 练习内容 -->
+    <article class="exercise-content">
+      <exercise.Content />
+    </article>
+
+    <!-- 提示部分 -->
+    {exercise.data.hints && exercise.data.hints.length > 0 && (
+      <section class="exercise-hints">
+        <h2>💡 提示</h2>
+        <div class="hints-container">
+          {exercise.data.hints.map((hint, index) => (
+            <details class="hint-item">
+              <summary>提示 {index + 1}</summary>
+              <p>{hint}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- 起始代码 -->
+    {exercise.data.starterCode && (
+      <section class="starter-code">
+        <h2>🚀 起始代码</h2>
+        <p>你可以从以下代码开始：</p>
+        <div class="code-reference">
+          <a 
+            href={exercise.data.starterCode.path} 
+            class="btn btn-secondary"
+            download
+          >
+            下载起始代码
+          </a>
+          <span class="code-language">{exercise.data.starterCode.language}</span>
+        </div>
+      </section>
+    )}
+
+    <!-- 提交区域 -->
+    <section class="exercise-submission">
+      <h2>📤 提交你的解决方案</h2>
+      <div class="submission-options">
+        <div class="option-card">
+          <h3>选项 1：本地测试</h3>
+          <p>在本地完成练习后，点击查看参考解决方案进行对比。</p>
+          <a href={`/course/day-${day}/solution`} class="btn btn-primary">
+            查看解决方案
+          </a>
+        </div>
+        
+        <div class="option-card">
+          <h3>选项 2：在线编辑器</h3>
+          <p>使用在线代码编辑器完成练习（即将推出）。</p>
+          <button class="btn btn-secondary" disabled>
+            打开编辑器
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 导航按钮 -->
+    <nav class="exercise-navigation">
+      <a href={`/course/day-${day}`} class="nav-back">
+        ← 返回课程
+      </a>
+      
+      <div class="nav-actions">
+        <button class="btn btn-success save-progress">
+          保存进度
+        </button>
+        <a href={`/course/day-${day}/solution`} class="btn btn-primary">
+          查看解决方案 →
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <script>
+    // 任务清单进度追踪
+    const checkboxes = document.querySelectorAll('.checkpoint-checkbox')
+    const progressFill = document.querySelector('.progress-fill') as HTMLElement
+    const progressText = document.querySelector('.progress-text')
+    
+    function updateProgress() {
+      const total = checkboxes.length
+      const checked = Array.from(checkboxes).filter((cb: any) => cb.checked).length
+      const percentage = (checked / total) * 100
+      
+      if (progressFill) {
+        progressFill.style.width = `${percentage}%`
+      }
+      
+      if (progressText) {
+        progressText.textContent = `${checked} / ${total} 完成`
+      }
+      
+      // 保存进度到localStorage
+      const checkpointStates = Array.from(checkboxes).map((cb: any) => cb.checked)
+      localStorage.setItem(`exercise-${Astro.params.day}-checkpoints`, JSON.stringify(checkpointStates))
+    }
+    
+    // 恢复保存的进度
+    const savedStates = localStorage.getItem(`exercise-${Astro.params.day}-checkpoints`)
+    if (savedStates) {
+      const states = JSON.parse(savedStates)
+      checkboxes.forEach((cb: any, index) => {
+        cb.checked = states[index] || false
+      })
+      updateProgress()
+    }
+    
+    // 监听checkbox变化
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', updateProgress)
+    })
+    
+    // 保存进度按钮
+    document.querySelector('.save-progress')?.addEventListener('click', () => {
+      const progress = {
+        day: Astro.params.day,
+        completed: Array.from(checkboxes).every((cb: any) => cb.checked),
+        timestamp: new Date().toISOString()
+      }
+      
+      const allProgress = JSON.parse(localStorage.getItem('exerciseProgress') || '{}')
+      allProgress[`day-${Astro.params.day}`] = progress
+      localStorage.setItem('exerciseProgress', JSON.stringify(allProgress))
+      
+      // 显示保存成功提示
+      const btn = document.querySelector('.save-progress') as HTMLElement
+      const originalText = btn.textContent
+      btn.textContent = '✓ 已保存'
+      btn.classList.add('saved')
+      
+      setTimeout(() => {
+        btn.textContent = originalText
+        btn.classList.remove('saved')
+      }, 2000)
+    })
+  </script>
+
+  <style>
+    /* 练习页面特定样式 */
+    .exercise-header {
+      margin-bottom: var(--space-8);
+    }
+
+    .exercise-meta-top {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    .exercise-label {
+      color: var(--color-primary);
+      font-size: var(--text-xl);
+      display: block;
+      margin-bottom: var(--space-2);
+    }
+
+    .exercise-requirements {
+      background-color: var(--bg-secondary);
+      padding: var(--space-6);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-6);
+    }
+
+    .exercise-checkpoints {
+      margin-bottom: var(--space-6);
+    }
+
+    .checkpoints-list {
+      background-color: var(--bg-secondary);
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-4);
+    }
+
+    .checkpoint-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) 0;
+    }
+
+    .checkpoint-checkbox {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .checkpoint-item label {
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .checkpoint-checkbox:checked + label {
+      text-decoration: line-through;
+      color: var(--text-tertiary);
+    }
+
+    .checkpoint-progress {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 8px;
+      background-color: var(--bg-tertiary);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: var(--color-success);
+      transition: width var(--transition-base);
+    }
+
+    .progress-text {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .hints-container {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .hint-item {
+      background-color: var(--bg-secondary);
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+    }
+
+    .hint-item summary {
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--color-primary);
+    }
+
+    .hint-item p {
+      margin-top: var(--space-3);
+      margin-bottom: 0;
+      color: var(--text-secondary);
+    }
+
+    .starter-code {
+      margin-bottom: var(--space-8);
+    }
+
+    .code-reference {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-top: var(--space-3);
+    }
+
+    .code-language {
+      color: var(--text-secondary);
+      font-size: var(--text-sm);
+    }
+
+    .submission-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-6);
+      margin-top: var(--space-4);
+    }
+
+    .option-card {
+      background-color: var(--bg-secondary);
+      padding: var(--space-6);
+      border-radius: var(--radius-lg);
+    }
+
+    .option-card h3 {
+      margin-bottom: var(--space-3);
+    }
+
+    .option-card p {
+      margin-bottom: var(--space-4);
+      color: var(--text-secondary);
+    }
+
+    .exercise-navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: var(--space-8);
+      padding-top: var(--space-8);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--text-secondary);
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: var(--space-3);
+    }
+
+    .save-progress.saved {
+      background-color: var(--color-success);
+    }
+
+    [disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      .submission-options {
+        grid-template-columns: 1fr;
+      }
+
+      .exercise-navigation {
+        flex-direction: column;
+        gap: var(--space-4);
+      }
+
+      .nav-actions {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .nav-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</body>
+</html>

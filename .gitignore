@@ -1,50 +1,59 @@
-# System files
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Dependencies
+# dependencies
 node_modules/
-bower_components/
 
-# Logs
-*.log
-logs/
+# Astro build output
+dist/
+.astro/
+
+# logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# Environment files
+# environment variables
 .env
-.env.local
-.env.*.local
+.env.production
 
-# Build outputs
-dist/
-build/
+# macOS
+.DS_Store
+
+# editor
+.vscode/
+.idea/
+
+# temporary files
+*.log
 *.tmp
-*.temp
 .cache/
 
-# IDE/Tool configurations
-.ai-rules/
-.augment/
+# production
+/build
 
-# Project specific exclusions
-astro-framework-analysis-report.md
-FINAL-CLEANUP-INSTRUCTIONS.md
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Temporary summary files
+TERMINAL_*_SUMMARY.md
+
+# Backup and temp folders
+backup-before-astro/
 备份/
 方案/
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.Python

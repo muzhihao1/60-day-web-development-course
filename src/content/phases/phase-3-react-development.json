@@ -1,0 +1,17 @@
+{
+  "number": 3,
+  "name": "React开发",
+  "description": "学习React框架，掌握组件化开发、状态管理、路由和现代前端工具链",
+  "startDay": 25,
+  "endDay": 40,
+  "icon": "⚛️",
+  "objectives": [
+    "掌握React核心概念和Hooks",
+    "学会组件化思维和设计模式",
+    "理解状态管理和Redux/Zustand",
+    "实现路由和页面导航",
+    "掌握现代构建工具和部署",
+    "开发完整的React应用"
+  ],
+  "prerequisites": ["JavaScript熟练", "ES6+语法", "HTML/CSS基础"]
+}

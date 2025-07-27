@@ -1,0 +1,478 @@
+---
+import { phases, getDayNavigation } from '@lib/navigation';
+import type { NavItem } from '@types/index';
+
+export interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+// 解析当前路径信息
+const pathParts = currentPath.split('/').filter(Boolean);
+const currentDay = pathParts[0]?.startsWith('day-') 
+  ? parseInt(pathParts[0].replace('day-', ''))
+  : null;
+
+const currentPhase = currentDay 
+  ? phases.find(p => p.days.includes(currentDay))
+  : null;
+
+// 获取用户进度（这里先用假数据，后续可以从localStorage或数据库读取）
+const completedDays = [1, 2, 3]; // 示例：已完成的天数
+
+// 检查导航项是否激活
+function isActive(href: string): boolean {
+  return currentPath === href || currentPath.startsWith(href + '/');
+}
+
+// 检查某天是否完成
+function isDayCompleted(day: number): boolean {
+  return completedDays.includes(day);
+}
+---
+
+<aside class="app-sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h2 class="sidebar-title">课程导航</h2>
+    <button class="sidebar-close" aria-label="关闭侧边栏">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <!-- 首页链接 -->
+    <div class="nav-section">
+      <a href="/" class={`nav-link ${currentPath === '/' ? 'active' : ''}`}>
+        <span class="nav-icon">🏠</span>
+        <span class="nav-text">课程首页</span>
+      </a>
+    </div>
+
+    <!-- 阶段导航 -->
+    {phases.map(phase => (
+      <div class="nav-section">
+        <div class={`phase-header ${currentPhase?.id === phase.id ? 'active' : ''}`}>
+          <span class="phase-icon">{phase.icon}</span>
+          <div class="phase-info">
+            <h3 class="phase-title">{phase.title}</h3>
+            <p class="phase-desc">{phase.description}</p>
+            <div class="phase-progress">
+              <div class="progress-bar">
+                <div 
+                  class="progress-fill" 
+                  style={`width: ${(phase.days.filter(d => isDayCompleted(d)).length / phase.days.length) * 100}%`}
+                />
+              </div>
+              <span class="progress-text">
+                {phase.days.filter(d => isDayCompleted(d)).length}/{phase.days.length} 完成
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 该阶段的天数列表 -->
+        <div class={`phase-days ${currentPhase?.id === phase.id ? 'expanded' : ''}`}>
+          {phase.days.map(day => {
+            const dayNavItems = getDayNavigation(day);
+            const isCurrentDay = currentDay === day;
+            
+            return (
+              <div class="day-section">
+                <a 
+                  href={`/day-${day}`} 
+                  class={`day-link ${isCurrentDay ? 'active' : ''} ${isDayCompleted(day) ? 'completed' : ''}`}
+                >
+                  <span class="day-status">
+                    {isDayCompleted(day) ? '✅' : isCurrentDay ? '📍' : '⭕'}
+                  </span>
+                  <span class="day-text">Day {day}</span>
+                </a>
+
+                {/* 当前天的子导航 */}
+                {isCurrentDay && (
+                  <div class="day-subnav">
+                    {dayNavItems.map(item => (
+                      <div class="subnav-section">
+                        <a 
+                          href={item.href} 
+                          class={`subnav-link ${isActive(item.href) ? 'active' : ''}`}
+                        >
+                          <span class="subnav-icon">{item.icon}</span>
+                          <span class="subnav-text">{item.label}</span>
+                        </a>
+                        
+                        {/* 子菜单 */}
+                        {item.children && isActive(item.href) && (
+                          <div class="subnav-children">
+                            {item.children.map(child => (
+                              <a 
+                                href={child.href} 
+                                class={`child-link ${currentPath.includes(child.href) ? 'active' : ''}`}
+                              >
+                                {child.label}
+                              </a>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    ))}
+
+    <!-- 实战项目 -->
+    <div class="nav-section">
+      <h3 class="section-title">🚀 实战项目</h3>
+      <div class="project-links">
+        <a href="/projects/portfolio" class="nav-link">个人作品集</a>
+        <a href="/projects/task-manager" class="nav-link">任务管理器</a>
+        <a href="/projects/ecommerce" class="nav-link">电商网站</a>
+        <a href="/projects/blog" class="nav-link">博客系统</a>
+        <a href="/projects/social-media" class="nav-link">社交应用</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <p class="copyright">© 2024 60天现代Web开发课程</p>
+  </div>
+</aside>
+
+<style>
+  .app-sidebar {
+    grid-area: sidebar;
+    width: var(--sidebar-width);
+    height: calc(100vh - var(--header-height));
+    position: sticky;
+    top: var(--header-height);
+    background: var(--color-bg);
+    border-right: 1px solid var(--color-border);
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sidebar-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .sidebar-close {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .sidebar-nav {
+    padding: 1rem 0;
+  }
+
+  .nav-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .nav-link:hover {
+    color: var(--color-text);
+    background: var(--color-bg-secondary);
+  }
+
+  .nav-link.active {
+    color: var(--color-primary);
+    background: rgba(66, 184, 131, 0.1);
+    border-left: 3px solid var(--color-primary);
+  }
+
+  .nav-icon {
+    font-size: 1.25rem;
+  }
+
+  /* 阶段样式 */
+  .phase-header {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: var(--radius-md);
+    margin: 0 0.75rem;
+  }
+
+  .phase-header:hover {
+    background: var(--color-bg-secondary);
+  }
+
+  .phase-header.active {
+    background: var(--color-bg-secondary);
+  }
+
+  .phase-header {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .phase-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .phase-info {
+    flex: 1;
+  }
+
+  .phase-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.25rem;
+  }
+
+  .phase-desc {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .phase-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--color-border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--color-primary);
+    transition: width 0.3s ease;
+  }
+
+  .progress-text {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+
+  /* 天数列表 */
+  .phase-days {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .phase-days.expanded {
+    max-height: 1000px;
+  }
+
+  .day-section {
+    margin-left: 3rem;
+  }
+
+  .day-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+  }
+
+  .day-link:hover {
+    color: var(--color-text);
+    background: var(--color-bg-secondary);
+  }
+
+  .day-link.active {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .day-link.completed {
+    color: var(--color-success);
+  }
+
+  .day-status {
+    font-size: 1rem;
+  }
+
+  /* 子导航 */
+  .day-subnav {
+    margin-left: 2rem;
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-border);
+  }
+
+  .subnav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+  }
+
+  .subnav-link:hover {
+    color: var(--color-text);
+    background: var(--color-bg-secondary);
+  }
+
+  .subnav-link.active {
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+
+  .subnav-children {
+    margin-left: 2rem;
+    margin-top: 0.25rem;
+  }
+
+  .child-link {
+    display: block;
+    padding: 0.375rem 1rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 0.813rem;
+    transition: all 0.2s;
+  }
+
+  .child-link:hover {
+    color: var(--color-text);
+  }
+
+  .child-link.active {
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+
+  /* 实战项目 */
+  .section-title {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .project-links {
+    margin-left: 3rem;
+  }
+
+  .project-links .nav-link {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  /* 页脚 */
+  .sidebar-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: auto;
+  }
+
+  .copyright {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .app-sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      z-index: 200;
+      transform: translateX(-100%);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .app-sidebar.show {
+      transform: translateX(0);
+    }
+
+    .sidebar-close {
+      display: block;
+    }
+
+    .sidebar-header {
+      padding-top: 2rem;
+    }
+  }
+</style>
+
+<script>
+  // 展开/收起阶段
+  const phaseHeaders = document.querySelectorAll('.phase-header');
+  
+  phaseHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+      const phaseDays = header.nextElementSibling;
+      const isExpanded = phaseDays?.classList.contains('expanded');
+      
+      // 收起所有其他阶段
+      document.querySelectorAll('.phase-days').forEach(days => {
+        days.classList.remove('expanded');
+      });
+      
+      // 切换当前阶段
+      if (!isExpanded) {
+        phaseDays?.classList.add('expanded');
+      }
+    });
+  });
+
+  // 默认展开当前阶段
+  const currentPhase = document.querySelector('.phase-header.active');
+  if (currentPhase) {
+    currentPhase.nextElementSibling?.classList.add('expanded');
+  }
+
+  // 移动端关闭按钮
+  const closeBtn = document.querySelector('.sidebar-close');
+  const sidebar = document.getElementById('sidebar');
+  
+  closeBtn?.addEventListener('click', () => {
+    sidebar?.classList.remove('show');
+  });
+</script>

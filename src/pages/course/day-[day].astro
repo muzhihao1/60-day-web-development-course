@@ -1,0 +1,183 @@
+---
+/**
+ * 每日课程页面模板
+ * 动态路由，根据day参数渲染对应的课程内容
+ */
+import { getCollection, getEntry } from 'astro:content'
+import type { DayContent, PhaseInfo } from '../../types'
+import '../../styles/global.css'
+
+export async function getStaticPaths() {
+  const courses = await getCollection('courses')
+  const phases = await getCollection('phases')
+  
+  return courses.map((course) => {
+    const phase = phases.find(p => p.id === course.data.phase)
+    return {
+      params: { day: course.data.day.toString() },
+      props: { course, phase }
+    }
+  })
+}
+
+const { day } = Astro.params
+const { course, phase } = Astro.props
+
+// 获取相关的练习和解决方案
+const exercises = await getCollection('exercises', ({ data }) => data.day === parseInt(day))
+const solutions = await getCollection('solutions', ({ data }) => data.day === parseInt(day))
+
+// 计算前一天和后一天的链接
+const prevDay = parseInt(day) > 1 ? parseInt(day) - 1 : null
+const nextDay = parseInt(day) < 60 ? parseInt(day) + 1 : null
+
+// 获取页面元数据
+const pageTitle = `Day ${day}: ${course.data.title} | 60天Web开发课程`
+const pageDescription = course.data.description
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription}>
+</head>
+<body>
+  <div class="course-container">
+    <!-- 面包屑导航 -->
+    <nav class="breadcrumb" aria-label="面包屑导航">
+      <ol>
+        <li><a href="/">首页</a></li>
+        <li><a href="/course">课程</a></li>
+        <li><a href={`/course/phase-${phase.data.number}`}>{phase.data.name}</a></li>
+        <li aria-current="page">Day {day}</li>
+      </ol>
+    </nav>
+
+    <!-- 课程头部 -->
+    <header class="course-header">
+      <div class="course-meta">
+        <span class="phase-badge">{phase.data.name}</span>
+        <span class="difficulty-badge difficulty-{course.data.difficulty}">
+          {course.data.difficulty === 'beginner' ? '初级' : 
+           course.data.difficulty === 'intermediate' ? '中级' : '高级'}
+        </span>
+        <span class="time-estimate">预计时间：{course.data.estimatedTime}分钟</span>
+      </div>
+      
+      <h1 class="course-title">
+        <span class="day-number">Day {day}</span>
+        {course.data.title}
+      </h1>
+      
+      <p class="course-description">{course.data.description}</p>
+    </header>
+
+    <!-- 学习目标 -->
+    <section class="learning-objectives">
+      <h2>📋 学习目标</h2>
+      <ul>
+        {course.data.objectives.map((objective) => (
+          <li>{objective}</li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- 主要内容 -->
+    <article class="course-content">
+      <course.Content />
+    </article>
+
+    <!-- 练习部分 -->
+    {exercises.length > 0 && (
+      <section class="exercises-section">
+        <h2>💪 今日练习</h2>
+        {exercises.map((exercise) => (
+          <div class="exercise-card">
+            <h3>{exercise.data.title}</h3>
+            <p>{exercise.data.description}</p>
+            <div class="exercise-meta">
+              <span class="difficulty">{exercise.data.difficulty}</span>
+              <span class="time">{exercise.data.estimatedTime}分钟</span>
+            </div>
+            <a href={`/course/day-${day}/exercise`} class="btn btn-primary">
+              开始练习
+            </a>
+          </div>
+        ))}
+      </section>
+    )}
+
+    <!-- 资源链接 -->
+    {course.data.resources && course.data.resources.length > 0 && (
+      <section class="resources-section">
+        <h2>📚 相关资源</h2>
+        <ul class="resources-list">
+          {course.data.resources.map((resource) => (
+            <li>
+              <a href={resource.url} target="_blank" rel="noopener noreferrer">
+                {resource.type === 'article' && '📄'}
+                {resource.type === 'video' && '🎥'}
+                {resource.type === 'documentation' && '📖'}
+                {resource.type === 'tool' && '🔧'}
+                {resource.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <!-- 导航按钮 -->
+    <nav class="course-navigation">
+      {prevDay && (
+        <a href={`/course/day-${prevDay}`} class="nav-prev">
+          ← Day {prevDay}
+        </a>
+      )}
+      
+      <a href="/course" class="nav-overview">课程总览</a>
+      
+      {nextDay && (
+        <a href={`/course/day-${nextDay}`} class="nav-next">
+          Day {nextDay} →
+        </a>
+      )}
+    </nav>
+
+    <!-- 进度追踪 -->
+    <div class="progress-tracker">
+      <button class="btn btn-success mark-complete" data-day={day}>
+        标记为已完成
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // 进度追踪脚本
+    document.querySelector('.mark-complete')?.addEventListener('click', (e) => {
+      const day = (e.target as HTMLElement).dataset.day
+      const completed = JSON.parse(localStorage.getItem('completedDays') || '[]')
+      
+      if (!completed.includes(day)) {
+        completed.push(day)
+        localStorage.setItem('completedDays', JSON.stringify(completed))
+        ;(e.target as HTMLElement).textContent = '✓ 已完成'
+        ;(e.target as HTMLElement).classList.add('completed')
+      }
+    })
+
+    // 检查是否已完成
+    const completedDays = JSON.parse(localStorage.getItem('completedDays') || '[]')
+    const currentDay = document.querySelector('.mark-complete')?.getAttribute('data-day')
+    
+    if (completedDays.includes(currentDay)) {
+      const btn = document.querySelector('.mark-complete') as HTMLElement
+      btn.textContent = '✓ 已完成'
+      btn.classList.add('completed')
+    }
+  </script>
+</body>
+</html>

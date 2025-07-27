@@ -1,0 +1,306 @@
+---
+import Navigation from '@components/Navigation.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import ProgressBar from '@components/ProgressBar.astro';
+import { generateBreadcrumbs } from '@lib/navigation';
+
+export interface Props {
+  title: string;
+  description?: string;
+  showProgress?: boolean;
+  currentDay?: number;
+}
+
+const { title, description, showProgress = true, currentDay } = Astro.props;
+const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description || "60天现代Web开发课程"} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} | 60天现代Web开发课程</title>
+    
+    <!-- 全局样式 -->
+    <style is:global>
+      :root {
+        --color-primary: #42b883;
+        --color-secondary: #35495e;
+        --color-accent: #ff6b6b;
+        --color-warning: #f7df1e;
+        --color-info: #61dafb;
+        --color-success: #52c41a;
+        
+        --color-bg: #ffffff;
+        --color-bg-secondary: #f5f7f9;
+        --color-text: #2c3e50;
+        --color-text-secondary: #64748b;
+        --color-border: #e2e8f0;
+        
+        --sidebar-width: 280px;
+        --header-height: 64px;
+        
+        --radius-sm: 4px;
+        --radius-md: 8px;
+        --radius-lg: 12px;
+        
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      }
+      
+      [data-theme="dark"] {
+        --color-bg: #0f172a;
+        --color-bg-secondary: #1e293b;
+        --color-text: #e2e8f0;
+        --color-text-secondary: #94a3b8;
+        --color-border: #334155;
+      }
+      
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      
+      html {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
+                     'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        color: var(--color-text);
+        background-color: var(--color-bg);
+      }
+      
+      body {
+        min-height: 100vh;
+      }
+      
+      /* 滚动条样式 */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      
+      ::-webkit-scrollbar-track {
+        background: var(--color-bg-secondary);
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: var(--color-border);
+        border-radius: 4px;
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--color-text-secondary);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-layout">
+      <!-- 顶部进度条 -->
+      {showProgress && <ProgressBar currentDay={currentDay} />}
+      
+      <!-- 头部 -->
+      <header class="app-header">
+        <div class="header-content">
+          <button class="menu-toggle" aria-label="切换菜单">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          
+          <div class="header-title">
+            <h1>60天现代Web开发课程</h1>
+          </div>
+          
+          <div class="header-actions">
+            <button class="theme-toggle" aria-label="切换主题">
+              <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+              <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+      
+      <!-- 侧边栏 -->
+      <Navigation currentPath={Astro.url.pathname} />
+      
+      <!-- 主内容区 -->
+      <main class="app-main">
+        <!-- 面包屑导航 -->
+        <Breadcrumbs items={breadcrumbs} />
+        
+        <!-- 页面内容 -->
+        <div class="page-content">
+          <slot />
+        </div>
+      </main>
+    </div>
+    
+    <style>
+      .app-layout {
+        display: grid;
+        grid-template-areas: 
+          "header header"
+          "sidebar main";
+        grid-template-columns: var(--sidebar-width) 1fr;
+        grid-template-rows: var(--header-height) 1fr;
+        min-height: 100vh;
+      }
+      
+      .app-header {
+        grid-area: header;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--color-bg);
+        border-bottom: 1px solid var(--color-border);
+        backdrop-filter: blur(8px);
+        background: rgba(255, 255, 255, 0.8);
+      }
+      
+      [data-theme="dark"] .app-header {
+        background: rgba(15, 23, 42, 0.8);
+      }
+      
+      .header-content {
+        height: var(--header-height);
+        padding: 0 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--color-text);
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: var(--radius-md);
+        transition: background-color 0.2s;
+      }
+      
+      .menu-toggle:hover {
+        background: var(--color-bg-secondary);
+      }
+      
+      .header-title h1 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--color-text);
+      }
+      
+      .header-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+      
+      .theme-toggle {
+        background: none;
+        border: none;
+        color: var(--color-text);
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: var(--radius-md);
+        transition: background-color 0.2s;
+      }
+      
+      .theme-toggle:hover {
+        background: var(--color-bg-secondary);
+      }
+      
+      .sun-icon,
+      .moon-icon {
+        display: block;
+      }
+      
+      [data-theme="dark"] .sun-icon {
+        display: none;
+      }
+      
+      [data-theme="light"] .moon-icon,
+      :not([data-theme]) .moon-icon {
+        display: none;
+      }
+      
+      .app-main {
+        grid-area: main;
+        overflow-y: auto;
+        background: var(--color-bg-secondary);
+      }
+      
+      .page-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      
+      /* 响应式设计 */
+      @media (max-width: 768px) {
+        .app-layout {
+          grid-template-areas: 
+            "header"
+            "main";
+          grid-template-columns: 1fr;
+        }
+        
+        .menu-toggle {
+          display: block;
+        }
+        
+        .header-title h1 {
+          font-size: 1.1rem;
+        }
+        
+        .page-content {
+          padding: 1rem;
+        }
+      }
+    </style>
+    
+    <script>
+      // 主题切换
+      const themeToggle = document.querySelector('.theme-toggle');
+      const html = document.documentElement;
+      
+      // 初始化主题
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      html.setAttribute('data-theme', savedTheme);
+      
+      themeToggle?.addEventListener('click', () => {
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+      });
+      
+      // 移动端菜单切换
+      const menuToggle = document.querySelector('.menu-toggle');
+      const sidebar = document.querySelector('.app-sidebar');
+      
+      menuToggle?.addEventListener('click', () => {
+        sidebar?.classList.toggle('show');
+      });
+    </script>
+  </body>
+</html>
