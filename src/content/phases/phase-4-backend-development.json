@@ -3,7 +3,7 @@
   "name": "后端开发",
   "description": "学习Node.js后端开发，掌握Express框架、数据库操作、API设计和身份验证",
   "startDay": 41,
-  "endDay": 52,
+  "endDay": 55,
   "icon": "🔧",
   "objectives": [
     "掌握Node.js和Express框架",

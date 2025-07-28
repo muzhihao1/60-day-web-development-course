@@ -3,7 +3,7 @@
   "name": "JavaScript精通",
   "description": "深入学习JavaScript现代语法、DOM操作、异步编程和TypeScript，掌握前端编程核心技能",
   "startDay": 13,
-  "endDay": 24,
+  "endDay": 25,
   "icon": "🚀",
   "objectives": [
     "掌握ES6+现代JavaScript语法",

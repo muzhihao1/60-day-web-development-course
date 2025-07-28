@@ -2,7 +2,7 @@
   "number": 5,
   "name": "全栈部署",
   "description": "整合前后端知识，学习DevOps实践、云部署、CI/CD和性能优化",
-  "startDay": 53,
+  "startDay": 56,
   "endDay": 60,
   "icon": "🌐",
   "objectives": [
