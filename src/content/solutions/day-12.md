@@ -1,8 +1,46 @@
 ---
-title: "Phase 1 Capstone Project - 完整解决方案"
-difficulty: "advanced" 
-learningTime: 480
-tags: ["project", "portfolio", "complete-solution"]
+day: 12
+exerciseTitle: "Phase 1 Capstone Project - 开发者作品集"
+approach: "使用Vite作为构建工具，Tailwind CSS作为样式框架，实现了一个完整的开发者作品集网站。项目包含响应式设计、深色模式切换、项目展示、博客系统、联系表单等功能，并通过Service Worker实现PWA功能。通过代码分割、图片优化、缓存策略等技术达到95+的Lighthouse性能分数。"
+files:
+  - path: "index.html"
+    language: "html"
+    description: "主页HTML结构，包含导航、Hero区域、精选项目和最新博客"
+  - path: "scripts/main.js"
+    language: "javascript"
+    description: "主JavaScript文件，实现模块化架构和按需加载"
+  - path: "scripts/modules/theme.js"
+    language: "javascript"
+    description: "主题管理模块，支持深色/浅色模式切换"
+  - path: "scripts/modules/projects.js"
+    language: "javascript"
+    description: "项目展示模块，包含过滤、搜索和动态加载功能"
+  - path: "styles/main.css"
+    language: "css"
+    description: "Tailwind CSS配置和自定义样式"
+  - path: "vite.config.js"
+    language: "javascript"
+    description: "Vite构建配置，包含优化和插件设置"
+  - path: "sw.js"
+    language: "javascript"
+    description: "Service Worker实现，提供离线功能和缓存策略"
+  - path: "data/projects.json"
+    language: "json"
+    description: "项目数据文件"
+keyTakeaways:
+  - "使用Vite可以获得极快的开发体验和优化的生产构建"
+  - "Tailwind CSS的实用优先方法大大提高了开发效率"
+  - "模块化JavaScript架构使代码更易维护和扩展"
+  - "Service Worker提供了离线功能和智能缓存策略"
+  - "通过代码分割和懒加载可以显著提高首屏加载速度"
+  - "响应式设计和深色模式提升了用户体验"
+  - "性能优化是一个持续的过程，需要综合运用多种技术"
+commonMistakes:
+  - "忘记处理Service Worker的更新策略"
+  - "没有正确配置CSP (Content Security Policy)"
+  - "图片没有提供多种格式和尺寸"
+  - "JavaScript模块加载顺序不当导致依赖问题"
+  - "忘记添加适当的错误处理和降级方案"
 ---
 
 # Phase 1 Capstone Project - 开发者作品集完整实现
