@@ -1,0 +1,408 @@
+---
+export interface Props {
+  code: string;
+  lang?: string;
+  filename?: string;
+  showLineNumbers?: boolean;
+  highlightLines?: number[];
+}
+
+const { 
+  code, 
+  lang = 'text', 
+  filename, 
+  showLineNumbers = true,
+  highlightLines = []
+} = Astro.props;
+
+// 语言映射到更友好的显示名称
+const languageMap: Record<string, string> = {
+  js: 'JavaScript',
+  jsx: 'JavaScript',
+  ts: 'TypeScript', 
+  tsx: 'TypeScript',
+  html: 'HTML',
+  css: 'CSS',
+  scss: 'SCSS',
+  json: 'JSON',
+  md: 'Markdown',
+  py: 'Python',
+  sh: 'Shell',
+  bash: 'Bash',
+  yaml: 'YAML',
+  yml: 'YAML',
+  sql: 'SQL',
+  text: 'Text'
+};
+
+const displayLang = languageMap[lang] || lang.toUpperCase();
+
+// 生成唯一ID用于复制功能
+const codeId = `code-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<div class="code-block">
+  <div class="code-header">
+    <div class="code-info">
+      {filename && (
+        <span class="code-filename">{filename}</span>
+      )}
+      <span class="code-language">{displayLang}</span>
+    </div>
+    <button 
+      class="copy-button"
+      data-code-id={codeId}
+      aria-label="复制代码"
+    >
+      <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+      <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <span class="copy-text">复制</span>
+    </button>
+  </div>
+  
+  <div class="code-container">
+    <pre 
+      class={`language-${lang} ${showLineNumbers ? 'line-numbers' : ''}`}
+      data-code-id={codeId}
+    ><code class={`language-${lang}`}>{code.trim()}</code></pre>
+    
+    {showLineNumbers && (
+      <div class="line-numbers-wrapper">
+        {code.trim().split('\n').map((_, index) => (
+          <div 
+            class={`line-number ${highlightLines.includes(index + 1) ? 'highlighted' : ''}`}
+          >
+            {index + 1}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .code-block {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+
+  /* 代码头部 */
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .code-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .code-filename {
+    font-size: 0.875rem;
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .code-language {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    background: var(--color-bg-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+  }
+
+  /* 复制按钮 */
+  .copy-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .copy-button:hover {
+    background: var(--color-border);
+    color: var(--color-text);
+  }
+
+  .copy-button.copied {
+    background: var(--color-success);
+    color: white;
+    border-color: var(--color-success);
+  }
+
+  .copy-icon,
+  .check-icon {
+    flex-shrink: 0;
+  }
+
+  .check-icon {
+    display: none;
+  }
+
+  .copy-button.copied .copy-icon {
+    display: none;
+  }
+
+  .copy-button.copied .check-icon {
+    display: block;
+  }
+
+  .copy-button.copied .copy-text {
+    content: '已复制';
+  }
+
+  /* 代码容器 */
+  .code-container {
+    position: relative;
+    overflow: auto;
+  }
+
+  pre {
+    margin: 0;
+    padding: 1.5rem;
+    overflow-x: auto;
+    background: transparent;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  pre.line-numbers {
+    padding-left: 4rem;
+  }
+
+  code {
+    color: var(--color-text);
+    font-family: inherit;
+  }
+
+  /* 行号 */
+  .line-numbers-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3rem;
+    padding: 1.5rem 0;
+    background: var(--color-bg);
+    border-right: 1px solid var(--color-border);
+    user-select: none;
+  }
+
+  .line-number {
+    padding: 0 0.5rem;
+    text-align: right;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    height: 1.6em;
+  }
+
+  .line-number.highlighted {
+    background: rgba(66, 184, 131, 0.1);
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  /* 语法高亮主题 */
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    color: #64748b;
+  }
+
+  .token.punctuation {
+    color: #94a3b8;
+  }
+
+  .token.property,
+  .token.tag,
+  .token.boolean,
+  .token.number,
+  .token.constant,
+  .token.symbol {
+    color: #f97316;
+  }
+
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.builtin {
+    color: #10b981;
+  }
+
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .language-css .token.string,
+  .style .token.string,
+  .token.variable {
+    color: #8b5cf6;
+  }
+
+  .token.atrule,
+  .token.attr-value,
+  .token.function {
+    color: #3b82f6;
+  }
+
+  .token.keyword {
+    color: #ec4899;
+  }
+
+  .token.regex,
+  .token.important {
+    color: #f59e0b;
+  }
+
+  .token.important,
+  .token.bold {
+    font-weight: bold;
+  }
+
+  .token.italic {
+    font-style: italic;
+  }
+
+  /* 暗色主题调整 */
+  [data-theme="dark"] .code-block {
+    background: #1e293b;
+  }
+
+  [data-theme="dark"] .code-header {
+    background: #0f172a;
+  }
+
+  [data-theme="dark"] .line-numbers-wrapper {
+    background: #0f172a;
+  }
+
+  [data-theme="dark"] code {
+    color: #e2e8f0;
+  }
+
+  [data-theme="dark"] .token.comment {
+    color: #64748b;
+  }
+
+  [data-theme="dark"] .token.punctuation {
+    color: #cbd5e1;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .code-header {
+      padding: 0.5rem;
+    }
+
+    .code-info {
+      gap: 0.5rem;
+    }
+
+    .code-filename {
+      font-size: 0.813rem;
+    }
+
+    .copy-button {
+      padding: 0.375rem 0.625rem;
+      font-size: 0.813rem;
+    }
+
+    .copy-text {
+      display: none;
+    }
+
+    pre {
+      padding: 1rem;
+      font-size: 0.813rem;
+    }
+
+    pre.line-numbers {
+      padding-left: 3rem;
+    }
+
+    .line-numbers-wrapper {
+      width: 2.5rem;
+      padding: 1rem 0;
+    }
+  }
+
+  /* 滚动条样式 */
+  .code-container::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .code-container::-webkit-scrollbar-track {
+    background: var(--color-bg);
+  }
+
+  .code-container::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+
+  .code-container::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-secondary);
+  }
+</style>
+
+<script>
+  // 复制功能
+  document.addEventListener('DOMContentLoaded', () => {
+    const copyButtons = document.querySelectorAll('.copy-button');
+    
+    copyButtons.forEach(button => {
+      button.addEventListener('click', async () => {
+        const codeId = button.getAttribute('data-code-id');
+        const pre = document.querySelector(`pre[data-code-id="${codeId}"]`);
+        const code = pre?.textContent || '';
+        
+        try {
+          await navigator.clipboard.writeText(code);
+          
+          // 添加已复制状态
+          button.classList.add('copied');
+          const copyText = button.querySelector('.copy-text');
+          if (copyText) {
+            copyText.textContent = '已复制';
+          }
+          
+          // 2秒后恢复原状
+          setTimeout(() => {
+            button.classList.remove('copied');
+            if (copyText) {
+              copyText.textContent = '复制';
+            }
+          }, 2000);
+        } catch (err) {
+          console.error('复制失败:', err);
+        }
+      });
+    });
+  });
+
+  // 可选：添加 Prism.js 或其他语法高亮库的初始化
+  // 如果使用 Prism.js，可以在这里调用 Prism.highlightAll()
+</script>
