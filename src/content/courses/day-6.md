@@ -11,9 +11,7 @@ objectives:
   - "使用Tailwind重构现有项目"
 estimatedTime: 90
 difficulty: "intermediate"
-prerequisites:
-  - day: 5
-    title: "CSS Grid和Flexbox"
+prerequisites: [5]
 tags:
   - "Tailwind CSS"
   - "原子化CSS"
@@ -29,7 +27,7 @@ resources:
     type: "tool"
   - title: "Headless UI"
     url: "https://headlessui.dev/"
-    type: "library"
+    type: "tool"
 ---
 
 # Day 06: Tailwind CSS入门

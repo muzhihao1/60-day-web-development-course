@@ -117,6 +117,37 @@ const codeExamples = defineCollection({
 })
 
 /**
+ * 项目集合 - 用于存储课程项目（Capstone Projects）
+ */
+const projects = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    day: z.number(),
+    phase: z.enum([
+      'modern-web',
+      'javascript-mastery', 
+      'react-development',
+      'backend-development',
+      'fullstack-deployment'
+    ]),
+    description: z.string(),
+    difficulty: z.enum(['beginner', 'intermediate', 'advanced']),
+    estimatedTime: z.number(), // 小时
+    technologies: z.array(z.string()),
+    features: z.array(z.string()),
+    requirements: z.array(z.string()),
+    starterTemplate: z.string().optional(), // 路径到starter template
+    completeSolution: z.string().optional(), // 路径到complete solution
+    resources: z.array(z.object({
+      title: z.string(),
+      url: z.string(),
+      type: z.enum(['documentation', 'tutorial', 'reference'])
+    })).optional()
+  })
+})
+
+/**
  * 导出集合配置
  */
 export const collections = {
@@ -124,5 +155,6 @@ export const collections = {
   courses,
   exercises,
   solutions,
-  codeExamples
+  codeExamples,
+  projects
 }
