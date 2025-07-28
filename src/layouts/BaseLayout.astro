@@ -119,6 +119,13 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
           </div>
           
           <div class="header-actions">
+            <!-- 宽度切换按钮 (仅在大屏幕显示) -->
+            <button class="width-toggle" aria-label="切换内容宽度" title="切换内容宽度">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+              </svg>
+            </button>
+            
             <button class="theme-toggle" aria-label="切换主题">
               <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <circle cx="12" cy="12" r="5"></circle>
@@ -222,7 +229,8 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
         gap: 0.5rem;
       }
       
-      .theme-toggle {
+      .theme-toggle,
+      .width-toggle {
         background: none;
         border: none;
         color: var(--color-text);
@@ -232,8 +240,20 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
         transition: background-color 0.2s;
       }
       
-      .theme-toggle:hover {
+      .theme-toggle:hover,
+      .width-toggle:hover {
         background: var(--color-bg-secondary);
+      }
+      
+      /* 宽度切换按钮仅在大屏幕显示 */
+      .width-toggle {
+        display: none;
+      }
+      
+      @media (min-width: 1440px) {
+        .width-toggle {
+          display: block;
+        }
       }
       
       .sun-icon,
@@ -257,9 +277,47 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
       }
       
       .page-content {
-        max-width: 1200px;
+        --content-max-width: 1200px;
+        --content-wide-width: 1400px;
+        --content-full-width: 1600px;
+        
+        max-width: var(--content-max-width);
         margin: 0 auto;
         padding: 2rem;
+        transition: max-width 0.3s ease;
+      }
+      
+      /* 宽屏内容模式 */
+      .page-content.content-wide {
+        max-width: var(--content-wide-width);
+      }
+      
+      .page-content.content-full {
+        max-width: var(--content-full-width);
+      }
+      
+      /* 大屏幕优化 */
+      @media (min-width: 1440px) {
+        .page-content {
+          padding: 2.5rem 3rem;
+        }
+      }
+      
+      @media (min-width: 1920px) {
+        .page-content {
+          --content-max-width: 1280px;
+          --content-wide-width: 1600px;
+          --content-full-width: 1800px;
+          padding: 3rem 4rem;
+        }
+      }
+      
+      @media (min-width: 2560px) {
+        .page-content {
+          --content-max-width: 1400px;
+          --content-wide-width: 1800px;
+          --content-full-width: 2200px;
+        }
       }
       
       /* 响应式设计 */
@@ -300,6 +358,45 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
         
         html.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
+      });
+      
+      // 内容宽度切换
+      const widthToggle = document.querySelector('.width-toggle');
+      const pageContent = document.querySelector('.page-content');
+      
+      // 从 localStorage 读取宽度设置
+      const savedWidth = localStorage.getItem('content-width') || 'normal';
+      if (savedWidth === 'wide') {
+        pageContent?.classList.add('content-wide');
+      } else if (savedWidth === 'full') {
+        pageContent?.classList.add('content-full');
+      }
+      
+      widthToggle?.addEventListener('click', () => {
+        if (!pageContent) return;
+        
+        let newWidth = 'normal';
+        if (pageContent.classList.contains('content-wide')) {
+          pageContent.classList.remove('content-wide');
+          pageContent.classList.add('content-full');
+          newWidth = 'full';
+        } else if (pageContent.classList.contains('content-full')) {
+          pageContent.classList.remove('content-full');
+          newWidth = 'normal';
+        } else {
+          pageContent.classList.add('content-wide');
+          newWidth = 'wide';
+        }
+        
+        localStorage.setItem('content-width', newWidth);
+        
+        // 更新按钮提示
+        const tooltips = {
+          'normal': '切换到宽屏模式',
+          'wide': '切换到全屏模式',
+          'full': '切换到标准模式'
+        };
+        widthToggle.setAttribute('title', tooltips[newWidth]);
       });
       
       // 移动端菜单切换
