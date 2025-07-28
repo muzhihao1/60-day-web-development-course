@@ -1,9 +1,16 @@
 ---
 title: "DevTools侦探挑战"
 day: 11
+description: "使用Chrome DevTools调试和优化一个充满问题的电商网站，包括JavaScript错误、性能瓶颈、内存泄漏等"
 difficulty: "intermediate"
 tags: ["devtools", "debugging", "performance", "optimization"]
 estimatedTime: 90
+requirements:
+  - "使用Console面板找出并修复所有JavaScript错误"
+  - "使用Performance面板识别并优化性能瓶颈"
+  - "使用Memory面板查找并修复内存泄漏"
+  - "使用Network面板优化网络请求"
+  - "达到90+的Lighthouse性能分数"
 ---
 
 # DevTools侦探挑战 🔍

@@ -1,9 +1,17 @@
 ---
 title: "Phase 1 Capstone Project - 开发者作品集"
-type: "project"
+day: 12
+description: "综合运用Phase 1所学知识，构建一个专业的开发者作品集网站"
 difficulty: "advanced"
-estimatedHours: 8
-tags: ["project", "portfolio", "git", "npm", "vite", "performance"]
+estimatedTime: 480
+requirements:
+  - "使用Git进行版本控制，遵循Git Flow工作流"
+  - "使用npm管理项目依赖，创建有意义的脚本"
+  - "使用Vite作为构建工具，优化生产环境构建"
+  - "实现完整的响应式设计，支持多种设备"
+  - "优化网站性能，达到90+的Lighthouse分数"
+  - "使用Chrome DevTools进行调试和性能分析"
+  - "部署到Vercel或Netlify等平台"
 ---
 
 # Phase 1 Capstone Project：构建专业开发者作品集
