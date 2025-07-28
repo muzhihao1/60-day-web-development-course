@@ -124,5 +124,5 @@ export const collections = {
   courses,
   exercises,
   solutions,
-  'code-examples': codeExamples
+  codeExamples
 }

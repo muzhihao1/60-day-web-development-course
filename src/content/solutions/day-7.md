@@ -1,7 +1,33 @@
 ---
 day: 7
-title: "团队协作项目解决方案"
-description: "完整的Git协作流程示例和最佳实践"
+exerciseTitle: "团队博客项目"
+approach: "使用Git Flow分支策略，模拟三个开发者协作开发一个团队博客项目，包括功能开发、代码审查、冲突解决和版本发布的完整流程"
+files:
+  - path: "README.md"
+    language: "markdown"
+    description: "项目说明文档，包含开发规范和分支策略"
+  - path: "index.html"
+    language: "html"
+    description: "博客首页，包含文章列表和导航"
+  - path: "css/style.css"
+    language: "css"
+    description: "完整的设计系统和响应式样式"
+  - path: "js/main.js"
+    language: "javascript"
+    description: "交互功能，包括主题切换和文章加载"
+  - path: "article.html"
+    language: "html"
+    description: "文章模板页面"
+  - path: "about.html"
+    language: "html"
+    description: "关于我们页面"
+keyTakeaways:
+  - "Git分支策略的实际应用"
+  - "团队协作的工作流程"
+  - "冲突解决的实战经验"
+  - "版本发布的完整流程"
+  - "热修复的应急处理"
+  - "代码审查的基本流程"
 ---
 
 # Day 07 解决方案：团队博客项目
