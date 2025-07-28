@@ -372,8 +372,8 @@ const courses = defineCollection({
 - Non-course content: 📋 Queued
 
 ## Development Progress
-- Day 7: 📋 Planning (Terminal C)
-- Day 8: 🔮 Future
+- Day 7: ✅ Complete (Terminal C)
+- Day 8: 📋 Planning (Terminal C)
 - Days 9-60: 🔮 Future
 
 ## Component Status
@@ -591,12 +591,42 @@ npm run dev
 
 ---
 
-### Terminal C Progress (Starting)
+### Terminal C Progress (Last Updated: 2025-07-28 08:35)
 
-**Planning Phase:**
-- 📋 Review existing Day 1-6 content
-- 📋 Plan Day 7-12 curriculum
-- 📋 Design exercise progression
+**Completed:**
+1. ✅ Reviewed existing Day 1-6 content structure
+   - Analyzed course, exercise, and solution formats
+   - Understood content collection schemas
+   - Identified patterns for consistency
+
+2. ✅ Day 7 content development - Git Advanced Workflow
+   - Created comprehensive course content (964 lines)
+   - Topics: branches, merging, rebase, cherry-pick, workflows
+   - Included Git Flow and GitHub Flow examples
+   - Added practical team collaboration project
+
+3. ✅ Day 7 exercises
+   - Created team blog project exercise
+   - Simulates 3-developer collaboration
+   - Covers conflict resolution and release management
+   - Includes evaluation criteria and resources
+
+4. ✅ Day 7 code examples
+   - git-branch-basics.md - Branch operations
+   - merge-conflict-resolution.md - Conflict handling
+   - git-rebase-interactive.md - Rebase and history editing
+   - git-workflow-examples.md - Git Flow and GitHub Flow
+   - git-advanced-operations.md - Advanced Git commands
+
+**In Progress:**
+- ✅ Completed Day 8-12 curriculum plan (see DAY-8-12-PLAN.md)
+
+**Next Tasks:**
+- Day 8: Package Management (npm/yarn深入) - Create content
+- Day 9: Build Tools (Webpack/Vite基础) - Create content
+- Day 10: Web Performance Optimization - Create content
+- Day 11: Browser DevTools Mastery - Create content
+- Day 12: Phase 1 Capstone Project - Design project requirements
 
 ---
 
@@ -635,7 +665,11 @@ npm run dev
 - 🔄 Day 6 migration in progress (Terminal B should check in)
 
 **Terminal C:**
-- 🔄 Day 7-8 content development (Terminal C should check in)
+- ✅ Completed Day 7 content development (Git Advanced Workflow)
+- ✅ Created Day 7 exercises (team blog collaboration project)
+- ✅ Created 5 code example files for Git operations
+- 🔄 Planning Day 8-12 curriculum structure
+- ⚠️ Found YAML formatting issues in day-2 and day-8 solution files
 
 ---
 
@@ -653,12 +687,14 @@ This comprehensive task allocation plan ensures:
 2. Terminal C: Start planning Day 7 content
 3. Terminal A: Continue Navigation component development
 
-**Document Version:** 2.2  
-**Last Updated:** 2025-07-28 08:20  
+**Document Version:** 2.3  
+**Last Updated:** 2025-07-28 08:40  
 **Next Review:** End of Day 3
 
 **Recent Updates:**
 - ✅ Terminal A: Completed all core components (Breadcrumbs, ProgressBar, CodeBlock)
 - ✅ Terminal A: Fixed Vercel build error (content collection configuration)
 - ✅ Terminal A: Completed UI/UX audit and fixed P0 issues
-- 📋 Terminal B & C: Awaiting status updates on migration and development
+- ✅ Terminal C: Completed Day 7 content (course, exercises, code examples)
+- ✅ Terminal C: Created Day 8-12 curriculum plan
+- 📋 Terminal B: Awaiting status update on Day 6 migration

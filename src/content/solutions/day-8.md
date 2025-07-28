@@ -1,7 +1,35 @@
 ---
 day: 8
-title: "npm工具包完整解决方案"
-description: "easy-datetime-utils包的完整实现，包含所有功能模块和测试"
+exerciseTitle: "npm工具包完整解决方案"
+approach: "easy-datetime-utils包的完整实现，包含所有功能模块和测试"
+files:
+  - path: "package.json"
+    language: "json"
+    description: "项目配置文件"
+  - path: "src/index.js"
+    language: "javascript"
+    description: "主入口文件"
+  - path: "src/format.js"
+    language: "javascript"
+    description: "日期格式化模块"
+  - path: "src/calculate.js"
+    language: "javascript"
+    description: "日期计算模块"
+  - path: "src/validate.js"
+    language: "javascript"
+    description: "日期验证模块"
+  - path: "src/timezone.js"
+    language: "javascript"
+    description: "时区处理模块"
+  - path: "tests/format.test.js"
+    language: "javascript"
+    description: "格式化模块测试"
+keyTakeaways:
+  - "模块化设计提高代码可维护性"
+  - "完整的测试覆盖确保代码质量"
+  - "规范的npm包结构和配置"
+  - "使用ESLint和Prettier保持代码风格一致"
+  - "Git hooks自动化质量检查"
 ---
 
 # Day 08 解决方案：easy-datetime-utils

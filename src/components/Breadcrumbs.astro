@@ -3,46 +3,142 @@ export interface Props {
   items: {
     label: string;
     href: string;
+    icon?: string;
   }[];
+  showBackButton?: boolean;
 }
 
-const { items } = Astro.props;
+const { items, showBackButton = false } = Astro.props;
 ---
 
 <nav class="breadcrumbs" aria-label="面包屑导航">
-  <ol class="breadcrumb-list">
-    {items.map((item, index) => {
-      const isLast = index === items.length - 1;
-      
-      return (
-        <li class="breadcrumb-item">
-          {!isLast ? (
-            <>
-              <a href={item.href} class="breadcrumb-link">
-                {item.label}
-              </a>
-              <span class="breadcrumb-separator" aria-hidden="true">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
+  <div class="breadcrumbs-container">
+    {showBackButton && items.length > 1 && (
+      <a href={items[items.length - 2].href} class="back-button" aria-label="返回上一页">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        <span>返回</span>
+      </a>
+    )}
+    
+    <ol class="breadcrumb-list" role="list">
+      {items.map((item, index) => {
+        const isLast = index === items.length - 1;
+        const isFirst = index === 0;
+        
+        return (
+          <li class="breadcrumb-item" data-index={index}>
+            {!isLast ? (
+              <>
+                <a 
+                  href={item.href} 
+                  class="breadcrumb-link"
+                  data-first={isFirst}
+                  tabindex="0"
+                >
+                  {item.icon && <span class="breadcrumb-icon">{item.icon}</span>}
+                  <span class="breadcrumb-text">{item.label}</span>
+                </a>
+                <span class="breadcrumb-separator" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </>
+            ) : (
+              <span class="breadcrumb-current" aria-current="page">
+                {item.icon && <span class="breadcrumb-icon">{item.icon}</span>}
+                <span class="breadcrumb-text">{item.label}</span>
               </span>
-            </>
-          ) : (
-            <span class="breadcrumb-current" aria-current="page">
-              {item.label}
-            </span>
-          )}
-        </li>
-      );
-    })}
-  </ol>
+            )}
+          </li>
+        );
+      })}
+    </ol>
+  </div>
 </nav>
+
+<script>
+  // 键盘导航支持
+  document.addEventListener('DOMContentLoaded', () => {
+    const breadcrumbLinks = document.querySelectorAll('.breadcrumb-link');
+    
+    breadcrumbLinks.forEach((link, index) => {
+      link.addEventListener('keydown', (e) => {
+        const key = e.key;
+        
+        if (key === 'ArrowLeft' && index > 0) {
+          e.preventDefault();
+          (breadcrumbLinks[index - 1] as HTMLElement).focus();
+        } else if (key === 'ArrowRight' && index < breadcrumbLinks.length - 1) {
+          e.preventDefault();
+          (breadcrumbLinks[index + 1] as HTMLElement).focus();
+        } else if (key === 'Home') {
+          e.preventDefault();
+          (breadcrumbLinks[0] as HTMLElement).focus();
+        } else if (key === 'End') {
+          e.preventDefault();
+          (breadcrumbLinks[breadcrumbLinks.length - 1] as HTMLElement).focus();
+        }
+      });
+    });
+    
+    // 添加点击动画
+    breadcrumbLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    });
+  });
+</script>
 
 <style>
   .breadcrumbs {
     padding: 1rem 0;
     border-bottom: 1px solid var(--color-border);
     margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .breadcrumbs-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* 返回按钮 */
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.375rem;
+    background-color: var(--color-bg);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .back-button:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-light, rgba(99, 102, 241, 0.1));
+    transform: translateX(-2px);
+  }
+
+  .back-button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 
   .breadcrumb-list {
@@ -53,42 +149,118 @@ const { items } = Astro.props;
     list-style: none;
     margin: 0;
     padding: 0;
+    flex: 1;
   }
 
   .breadcrumb-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    position: relative;
   }
 
   .breadcrumb-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
     color: var(--color-text-secondary);
     text-decoration: none;
     font-size: 0.875rem;
-    transition: color 0.2s;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+    overflow: hidden;
+  }
+
+  .breadcrumb-link[data-first="true"] {
+    font-weight: 500;
   }
 
   .breadcrumb-link:hover {
     color: var(--color-primary);
-    text-decoration: underline;
+    background-color: var(--color-primary-light, rgba(99, 102, 241, 0.1));
+  }
+
+  .breadcrumb-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .breadcrumb-link:active {
+    transform: scale(0.98);
+  }
+
+  /* 点击波纹效果 */
+  .ripple {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-primary);
+    opacity: 0.3;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    animation: ripple-animation 0.6s ease-out;
+    pointer-events: none;
+  }
+
+  @keyframes ripple-animation {
+    to {
+      transform: translate(-50%, -50%) scale(4);
+      opacity: 0;
+    }
+  }
+
+  .breadcrumb-icon {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .breadcrumb-text {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .breadcrumb-separator {
     color: var(--color-text-secondary);
     opacity: 0.5;
+    transition: opacity 0.2s;
+  }
+
+  .breadcrumb-item:hover .breadcrumb-separator {
+    opacity: 0.8;
   }
 
   .breadcrumb-current {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
     color: var(--color-text);
     font-size: 0.875rem;
     font-weight: 500;
+    padding: 0.25rem 0.5rem;
   }
 
-  /* 响应式设计 */
-  @media (max-width: 640px) {
+  /* 移动端优化 */
+  @media (max-width: 768px) {
     .breadcrumbs {
       padding: 0.75rem 0;
       margin-bottom: 1.5rem;
+    }
+
+    .breadcrumbs-container {
+      gap: 0.75rem;
+    }
+
+    .back-button {
+      padding: 0.375rem 0.625rem;
+      font-size: 0.813rem;
+    }
+
+    .back-button span {
+      display: none;
     }
 
     .breadcrumb-list {
@@ -98,17 +270,39 @@ const { items } = Astro.props;
     .breadcrumb-link,
     .breadcrumb-current {
       font-size: 0.813rem;
+      padding: 0.25rem 0.375rem;
     }
 
-    /* 在小屏幕上隐藏中间项，只显示首页和当前页 */
-    @media (max-width: 480px) {
-      .breadcrumb-item:not(:first-child):not(:last-child) {
-        display: none;
-      }
-
-      .breadcrumb-item:first-child .breadcrumb-separator {
-        display: flex;
-      }
+    .breadcrumb-text {
+      max-width: 120px;
     }
+  }
+
+  /* 超小屏幕优化 */
+  @media (max-width: 480px) {
+    /* 使用省略号表示中间项 */
+    .breadcrumb-item:not(:first-child):not(:last-child):not(:nth-last-child(2)) {
+      display: none;
+    }
+
+    .breadcrumb-item:nth-child(2):not(:last-child):not(:nth-last-child(2))::after {
+      content: '...';
+      padding: 0 0.5rem;
+      color: var(--color-text-secondary);
+      opacity: 0.5;
+    }
+
+    .breadcrumb-text {
+      max-width: 100px;
+    }
+  }
+
+  /* 深色模式优化 */
+  :global([data-theme="dark"]) .breadcrumb-link:hover {
+    background-color: rgba(139, 92, 246, 0.2);
+  }
+
+  :global([data-theme="dark"]) .back-button:hover {
+    background-color: rgba(139, 92, 246, 0.2);
   }
 </style>

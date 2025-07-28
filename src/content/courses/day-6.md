@@ -2,22 +2,24 @@
 day: 6
 phase: "modern-web"
 title: "Tailwind CSS入门"
-description: "学习Tailwind CSS实用优先的CSS框架，体验全新的CSS开发方式"
+description: "学习Tailwind CSS实用优先的设计理念，掌握原子化CSS开发方式"
 objectives:
   - "理解原子化CSS和实用优先的设计理念"
   - "掌握Tailwind CSS的核心工具类"
   - "学习Tailwind的响应式设计方法"
   - "了解如何配置和自定义Tailwind"
   - "使用Tailwind重构现有项目"
-estimatedTime: 120
+estimatedTime: 90
 difficulty: "intermediate"
-prerequisites: [5]
+prerequisites:
+  - day: 5
+    title: "CSS Grid和Flexbox"
 tags:
-  - "CSS"
-  - "Tailwind"
-  - "实用优先"
-  - "响应式设计"
+  - "Tailwind CSS"
   - "原子化CSS"
+  - "响应式设计"
+  - "CSS框架"
+  - "实用优先"
 resources:
   - title: "Tailwind CSS官方文档"
     url: "https://tailwindcss.com/docs"
@@ -25,12 +27,9 @@ resources:
   - title: "Tailwind Play"
     url: "https://play.tailwindcss.com/"
     type: "tool"
-  - title: "Tailwind CSS Cheat Sheet"
-    url: "https://nerdcave.com/tailwind-cheat-sheet"
-    type: "article"
   - title: "Headless UI"
     url: "https://headlessui.dev/"
-    type: "documentation"
+    type: "library"
 ---
 
 # Day 06: Tailwind CSS入门
