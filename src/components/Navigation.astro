@@ -186,6 +186,8 @@ function isDayCompleted(day: number): boolean {
 
   .sidebar-nav {
     padding: 1rem 0;
+    position: relative;
+    z-index: 10;
   }
 
   .nav-section {
@@ -224,6 +226,8 @@ function isDayCompleted(day: number): boolean {
     transition: background 0.2s;
     border-radius: var(--radius-md);
     margin: 0 0.75rem;
+    position: relative;
+    z-index: 1;
   }
 
   .phase-header:hover {
@@ -266,6 +270,9 @@ function isDayCompleted(day: number): boolean {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    pointer-events: none;
+    min-height: 44px;
+    padding: 0.5rem 0;
   }
 
   .progress-bar {
@@ -283,9 +290,10 @@ function isDayCompleted(day: number): boolean {
   }
 
   .progress-text {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     color: var(--color-text-secondary);
     white-space: nowrap;
+    touch-action: manipulation;
   }
 
   /* 天数列表 */
@@ -312,6 +320,8 @@ function isDayCompleted(day: number): boolean {
     text-decoration: none;
     border-radius: var(--radius-sm);
     transition: all 0.2s;
+    position: relative;
+    z-index: 2;
   }
 
   .day-link:hover {

@@ -5,6 +5,7 @@ import { phases } from '@lib/navigation';
 const title = '60天现代Web开发课程';
 const description = '从零开始，系统学习现代Web开发技术栈';
 
+// Define the code example with proper formatting
 const codeExample = `// 你的Web开发之旅从这里开始
 function startLearning() {
   const skills = [
@@ -64,7 +65,17 @@ function startLearning() {
           <span class="dot yellow"></span>
           <span class="dot green"></span>
         </div>
-        <pre><code class="language-javascript">{codeExample}</code></pre>
+        <pre><code class="language-javascript"><span class="comment">// 你的Web开发之旅从这里开始</span>
+<span class="keyword">function</span> <span class="function">startLearning</span>() {
+  <span class="keyword">const</span> <span class="variable">skills</span> = [
+    <span class="string">'HTML5'</span>, <span class="string">'CSS3'</span>, <span class="string">'JavaScript'</span>,
+    <span class="string">'React'</span>, <span class="string">'Node.js'</span>, <span class="string">'TypeScript'</span>
+  ];
+  
+  <span class="keyword">return</span> <span class="variable">skills</span>.<span class="function">map</span>(<span class="variable">skill</span> => 
+    <span class="function">master</span>(<span class="variable">skill</span>)
+  );
+}</code></pre>
       </div>
     </div>
   </section>
@@ -232,15 +243,15 @@ function startLearning() {
 
   /* Code Preview */
   .code-preview {
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
+    background: #1e293b;
+    border: 1px solid #334155;
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-lg);
   }
 
   .code-header {
-    background: var(--color-border);
+    background: #0f172a;
     padding: 0.75rem 1rem;
     display: flex;
     gap: 0.5rem;
@@ -263,8 +274,33 @@ function startLearning() {
   }
 
   .code-preview code {
-    color: var(--color-text);
+    color: #e2e8f0;
     font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  /* Syntax Highlighting */
+  .code-preview .comment {
+    color: #64748b;
+    font-style: italic;
+  }
+
+  .code-preview .keyword {
+    color: #c084fc;
+    font-weight: 600;
+  }
+
+  .code-preview .function {
+    color: #60a5fa;
+  }
+
+  .code-preview .variable {
+    color: #fbbf24;
+  }
+
+  .code-preview .string {
+    color: #34d399;
   }
 
   /* Features Section */

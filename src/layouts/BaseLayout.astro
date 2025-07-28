@@ -203,10 +203,18 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
         background: var(--color-bg-secondary);
       }
       
+      .header-title {
+        flex: 1;
+        min-width: 0;
+      }
+      
       .header-title h1 {
         font-size: 1.25rem;
         font-weight: 600;
         color: var(--color-text);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       
       .header-actions {
@@ -268,7 +276,7 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
         }
         
         .header-title h1 {
-          font-size: 1.1rem;
+          font-size: 1rem;
         }
         
         .page-content {

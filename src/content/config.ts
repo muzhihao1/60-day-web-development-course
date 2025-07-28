@@ -110,11 +110,9 @@ const codeExamples = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    day: z.number(),
-    language: z.string(),
     description: z.string(),
-    concepts: z.array(z.string()),
-    relatedTopics: z.array(z.string()).optional()
+    category: z.string(),
+    language: z.string()
   })
 })
 
@@ -126,5 +124,5 @@ export const collections = {
   courses,
   exercises,
   solutions,
-  codeExamples
+  'code-examples': codeExamples
 }
