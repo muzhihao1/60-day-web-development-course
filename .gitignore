@@ -53,6 +53,9 @@ next-env.d.ts
 # Temporary summary files
 TERMINAL_*_SUMMARY.md
 
+# Task allocation document (internal use only)
+TASK_ALLOCATION.md
+
 # Backup and temp folders
 backup-before-astro/
 备份/
