@@ -313,4 +313,157 @@ refactor: 代码重构说明
 
 ---
 
+## 🚨 开发指南与错误预防
+
+### 常见Vercel部署错误及解决方案
+
+#### 1. Content Schema验证错误
+
+**错误类型**：`InvalidContentEntryDataError`
+
+**常见原因**：
+- 缺少必需的frontmatter字段
+- 使用了不符合schema定义的值
+- YAML格式错误
+
+**预防措施**：
+
+##### Solutions Collection (`/src/content/solutions/*.md`)
+```yaml
+---
+day: 11
+exerciseTitle: "练习标题"  # 必需
+approach: "解决方案的方法描述"  # 必需
+files:  # 必需
+  - filename: "index.html"
+    content: |
+      完整的代码内容
+keyTakeaways:  # 必需
+  - "关键点1"
+  - "关键点2"
+---
+```
+
+##### Courses Collection (`/src/content/courses/*.md`)
+```yaml
+---
+day: 14
+phase: "phase-2"  # 注意：使用phase-2而不是phase-2-javascript-mastery
+title: "课程标题"
+description: "课程描述"
+objectives:
+  - "学习目标1"
+estimatedTime: 180
+prerequisites:
+  - "前置知识"
+resources:  # 注意：type必须是以下值之一
+  - title: "资源标题"
+    url: "https://example.com"
+    type: "article"  # 允许值: article, video, tool, book
+    description: "资源描述"
+---
+```
+
+##### Code Examples Collection (`/src/content/codeExamples/*.md`)
+```yaml
+---
+title: "代码示例标题"
+category: "basic"  # 必需：basic, advanced, tips, practice
+language: "javascript"  # 必需：javascript, html, css, etc.
+---
+```
+
+#### 2. YAML解析错误
+
+**常见原因**：
+- 使用了智能引号（" " ' '）而非标准引号（" " ' '）
+- 缩进不一致
+- 特殊字符未转义
+
+**预防措施**：
+```yaml
+# ❌ 错误
+description: "This is a "smart quote" example"
+
+# ✅ 正确
+description: "This is a \"smart quote\" example"
+# 或者
+description: 'This is a "smart quote" example'
+```
+
+#### 3. Phase ID不匹配错误
+
+**问题描述**：
+- Phase文件名：`phase-2-javascript-mastery.json`
+- Course引用：`phase: "phase-2"`
+
+**解决方案**：
+在Astro页面中使用`includes()`而非精确匹配：
+```javascript
+// ❌ 错误
+const phase = phases.find(p => p.id === course.data.phase);
+
+// ✅ 正确
+const phase = phases.find(p => p.id.includes(course.data.phase));
+```
+
+### 开发前检查清单
+
+#### 创建新内容前：
+- [ ] 查看对应collection的schema定义
+- [ ] 使用模板文件作为起点
+- [ ] 确保所有必需字段都已填写
+- [ ] 检查enum类型字段的允许值
+
+#### 提交前验证：
+```bash
+# 本地构建测试
+npm run build
+
+# 检查TypeScript错误
+npm run typecheck
+
+# 运行linter
+npm run lint
+```
+
+### 快速参考：Schema字段要求
+
+| Collection | 必需字段 | 注意事项 |
+|------------|----------|----------|
+| solutions | day, exerciseTitle, approach, files, keyTakeaways | files必须包含filename和content |
+| courses | day, phase, title, objectives, estimatedTime | resources.type只能是: article, video, tool, book |
+| exercises | day, title, objectives, estimatedTime, difficulty | difficulty: beginner, intermediate, advanced |
+| codeExamples | title, category, language | category: basic, advanced, tips, practice |
+
+### 错误排查步骤
+
+1. **查看错误信息**
+   - 注意文件路径
+   - 识别缺失或无效的字段
+   - 检查错误类型
+
+2. **验证frontmatter**
+   - 使用YAML验证器检查格式
+   - 确保所有必需字段存在
+   - 检查字段值是否符合schema
+
+3. **检查相关文件**
+   - 同类型文件可能有相同问题
+   - 批量修复以节省时间
+
+4. **本地测试**
+   - 运行`npm run build`验证修复
+   - 检查生成的页面数量是否正确
+
+### 最佳实践
+
+1. **使用模板**：为每种内容类型创建模板文件
+2. **批量创建**：使用脚本批量创建符合schema的文件
+3. **定期验证**：每完成一个阶段就运行构建测试
+4. **版本控制**：小步提交，便于问题定位
+5. **文档同步**：Schema变更时同步更新本文档
+
+---
+
 **下次更新**：2025-07-31（Phase 1完成后）
