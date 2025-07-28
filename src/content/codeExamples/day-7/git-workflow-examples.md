@@ -1,6 +1,8 @@
 ---
 title: "Git工作流实例"
 description: "演示Git Flow和GitHub Flow的实际应用"
+category: "version-control"
+language: "bash"
 ---
 
 ## Git工作流实例

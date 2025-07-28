@@ -1,6 +1,8 @@
 ---
 title: "性能优化技术详解"
 description: "实现90+Lighthouse分数的优化策略"
+category: "project"
+language: "html"
 ---
 
 ## 性能优化完整指南

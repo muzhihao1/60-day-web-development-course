@@ -1,6 +1,8 @@
 ---
 title: "Tailwind CSS 仪表板完整实现"
 description: "使用Tailwind CSS重构的响应式仪表板"
+category: "components"
+language: "html"
 ---
 
 # Tailwind CSS 仪表板完整实现

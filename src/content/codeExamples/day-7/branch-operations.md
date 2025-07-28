@@ -1,6 +1,8 @@
 ---
 title: "Git分支操作完整示例"
 description: "展示Git分支的创建、切换、合并等基础操作"
+category: "version-control"
+language: "bash"
 ---
 
 # Git分支操作示例

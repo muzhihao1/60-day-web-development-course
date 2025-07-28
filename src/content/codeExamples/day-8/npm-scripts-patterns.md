@@ -1,6 +1,8 @@
 ---
 title: "npm Scripts模式和技巧"
 description: "展示各种npm scripts的使用模式和最佳实践"
+category: "tooling"
+language: "json"
 ---
 
 ## 基础脚本

@@ -23,7 +23,9 @@ const { phase } = Astro.params
 const { phase: phaseData, phaseInfo } = Astro.props
 
 // 获取该阶段的所有课程
-const courses = await getCollection('courses', ({ data }) => data.phase === parseInt(phase))
+// First, we need to get the phase ID string from the phase data
+const phaseIdString = phaseData.id.split('-').slice(2).join('-') // Extract "javascript-mastery" from "phase-2-javascript-mastery"
+const courses = await getCollection('courses', ({ data }) => data.phase === phaseIdString)
 const sortedCourses = courses.sort((a, b) => a.data.day - b.data.day)
 
 const pageTitle = `${phaseData.data.name} | 60天Web开发课程`

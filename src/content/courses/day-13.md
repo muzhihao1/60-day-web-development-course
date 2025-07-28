@@ -1,570 +1,588 @@
 ---
 day: 13
 phase: "javascript-mastery"
-title: "HTML语义化深入：构建可访问的Web"
-description: "深入理解HTML5语义化标签的正确使用，掌握ARIA属性和可访问性最佳实践"
+title: "JavaScript现代语法：ES6+特性深入"
+description: "掌握现代JavaScript的核心语法特性，包括箭头函数、解构赋值、扩展运算符等ES6+新特性"
 objectives:
-  - "理解语义化HTML的深层价值和应用场景"
-  - "掌握HTML5新语义标签的正确使用方法"
-  - "学会使用ARIA属性提升可访问性"
-  - "实现符合WCAG标准的网页结构"
-  - "掌握结构化数据和SEO优化技巧"
+  - "理解JavaScript在现代Web开发中的角色"
+  - "掌握ES6+核心语法特性和最佳实践"
+  - "学会使用const/let进行变量声明"
+  - "熟练运用解构赋值和扩展运算符"
+  - "理解模块化开发的基本概念"
 estimatedTime: 90
 difficulty: "intermediate"
-prerequisites: [1, 2, 3]
+prerequisites: [1, 2, 3, 6]
 tags:
-  - "HTML5"
-  - "语义化"
-  - "可访问性"
-  - "ARIA"
-  - "SEO"
+  - "JavaScript"
+  - "ES6+"
+  - "现代语法"
+  - "函数式编程"
+  - "模块化"
 resources:
-  - title: "W3C HTML5语义化元素指南"
-    url: "https://www.w3.org/TR/html52/sections.html"
+  - title: "MDN JavaScript指南"
+    url: "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide"
     type: "documentation"
-  - title: "MDN ARIA指南"
-    url: "https://developer.mozilla.org/zh-CN/docs/Web/Accessibility/ARIA"
+  - title: "ES6 Features详解"
+    url: "https://es6-features.org/"
+    type: "article"
+  - title: "JavaScript.info现代教程"
+    url: "https://zh.javascript.info/"
     type: "documentation"
-  - title: "WebAIM可访问性检查清单"
-    url: "https://webaim.org/standards/wcag/checklist"
-    type: "tool"
-  - title: "Schema.org结构化数据"
-    url: "https://schema.org/docs/gs.html"
-    type: "documentation"
+  - title: "You Don't Know JS"
+    url: "https://github.com/getify/You-Dont-Know-JS"
+    type: "article"
+codeExamples:
+  - title: "ES6+语法特性示例"
+    language: "javascript"
+    path: "/code-examples/day-13/es6-features.js"
+  - title: "解构赋值实战"
+    language: "javascript"
+    path: "/code-examples/day-13/destructuring.js"
 ---
 
-# Day 13: HTML语义化深入：构建可访问的Web
+# Day 13: JavaScript现代语法：ES6+特性深入
 
 ## 📋 学习目标
 
-今天我们将深入探讨HTML语义化的高级概念，不仅学习如何正确使用语义标签，更要理解为什么这样做以及它带来的深远影响。我们将特别关注可访问性（Accessibility）和搜索引擎优化（SEO）。
+欢迎来到JavaScript的精彩世界！今天是Phase 2的第一天，我们将深入学习现代JavaScript（ES6+）的核心语法特性。这些特性让JavaScript变得更强大、更优雅，是现代Web开发的基础。
 
-## 🌟 为什么语义化如此重要？
+## 🌟 JavaScript的角色演变
 
-### 1. 机器可读性
-```html
-<!-- ❌ 不良实践：无语义化 -->
-<div class="header">
-  <div class="nav">
-    <div class="item">首页</div>
-    <div class="item">关于</div>
-  </div>
-</div>
+### 从脚本语言到全栈语言
 
-<!-- ✅ 最佳实践：语义化结构 -->
-<header>
-  <nav>
-    <ul>
-      <li><a href="/">首页</a></li>
-      <li><a href="/about">关于</a></li>
-    </ul>
-  </nav>
-</header>
-```
-
-### 2. 可访问性提升
-- 屏幕阅读器能正确理解页面结构
-- 键盘导航更加顺畅
-- 辅助技术能提供更好的用户体验
-
-### 3. SEO优势
-- 搜索引擎更好地理解内容层次
-- 提高内容相关性评分
-- 增强富媒体搜索结果展示
-
-## 📚 HTML5语义标签深度解析
-
-### 1. 文档结构标签
-
-#### `<main>` - 主要内容区域
-```html
-<main>
-  <!-- 页面的主要内容，每个页面只能有一个 -->
-  <!-- 不应包含在 article、aside、footer、header 或 nav 中 -->
-  <h1>页面主标题</h1>
-  <article>...</article>
-</main>
-```
-
-**最佳实践**：
-- 每个页面只使用一个`<main>`
-- 不要将其嵌套在其他语义标签内
-- 确保包含页面的核心内容
-
-#### `<article>` - 独立内容单元
-```html
-<article>
-  <header>
-    <h2>文章标题</h2>
-    <time datetime="2025-07-29">2025年7月29日</time>
-  </header>
-  <p>文章内容...</p>
-  <footer>
-    <p>作者：张三</p>
-  </footer>
-</article>
-```
-
-**使用场景**：
-- 博客文章
-- 新闻报道
-- 论坛帖子
-- 用户评论
-
-#### `<section>` - 主题内容分组
-```html
-<section aria-labelledby="services-heading">
-  <h2 id="services-heading">我们的服务</h2>
-  <article>
-    <h3>网页设计</h3>
-    <p>专业的网页设计服务...</p>
-  </article>
-  <article>
-    <h3>开发服务</h3>
-    <p>全栈开发解决方案...</p>
-  </article>
-</section>
-```
-
-**注意事项**：
-- 应该有标题（h1-h6）
-- 当内容可以独立存在时，优先使用`<article>`
-- 使用`aria-labelledby`关联标题
-
-### 2. 内容语义标签
-
-#### `<figure>` 和 `<figcaption>`
-```html
-<figure>
-  <img src="chart.png" alt="2024年销售数据图表">
-  <figcaption>
-    图1：2024年各季度销售数据对比，显示Q4增长显著
-  </figcaption>
-</figure>
-
-<!-- 代码示例也可以使用 figure -->
-<figure>
-  <pre><code>
-function greet(name) {
-  return `Hello, ${name}!`;
-}
-  </code></pre>
-  <figcaption>示例：JavaScript问候函数</figcaption>
-</figure>
-```
-
-#### `<mark>` - 高亮标记
-```html
-<p>搜索结果：找到 <mark>3个匹配项</mark> 包含关键词 "<mark>语义化</mark>"</p>
-```
-
-#### `<time>` - 时间标记
-```html
-<!-- 机器可读的时间格式 -->
-<time datetime="2025-07-29T14:30:00+08:00">
-  2025年7月29日 下午2:30
-</time>
-
-<!-- 事件持续时间 -->
-<time datetime="PT2H30M">2小时30分钟</time>
-```
-
-#### `<details>` 和 `<summary>`
-```html
-<details>
-  <summary>查看更多信息</summary>
-  <p>这里是展开后的详细内容...</p>
-  <ul>
-    <li>详情项目1</li>
-    <li>详情项目2</li>
-  </ul>
-</details>
-```
-
-### 3. 文本语义标签的正确选择
-
-```html
-<!-- 强调（语气上的强调） -->
-<p>你<em>必须</em>在截止日期前提交。</p>
-
-<!-- 重要性（内容的重要） -->
-<p><strong>警告：</strong>此操作不可撤销。</p>
-
-<!-- 引用 -->
-<blockquote cite="https://example.com/article">
-  <p>语义化是Web的未来。</p>
-  <footer>—— <cite>Tim Berners-Lee</cite></footer>
-</blockquote>
-
-<!-- 缩写 -->
-<abbr title="World Wide Web Consortium">W3C</abbr>
-
-<!-- 定义 -->
-<p><dfn>语义化</dfn>是指使用合适的HTML标签来描述内容的含义。</p>
-
-<!-- 代码 -->
-<p>使用 <code>getElementById()</code> 方法获取元素。</p>
-
-<!-- 键盘输入 -->
-<p>按 <kbd>Ctrl</kbd> + <kbd>S</kbd> 保存文件。</p>
-
-<!-- 样本输出 -->
-<p>控制台输出：<samp>Hello, World!</samp></p>
-
-<!-- 变量 -->
-<p>变量 <var>x</var> 的值为 42。</p>
-```
-
-## 🎯 ARIA深入理解与应用
-
-### 1. ARIA角色（Roles）
-
-```html
-<!-- 导航地标 -->
-<nav role="navigation" aria-label="主导航">
-  <ul>
-    <li><a href="/">首页</a></li>
-    <li><a href="/products">产品</a></li>
-  </ul>
-</nav>
-
-<!-- 搜索区域 -->
-<form role="search" aria-label="站内搜索">
-  <input type="search" aria-label="搜索关键词">
-  <button type="submit">搜索</button>
-</form>
-
-<!-- 选项卡界面 -->
-<div role="tablist" aria-label="产品信息">
-  <button role="tab" aria-selected="true" aria-controls="panel-1">
-    规格
-  </button>
-  <button role="tab" aria-selected="false" aria-controls="panel-2">
-    评价
-  </button>
-</div>
-<div role="tabpanel" id="panel-1" aria-labelledby="tab-1">
-  <!-- 规格内容 -->
-</div>
-```
-
-### 2. ARIA属性深度应用
-
-```html
-<!-- 实时区域 -->
-<div aria-live="polite" aria-atomic="true">
-  <p>购物车已更新：3件商品</p>
-</div>
-
-<!-- 描述关系 -->
-<input 
-  type="email" 
-  id="email"
-  aria-describedby="email-help email-error"
-  aria-invalid="true"
-  aria-required="true"
->
-<span id="email-help">请输入有效的邮箱地址</span>
-<span id="email-error" role="alert">邮箱格式不正确</span>
-
-<!-- 展开/折叠状态 -->
-<button 
-  aria-expanded="false"
-  aria-controls="menu-items"
-  aria-haspopup="true"
->
-  菜单
-</button>
-<ul id="menu-items" hidden>
-  <li>选项1</li>
-  <li>选项2</li>
-</ul>
-```
-
-### 3. 地标角色（Landmark Roles）
-
-```html
-<body>
-  <header role="banner">
-    <h1>网站标题</h1>
-    <nav role="navigation" aria-label="主导航">...</nav>
-  </header>
-  
-  <nav role="navigation" aria-label="面包屑">
-    <ol>
-      <li><a href="/">首页</a></li>
-      <li><a href="/products">产品</a></li>
-      <li aria-current="page">详情</li>
-    </ol>
-  </nav>
-  
-  <main role="main">
-    <article>...</article>
-  </main>
-  
-  <aside role="complementary">
-    <h2>相关链接</h2>
-    ...
-  </aside>
-  
-  <footer role="contentinfo">
-    <p>&copy; 2025 版权所有</p>
-  </footer>
-</body>
-```
-
-## 🔍 结构化数据与SEO
-
-### 1. Schema.org微数据
-
-```html
-<!-- 产品信息 -->
-<div itemscope itemtype="https://schema.org/Product">
-  <h1 itemprop="name">专业相机</h1>
-  <img itemprop="image" src="camera.jpg" alt="专业相机">
-  <div itemprop="description">
-    高端专业数码相机，适合摄影师使用
-  </div>
-  <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-    <span itemprop="price">2999</span>
-    <span itemprop="priceCurrency">CNY</span>
-    <link itemprop="availability" href="https://schema.org/InStock">
-    <span>有货</span>
-  </div>
-  <div itemprop="aggregateRating" 
-       itemscope 
-       itemtype="https://schema.org/AggregateRating">
-    评分：<span itemprop="ratingValue">4.5</span>/5
-    基于 <span itemprop="reviewCount">142</span> 条评价
-  </div>
-</div>
-```
-
-### 2. JSON-LD结构化数据
-
-```html
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "HTML语义化深入指南",
-  "author": {
-    "@type": "Person",
-    "name": "张三"
-  },
-  "datePublished": "2025-07-29",
-  "dateModified": "2025-07-29",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Web开发课程",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://example.com/logo.png"
-    }
-  },
-  "description": "深入理解HTML5语义化标签的正确使用"
-}
-</script>
-```
-
-## 💡 实战最佳实践
-
-### 1. 表单可访问性
-
-```html
-<form>
-  <fieldset>
-    <legend>个人信息</legend>
-    
-    <div class="form-group">
-      <label for="name">
-        姓名 <span aria-label="必填">*</span>
-      </label>
-      <input 
-        type="text" 
-        id="name" 
-        name="name"
-        required
-        aria-required="true"
-        aria-describedby="name-error"
-      >
-      <span id="name-error" role="alert" aria-live="polite"></span>
-    </div>
-    
-    <div class="form-group">
-      <label for="email">
-        邮箱 <span aria-label="必填">*</span>
-      </label>
-      <input 
-        type="email" 
-        id="email" 
-        name="email"
-        required
-        aria-required="true"
-        aria-describedby="email-hint"
-      >
-      <span id="email-hint">我们不会分享您的邮箱</span>
-    </div>
-  </fieldset>
-  
-  <fieldset>
-    <legend>兴趣爱好</legend>
-    <div role="group" aria-describedby="hobbies-desc">
-      <p id="hobbies-desc">请选择您的兴趣（可多选）</p>
-      <label>
-        <input type="checkbox" name="hobbies" value="reading">
-        阅读
-      </label>
-      <label>
-        <input type="checkbox" name="hobbies" value="sports">
-        运动
-      </label>
-    </div>
-  </fieldset>
-  
-  <button type="submit">提交</button>
-</form>
-```
-
-### 2. 导航可访问性
-
-```html
-<nav aria-label="主导航">
-  <ul>
-    <li>
-      <a href="/" aria-current="page">首页</a>
-    </li>
-    <li>
-      <a href="/products">产品</a>
-      <!-- 子菜单 -->
-      <button 
-        aria-expanded="false" 
-        aria-controls="products-submenu"
-        aria-label="展开产品子菜单"
-      >
-        <span aria-hidden="true">▼</span>
-      </button>
-      <ul id="products-submenu" hidden>
-        <li><a href="/products/cameras">相机</a></li>
-        <li><a href="/products/lenses">镜头</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-```
-
-### 3. 表格可访问性
-
-```html
-<table>
-  <caption>2024年销售数据</caption>
-  <thead>
-    <tr>
-      <th scope="col">月份</th>
-      <th scope="col">销售额</th>
-      <th scope="col">增长率</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">一月</th>
-      <td>￥120,000</td>
-      <td>+15%</td>
-    </tr>
-    <tr>
-      <th scope="row">二月</th>
-      <td>￥135,000</td>
-      <td>+12.5%</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <th scope="row">总计</th>
-      <td>￥255,000</td>
-      <td>+13.8%</td>
-    </tr>
-  </tfoot>
-</table>
-```
-
-## 🛠️ 语义化验证工具
-
-### 1. 在线验证工具
-- [W3C Markup Validator](https://validator.w3.org/)
-- [WAVE (WebAIM)](https://wave.webaim.org/)
-- [axe DevTools](https://www.deque.com/axe/devtools/)
-
-### 2. Chrome DevTools审计
 ```javascript
-// 在Console中运行
-// 检查所有图片的alt属性
-Array.from(document.images).forEach(img => {
-  if (!img.alt) {
-    console.warn('Missing alt text:', img.src);
-  }
-});
+// 1995年的JavaScript
+function greet(name) {
+    alert("Hello, " + name + "!");
+}
 
-// 检查标题层级
-const headings = document.querySelectorAll('h1,h2,h3,h4,h5,h6');
-let lastLevel = 0;
-headings.forEach(h => {
-  const level = parseInt(h.tagName[1]);
-  if (level > lastLevel + 1) {
-    console.warn('Heading level skip:', h.textContent);
-  }
-  lastLevel = level;
-});
+// 2025年的JavaScript
+const greet = (name = 'World') => {
+    console.log(`Hello, ${name}!`);
+    return { message: `Greeting sent to ${name}`, timestamp: Date.now() };
+};
+
+// 现代JavaScript可以运行在：
+// - 浏览器（前端）
+// - Node.js（后端）
+// - 移动应用（React Native）
+// - 桌面应用（Electron）
+// - IoT设备
 ```
 
-## 📊 性能考虑
+## 📚 变量声明的现代方式
 
-### 1. 语义化对性能的影响
-- 减少CSS选择器复杂度
-- 提高浏览器解析效率
-- 优化辅助技术的处理速度
+### 1. const vs let vs var
 
-### 2. 优化建议
-```html
-<!-- 避免过度嵌套 -->
-<!-- ❌ 不好 -->
-<article>
-  <section>
-    <div>
-      <div>
-        <p>内容</p>
-      </div>
+```javascript
+// ❌ 避免使用var（函数作用域，变量提升）
+var oldWay = "I can be redeclared and reassigned";
+var oldWay = "See? Redeclared!"; // 没有错误
+
+// ✅ 使用const（块级作用域，不可重新赋值）
+const API_KEY = "abc123"; // 常量
+const user = { name: "张三", age: 25 }; // 对象引用不变
+user.age = 26; // ✅ 可以修改对象属性
+
+// ✅ 使用let（块级作用域，可重新赋值）
+let counter = 0;
+counter++; // ✅ 可以重新赋值
+
+// 块级作用域示例
+{
+    const blockScoped = "只在这个块中可见";
+    let alsoBlockScoped = "同样只在块中";
+}
+// console.log(blockScoped); // ❌ ReferenceError
+```
+
+### 2. 变量命名最佳实践
+
+```javascript
+// 使用有意义的变量名
+const userAge = 25; // ✅ 清晰
+const a = 25; // ❌ 不清晰
+
+// 使用驼峰命名法
+const firstName = "张"; // ✅
+const first_name = "张"; // ❌ 不符合JavaScript惯例
+
+// 常量使用大写
+const MAX_RETRY_COUNT = 3; // ✅
+const PI = 3.14159; // ✅
+
+// 布尔值使用is/has前缀
+const isLoading = true; // ✅
+const hasPermission = false; // ✅
+```
+
+## 🚀 ES6+核心特性
+
+### 1. 箭头函数（Arrow Functions）
+
+```javascript
+// 传统函数
+function add(a, b) {
+    return a + b;
+}
+
+// 箭头函数
+const add = (a, b) => a + b; // 隐式返回
+
+// 多行箭头函数
+const calculate = (a, b) => {
+    const sum = a + b;
+    const product = a * b;
+    return { sum, product };
+};
+
+// 单参数可省略括号
+const double = n => n * 2;
+
+// 无参数必须有括号
+const getRandom = () => Math.random();
+
+// 返回对象字面量需要括号
+const createUser = (name, age) => ({ name, age });
+
+// 箭头函数与this
+class Timer {
+    constructor() {
+        this.seconds = 0;
+        
+        // 箭头函数继承外层this
+        setInterval(() => {
+            this.seconds++; // ✅ this指向Timer实例
+        }, 1000);
+        
+        // 传统函数的this问题
+        // setInterval(function() {
+        //     this.seconds++; // ❌ this指向undefined或window
+        // }, 1000);
+    }
+}
+```
+
+### 2. 模板字符串（Template Literals）
+
+```javascript
+// 基本用法
+const name = "张三";
+const age = 25;
+const message = `你好，${name}！你今年${age}岁。`; // ✅
+
+// 多行字符串
+const html = `
+    <div class="user-card">
+        <h2>${name}</h2>
+        <p>年龄：${age}</p>
     </div>
-  </section>
-</article>
+`;
 
-<!-- ✅ 更好 -->
-<article>
-  <p>内容</p>
-</article>
+// 表达式计算
+const price = 99.99;
+const quantity = 3;
+const total = `总价：￥${(price * quantity).toFixed(2)}`;
+
+// 标签模板
+function highlight(strings, ...values) {
+    return strings.reduce((result, str, i) => {
+        return `${result}${str}<mark>${values[i] || ''}</mark>`;
+    }, '');
+}
+
+const highlighted = highlight`你好，${name}！你今年${age}岁。`;
+// 输出：你好，<mark>张三</mark>！你今年<mark>25</mark>岁。
+```
+
+### 3. 解构赋值（Destructuring）
+
+```javascript
+// 数组解构
+const rgb = [255, 128, 0];
+const [red, green, blue] = rgb;
+
+// 交换变量
+let a = 1, b = 2;
+[a, b] = [b, a]; // a=2, b=1
+
+// 跳过元素
+const [first, , third] = [1, 2, 3]; // first=1, third=3
+
+// 剩余元素
+const [head, ...tail] = [1, 2, 3, 4, 5]; // head=1, tail=[2,3,4,5]
+
+// 对象解构
+const user = {
+    id: 1,
+    name: "张三",
+    email: "zhang@example.com",
+    address: {
+        city: "北京",
+        district: "朝阳区"
+    }
+};
+
+// 基本解构
+const { name, email } = user;
+
+// 重命名
+const { name: userName, email: userEmail } = user;
+
+// 默认值
+const { phone = "未提供" } = user; // phone="未提供"
+
+// 嵌套解构
+const { address: { city, district } } = user;
+
+// 函数参数解构
+function createUser({ name, age = 18, city = "北京" }) {
+    return {
+        name,
+        age,
+        city,
+        createdAt: new Date()
+    };
+}
+
+const newUser = createUser({ name: "李四", age: 30 });
+```
+
+### 4. 扩展运算符（Spread Operator）
+
+```javascript
+// 数组扩展
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+const combined = [...arr1, ...arr2]; // [1, 2, 3, 4, 5, 6]
+
+// 复制数组（浅拷贝）
+const original = [1, 2, 3];
+const copy = [...original]; // 新数组
+
+// 函数参数
+const numbers = [5, 3, 8, 1];
+const max = Math.max(...numbers); // 8
+
+// 对象扩展
+const defaults = { theme: 'dark', fontSize: 16 };
+const userPrefs = { fontSize: 18 };
+const settings = { ...defaults, ...userPrefs }; // { theme: 'dark', fontSize: 18 }
+
+// 复制对象（浅拷贝）
+const userCopy = { ...user };
+
+// 添加/覆盖属性
+const updatedUser = {
+    ...user,
+    name: "王五", // 覆盖
+    role: "admin" // 新增
+};
+```
+
+### 5. 剩余参数（Rest Parameters）
+
+```javascript
+// 收集剩余参数
+function sum(...numbers) {
+    return numbers.reduce((total, n) => total + n, 0);
+}
+
+sum(1, 2, 3, 4, 5); // 15
+
+// 与普通参数结合
+function greetAll(greeting, ...names) {
+    return names.map(name => `${greeting}, ${name}!`);
+}
+
+greetAll("你好", "张三", "李四", "王五");
+// ["你好, 张三!", "你好, 李四!", "你好, 王五!"]
+
+// 解构中的剩余
+const { id, ...otherProps } = user;
+// id = 1
+// otherProps = { name: "张三", email: "...", address: {...} }
+```
+
+### 6. 默认参数（Default Parameters）
+
+```javascript
+// 基本默认参数
+function greet(name = 'World', greeting = 'Hello') {
+    return `${greeting}, ${name}!`;
+}
+
+greet(); // "Hello, World!"
+greet('张三'); // "Hello, 张三!"
+greet('李四', '你好'); // "你好, 李四!"
+
+// 默认参数可以是表达式
+function createId(prefix = 'ID', random = Math.random()) {
+    return `${prefix}_${random.toString(36).substr(2, 9)}`;
+}
+
+// 默认参数可以使用其他参数
+function createRect(width = 10, height = width) {
+    return { width, height, area: width * height };
+}
+```
+
+### 7. 对象字面量增强（Enhanced Object Literals）
+
+```javascript
+// 属性简写
+const name = "张三";
+const age = 25;
+const user = { name, age }; // { name: "张三", age: 25 }
+
+// 方法简写
+const calculator = {
+    // 旧语法
+    add: function(a, b) {
+        return a + b;
+    },
+    
+    // 新语法
+    subtract(a, b) {
+        return a - b;
+    },
+    
+    // 箭头函数（注意this绑定）
+    multiply: (a, b) => a * b
+};
+
+// 计算属性名
+const prefix = 'user';
+const dynamicObj = {
+    [`${prefix}_id`]: 1,
+    [`${prefix}_name`]: "张三",
+    [`${prefix}_${Date.now()}`]: "timestamp"
+};
+```
+
+## 🔧 现代JavaScript模式
+
+### 1. 可选链（Optional Chaining）
+
+```javascript
+const user = {
+    name: "张三",
+    address: {
+        city: "北京"
+    }
+};
+
+// 安全访问嵌套属性
+const city = user.address?.city; // "北京"
+const street = user.address?.street; // undefined（不会报错）
+
+// 可选方法调用
+const result = user.sayHello?.(); // undefined（如果方法不存在）
+
+// 可选数组/索引访问
+const firstHobby = user.hobbies?.[0];
+
+// 与空值合并运算符结合
+const displayName = user.profile?.name ?? "匿名用户";
+```
+
+### 2. 空值合并运算符（Nullish Coalescing）
+
+```javascript
+// ?? 只在null或undefined时使用默认值
+const port = process.env.PORT ?? 3000;
+
+// 与 || 的区别
+const count1 = 0 || 10; // 10（0被视为假值）
+const count2 = 0 ?? 10; // 0（0不是null/undefined）
+
+// 实际应用
+function getConfig(userConfig) {
+    return {
+        timeout: userConfig.timeout ?? 5000,
+        retries: userConfig.retries ?? 3,
+        debug: userConfig.debug ?? false
+    };
+}
+```
+
+### 3. 逻辑赋值运算符
+
+```javascript
+// 逻辑或赋值（||=）
+let a = null;
+a ||= 10; // a = 10
+
+// 逻辑与赋值（&&=）
+let b = 5;
+b &&= 10; // b = 10（因为5是真值）
+
+// 空值合并赋值（??=）
+let c = null;
+c ??= 20; // c = 20
+
+// 实际应用
+const config = {};
+config.host ??= 'localhost';
+config.port ??= 3000;
+config.ssl &&= validateSSL(); // 只在ssl为真时验证
+```
+
+## 📦 模块系统基础
+
+### ES6模块（ESM）
+
+```javascript
+// math.js - 导出
+export const PI = 3.14159;
+
+export function add(a, b) {
+    return a + b;
+}
+
+export function subtract(a, b) {
+    return a - b;
+}
+
+// 默认导出
+export default class Calculator {
+    // ...
+}
+
+// main.js - 导入
+import Calculator, { PI, add, subtract } from './math.js';
+
+// 重命名导入
+import { add as sum } from './math.js';
+
+// 导入所有
+import * as math from './math.js';
+
+// 动态导入
+async function loadMath() {
+    const math = await import('./math.js');
+    console.log(math.PI);
+}
+```
+
+## 💡 实战技巧和最佳实践
+
+### 1. 代码风格建议
+
+```javascript
+// ✅ 使用const声明不会重新赋值的变量
+const API_URL = 'https://api.example.com';
+const userList = []; // 即使会push元素，引用不变
+
+// ✅ 使用模板字符串进行字符串拼接
+const url = `${API_URL}/users/${userId}`;
+
+// ✅ 使用箭头函数作为回调
+const doubled = numbers.map(n => n * 2);
+
+// ✅ 使用解构赋值提取数据
+const { data, error } = await fetchUser(userId);
+
+// ✅ 使用默认参数而非手动检查
+function createUser(name, role = 'user') {
+    // 不需要: role = role || 'user';
+}
+```
+
+### 2. 避免的陷阱
+
+```javascript
+// ❌ 箭头函数作为方法（this绑定问题）
+const obj = {
+    name: '对象',
+    greet: () => {
+        console.log(this.name); // undefined
+    }
+};
+
+// ✅ 使用方法简写
+const obj = {
+    name: '对象',
+    greet() {
+        console.log(this.name); // '对象'
+    }
+};
+
+// ❌ 过度使用解构
+const { data: { user: { profile: { settings: { theme } } } } } = response;
+
+// ✅ 分步解构，提高可读性
+const { data } = response;
+const { user } = data;
+const { theme } = user.profile.settings;
+```
+
+## 🛠️ 开发环境配置
+
+### 使用现代JavaScript的准备
+
+```json
+// package.json
+{
+  "name": "modern-js-project",
+  "version": "1.0.0",
+  "type": "module", // 启用ES模块
+  "scripts": {
+    "dev": "node --watch index.js",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "eslint": "^8.50.0"
+  }
+}
+```
+
+### 基础ESLint配置
+
+```javascript
+// .eslintrc.js
+export default {
+    env: {
+        es2022: true,
+        node: true,
+        browser: true
+    },
+    parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module'
+    },
+    rules: {
+        'prefer-const': 'error',
+        'no-var': 'error',
+        'arrow-body-style': ['error', 'as-needed']
+    }
+};
 ```
 
 ## 🎯 今日练习预览
 
-今天的练习中，你将创建一个完全语义化且可访问的新闻网站首页，包括：
-- 正确的文档结构
-- ARIA增强的导航系统
-- 可访问的表单组件
-- 结构化数据标记
-- 符合WCAG 2.1 AA标准
+今天的练习中，你将重构一个使用旧语法编写的JavaScript应用，将其转换为使用现代ES6+特性。这将帮助你：
+
+1. 实践const/let替代var
+2. 将传统函数转换为箭头函数
+3. 使用解构赋值简化代码
+4. 应用模板字符串
+5. 使用扩展运算符和默认参数
 
 ## 🚀 下一步
 
-明天我们将深入学习HTML表单的高级特性，包括：
-- HTML5新增的输入类型
-- 表单验证API
-- 自定义验证消息
-- 表单数据处理
+明天我们将深入学习函数式编程的核心概念，包括：
+- 纯函数和不可变性
+- 高阶函数
+- 数组方法（map、filter、reduce）
+- 函数组合
+- 柯里化
 
 ## 💭 思考题
 
-1. 为什么说"div汤"（div soup）是反模式？
-2. 如何平衡语义化和实际开发需求？
-3. ARIA的第一规则是什么？为什么？
-4. 结构化数据如何影响搜索结果展示？
+1. 为什么const声明的对象仍然可以修改其属性？
+2. 箭头函数和普通函数在this绑定上有什么区别？
+3. 什么时候应该使用默认参数，什么时候使用空值合并运算符？
+4. 解构赋值在实际开发中最常见的应用场景是什么？
 
-记住：**好的HTML是一切的基础**。语义化不仅让你的代码更专业，更让你的网站对所有用户都友好！
+记住：**现代JavaScript不仅让代码更简洁，更让代码更安全、更易维护**。今天学习的这些特性是后续所有JavaScript开发的基础！

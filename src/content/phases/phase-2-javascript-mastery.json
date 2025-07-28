@@ -1,17 +1,17 @@
 {
   "number": 2,
   "name": "JavaScript精通",
-  "description": "深入学习JavaScript现代语法、DOM操作、异步编程和TypeScript，掌握前端编程核心技能",
+  "description": "深入学习JavaScript现代语法、DOM操作、异步编程，掌握前端编程核心技能",
   "startDay": 13,
-  "endDay": 25,
-  "icon": "🚀",
+  "endDay": 24,
+  "icon": "⚡",
   "objectives": [
     "掌握ES6+现代JavaScript语法",
     "精通DOM操作和事件处理",
     "理解异步编程和Promise/Async",
     "学会使用浏览器API",
-    "入门TypeScript类型系统",
+    "掌握函数式编程基础",
     "构建交互式Web应用"
   ],
-  "prerequisites": ["HTML基础", "CSS基础"]
+  "prerequisites": ["HTML基础", "CSS基础", "Git版本控制"]
 }

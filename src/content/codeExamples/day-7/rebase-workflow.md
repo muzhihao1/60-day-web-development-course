@@ -1,6 +1,8 @@
 ---
 title: "Git Rebase工作流详解"
 description: "深入理解rebase的使用场景和最佳实践"
+category: "version-control"
+language: "bash"
 ---
 
 # Git Rebase工作流

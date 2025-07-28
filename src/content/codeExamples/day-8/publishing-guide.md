@@ -1,6 +1,8 @@
 ---
 title: "npm包发布完整指南"
 description: "从零到一发布你的第一个npm包"
+category: "tooling"
+language: "json"
 ---
 
 # npm包发布完整指南

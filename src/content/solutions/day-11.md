@@ -1,6 +1,29 @@
 ---
-title: "DevTools侦探挑战 - 完整解决方案"
 day: 11
+exerciseTitle: "DevTools侦探挑战 - 完整解决方案"
+approach: "通过Chrome DevTools的各种面板（Console、Performance、Memory、Network、Coverage、Rendering）系统地诊断和修复网站的性能问题。包括JavaScript错误修复、内存泄漏解决、强制同步布局优化、网络请求优化、CSS性能改进等。实现了从35分到95分的性能提升。"
+files:
+  - path: "index.html"
+    language: "html"
+    description: "优化后的HTML，包含关键CSS内联、资源预加载和语义化标记"
+  - path: "styles.css"
+    language: "css"
+    description: "性能优化的CSS，移除了昂贵的选择器，使用CSS containment"
+  - path: "app.js"
+    language: "javascript"
+    description: "重构的JavaScript，使用IIFE封装、事件委托、防抖节流等优化"
+  - path: "sw.js"
+    language: "javascript"
+    description: "Service Worker实现基本的缓存策略"
+keyTakeaways:
+  - "使用IIFE封装代码避免全局变量污染"
+  - "事件委托可以显著减少内存使用和提升性能"
+  - "防抖和节流是优化频繁触发事件的关键技术"
+  - "使用IntersectionObserver实现高效的图片懒加载"
+  - "CSS containment可以限制浏览器的重排重绘范围"
+  - "使用Performance API监控应用性能指标"
+  - "Service Worker提供离线体验和缓存优化"
+  - "正确的错误处理和用户反馈提升用户体验"
 ---
 
 # DevTools侦探挑战 - 完整解决方案 ✅

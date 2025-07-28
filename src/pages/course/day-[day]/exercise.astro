@@ -14,7 +14,7 @@ export async function getStaticPaths() {
   
   return exercises.map((exercise) => {
     const course = courses.find(c => c.data.day === exercise.data.day)
-    const phase = phases.find(p => p.id === course?.data.phase)
+    const phase = phases.find(p => p.id.includes(course?.data.phase))
     
     return {
       params: { day: exercise.data.day.toString() },

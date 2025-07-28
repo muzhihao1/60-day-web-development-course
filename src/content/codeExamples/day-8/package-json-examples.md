@@ -1,6 +1,8 @@
 ---
 title: "package.json配置示例"
 description: "展示package.json的各种配置选项和最佳实践"
+category: "tooling"
+language: "json"
 ---
 
 ## 基础配置

@@ -1,6 +1,8 @@
 ---
 title: "缓存策略实现"
 description: "Service Worker缓存策略和HTTP缓存的最佳实践"
+category: "performance"
+language: "javascript"
 ---
 
 ## Service Worker缓存策略

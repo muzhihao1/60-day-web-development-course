@@ -1,6 +1,8 @@
 ---
 title: "Webpack基础配置示例"
 description: "展示Webpack的基本配置和常用功能"
+category: "build-tools"
+language: "javascript"
 ---
 
 ## 最简单的Webpack配置

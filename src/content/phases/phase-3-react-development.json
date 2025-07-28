@@ -2,7 +2,7 @@
   "number": 3,
   "name": "React开发",
   "description": "学习React框架，掌握组件化开发、状态管理、路由和现代前端工具链",
-  "startDay": 26,
+  "startDay": 25,
   "endDay": 40,
   "icon": "⚛️",
   "objectives": [

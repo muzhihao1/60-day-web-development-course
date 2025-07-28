@@ -1,8 +1,9 @@
 ---
 title: "Git命令示例"
-day: 1
-language: "bash"
 description: "Git基本命令的使用示例"
+category: "version-control"
+language: "bash"
+day: 1
 concepts:
   - "版本控制"
   - "Git基础"

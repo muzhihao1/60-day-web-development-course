@@ -1,6 +1,8 @@
 ---
 title: "项目初始化与环境配置"
 description: "使用Git、npm和Vite搭建现代化开发环境"
+category: "project"
+language: "html"
 ---
 
 ## 完整项目初始化指南

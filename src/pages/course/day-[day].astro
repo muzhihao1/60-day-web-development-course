@@ -12,7 +12,7 @@ export async function getStaticPaths() {
   const phases = await getCollection('phases')
   
   return courses.map((course) => {
-    const phase = phases.find(p => p.id === course.data.phase)
+    const phase = phases.find(p => p.id.includes(course.data.phase))
     return {
       params: { day: course.data.day.toString() },
       props: { course, phase }

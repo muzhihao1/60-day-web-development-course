@@ -1,6 +1,8 @@
 ---
 title: "Git高级操作"
 description: "演示Git的高级命令和撤销操作"
+category: "version-control"
+language: "bash"
 ---
 
 ## Git高级操作

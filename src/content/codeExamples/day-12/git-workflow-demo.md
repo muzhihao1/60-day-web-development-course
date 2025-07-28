@@ -1,6 +1,8 @@
 ---
 title: "Git Flow团队协作实战"
 description: "模拟真实开发场景的Git工作流"
+category: "project"
+language: "html"
 ---
 
 ## Git Flow团队协作完整指南

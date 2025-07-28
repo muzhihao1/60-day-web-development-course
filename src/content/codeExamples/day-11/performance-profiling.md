@@ -1,6 +1,8 @@
 ---
 title: "性能分析与优化"
 description: "使用Performance面板进行CPU分析、内存分析、火焰图解读"
+category: "debugging"
+language: "javascript"
 ---
 
 ## Performance面板深度使用

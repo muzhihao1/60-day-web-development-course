@@ -1,6 +1,8 @@
 ---
 title: "依赖管理最佳实践"
 description: "展示如何有效管理项目依赖"
+category: "tooling"
+language: "json"
 ---
 
 ## 依赖类型和安装

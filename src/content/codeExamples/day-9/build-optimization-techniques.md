@@ -1,6 +1,8 @@
 ---
 title: "构建优化技术示例"
 description: "展示各种构建优化技术和最佳实践"
+category: "build-tools"
+language: "javascript"
 ---
 
 ## 代码分割 (Code Splitting)

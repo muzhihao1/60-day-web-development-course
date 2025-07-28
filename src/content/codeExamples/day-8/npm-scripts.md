@@ -1,6 +1,8 @@
 ---
 title: "npm scripts常用模式"
 description: "掌握npm scripts的高级用法和最佳实践"
+category: "tooling"
+language: "json"
 ---
 
 # npm Scripts常用模式

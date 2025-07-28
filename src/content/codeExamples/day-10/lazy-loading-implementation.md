@@ -1,6 +1,8 @@
 ---
 title: "图片懒加载实现方法"
 description: "使用Intersection Observer API和其他技术实现高效的图片懒加载"
+category: "performance"
+language: "javascript"
 ---
 
 ## 基础懒加载实现
