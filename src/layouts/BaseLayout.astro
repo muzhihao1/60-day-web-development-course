@@ -100,6 +100,9 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
     </style>
   </head>
   <body>
+    <!-- 跳过导航链接 (无障碍功能) -->
+    <a href="#main-content" class="skip-link">跳转到主要内容</a>
+    
     <div class="app-layout">
       <!-- 顶部进度条 -->
       {showProgress && <ProgressBar currentDay={currentDay} />}
@@ -150,7 +153,7 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
       <Navigation currentPath={Astro.url.pathname} />
       
       <!-- 主内容区 -->
-      <main class="app-main">
+      <main class="app-main" id="main-content">
         <!-- 面包屑导航 -->
         <Breadcrumbs items={breadcrumbs} />
         
@@ -162,6 +165,32 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
     </div>
     
     <style>
+      /* 跳过导航链接样式 */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--color-primary);
+        color: white;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        border-radius: 0 0 var(--radius-md) 0;
+        z-index: 200;
+        transition: top 0.3s ease;
+        font-weight: 500;
+        box-shadow: var(--shadow-md);
+      }
+      
+      .skip-link:focus {
+        top: 0;
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+      }
+      
+      .skip-link:hover {
+        background: var(--color-secondary);
+      }
+      
       .app-layout {
         display: grid;
         grid-template-areas: 
