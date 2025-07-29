@@ -2,80 +2,12 @@
 day: 30
 title: "CSS-in-JS与样式系统练习"
 description: "通过实际项目掌握styled-components、主题系统、响应式设计等现代React样式解决方案"
-exercises:
-  - title: "主题切换系统"
-    description: "创建一个支持多主题的应用，包含完整的设计令牌系统和主题切换功能"
-    difficulty: "intermediate"
-    requirements:
-      - "使用styled-components构建样式系统"
-      - "实现至少3种主题：亮色、暗色、高对比度"
-      - "创建完整的设计令牌系统（颜色、间距、字体等）"
-      - "支持主题持久化（保存用户偏好）"
-      - "实现平滑的主题切换动画"
-      - "支持系统主题自动检测"
-      - "创建主题预览组件"
-      - "实现主题定制功能（颜色选择器）"
-    tips:
-      - "使用ThemeProvider管理全局主题"
-      - "利用CSS变量实现过渡动画"
-      - "考虑使用localStorage保存主题偏好"
-      - "使用prefers-color-scheme媒体查询"
-  - title: "响应式组件库"
-    description: "构建一套完整的响应式UI组件库，包含常用组件和布局系统"
-    difficulty: "advanced"
-    requirements:
-      - "创建基础组件：Button、Input、Card、Modal"
-      - "实现Grid和Flex布局组件"
-      - "添加Typography系统（标题、段落、链接）"
-      - "创建表单组件系统（验证、错误处理）"
-      - "实现响应式导航组件"
-      - "添加动画和过渡效果"
-      - "支持组件变体和大小"
-      - "创建组件文档和使用示例"
-    tips:
-      - "使用组合而非继承设计组件"
-      - "考虑移动优先的设计策略"
-      - "使用CSS Grid实现复杂布局"
-      - "创建可复用的样式工具函数"
-  - title: "设计系统仪表板"
-    description: "创建一个展示设计系统的交互式仪表板，包含组件展示、主题编辑和代码生成"
-    difficulty: "advanced"
-    requirements:
-      - "创建组件展示页面（实时预览）"
-      - "实现设计令牌编辑器"
-      - "添加主题导出功能（JSON/CSS）"
-      - "创建颜色调色板生成器"
-      - "实现间距和排版预览"
-      - "添加组件代码复制功能"
-      - "创建响应式预览模式"
-      - "实现深色模式实时切换"
-    tips:
-      - "使用react-live实现实时代码预览"
-      - "考虑使用color库处理颜色计算"
-      - "实现代码高亮显示"
-      - "添加键盘快捷键支持"
-selfCheckQuestions:
-  - "CSS-in-JS相比传统CSS的主要优势是什么？"
-  - "如何在styled-components中实现条件样式？"
-  - "什么是设计令牌（Design Tokens）？如何组织它们？"
-  - "如何优化CSS-in-JS的运行时性能？"
-  - "styled-components和emotion的主要区别是什么？"
-resources:
-  - title: "styled-components最佳实践"
-    url: "https://www.joshwcomeau.com/css/styled-components/"
-    type: "article"
-  - title: "设计系统构建指南"
-    url: "https://www.designsystems.com/"
-    type: "article"
-  - title: "CSS-in-JS性能对比"
-    url: "https://css-tricks.com/a-thorough-analysis-of-css-in-js/"
-    type: "article"
-estimatedTime: 240
-objectives:
-  - "掌握styled-components的高级特性"
-  - "学会构建可扩展的主题系统"
-  - "理解响应式设计的最佳实践"
-  - "掌握组件样式的组织方法"
+difficulty: "intermediate"
+estimatedTime: 180
+requirements:
+  - "主题切换系统"
+  - "响应式组件库"
+  - "设计系统仪表板"
 ---
 
 # Day 30: CSS-in-JS与样式系统练习

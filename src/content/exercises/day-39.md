@@ -5,34 +5,11 @@ description: "创建功能完整的移动应用"
 difficulty: "intermediate"
 estimatedTime: 180
 requirements:
-  - "React Native开发环境"
-  - "熟悉React基础"
-  - "了解移动应用概念"
-exercises:
-  - id: "todo-app"
-    title: "待办事项应用"
-    difficulty: "intermediate"
-    description: "创建具有持久化存储的待办应用"
-    hints:
-      - "使用AsyncStorage保存数据"
-      - "实现滑动删除功能"
-      - "添加完成动画效果"
-  - id: "weather-app"
-    title: "天气预报应用"
-    difficulty: "advanced"
-    description: "集成API的天气应用"
-    hints:
-      - "使用天气API获取数据"
-      - "实现位置获取功能"
-      - "添加下拉刷新"
-  - id: "photo-gallery"
-    title: "图片浏览器"
-    difficulty: "advanced"
-    description: "支持手势的图片浏览应用"
-    hints:
-      - "实现图片网格布局"
-      - "添加缩放手势"
-      - "优化图片加载性能"
+  - "创建跨平台移动应用"
+  - "实现原生组件和手势交互"
+  - "集成设备API（相机、位置等）"
+  - "实现导航和状态管理"
+  - "构建和发布应用"
 ---
 
 # Day 39 练习：React Native应用开发

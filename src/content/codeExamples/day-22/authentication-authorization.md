@@ -1,5 +1,6 @@
 ---
 title: "身份认证与授权"
+description: "学习和掌握身份认证与授权的实际应用"
 category: "security"
 language: "javascript"
 ---

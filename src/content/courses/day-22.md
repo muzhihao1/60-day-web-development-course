@@ -1,11 +1,26 @@
 ---
 day: 22
-title: "JavaScript安全性"
-description: "学习前端安全最佳实践，防范常见的安全威胁"
-date: 2024-01-22
-tags: ["JavaScript", "安全", "Web安全", "最佳实践"]
-duration: "6小时"
-difficulty: "高级"
+phase: "javascript-mastery"
+title: "Web安全基础"
+description: "了解Web安全威胁和防御策略，构建安全的JavaScript应用"
+objectives:
+  - "理解常见的Web安全威胁"
+  - "掌握XSS和CSRF防护方法"
+  - "学习安全的数据处理和验证"
+  - "了解HTTPS和安全通信"
+  - "实践安全编码最佳实践"
+prerequisites:
+  - 18
+  - 16
+estimatedTime: 180
+difficulty: "advanced"
+resources:
+  - title: "OWASP安全指南"
+    url: "https://owasp.org/www-project-top-ten/"
+    type: "article"
+  - title: "MDN Web安全"
+    url: "https://developer.mozilla.org/zh-CN/docs/Web/Security"
+    type: "documentation"
 ---
 
 # Day 22: JavaScript安全性 🔐

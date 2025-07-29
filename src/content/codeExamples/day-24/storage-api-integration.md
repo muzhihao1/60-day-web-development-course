@@ -1,5 +1,6 @@
 ---
 title: "数据存储与API集成"
+description: "学习和掌握数据存储与API集成的实际应用"
 category: "advanced"
 language: "javascript"
 ---

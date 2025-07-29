@@ -1,6 +1,6 @@
 ---
 day: 19
-phase: "phase-2"
+phase: "javascript-mastery"
 title: "现代JavaScript模块系统"
 description: "深入理解JavaScript模块化开发，掌握ES Modules、CommonJS和现代构建工具"
 objectives:
@@ -10,10 +10,9 @@ objectives:
   - "学习模块打包和构建工具"
   - "实践模块化项目架构"
 prerequisites:
-  - "JavaScript基础语法"
-  - "函数和作用域概念"
-  - "基本的Node.js知识"
+  - 13
 estimatedTime: 180
+difficulty: "intermediate"
 resources:
   - title: "ES Modules深入指南"
     url: "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules"

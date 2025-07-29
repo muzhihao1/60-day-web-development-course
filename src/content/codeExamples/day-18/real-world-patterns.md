@@ -1,5 +1,6 @@
 ---
 title: "实际应用模式"
+description: "学习和掌握实际应用模式的实际应用"
 category: "tips"
 language: "javascript"
 ---

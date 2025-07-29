@@ -1,5 +1,6 @@
 ---
 title: "认证与安全实现"
+description: "学习和掌握认证与安全实现的实际应用"
 category: "advanced"
 language: "javascript"
 ---

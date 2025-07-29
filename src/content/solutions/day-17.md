@@ -1,32 +1,23 @@
 ---
 day: 17
-exerciseTitle: "构建离线个人财务追踪器"
-approach: "综合运用localStorage、sessionStorage、IndexedDB和Service Worker构建完整的离线财务管理应用"
+exerciseTitle: "构建动态Web存储应用"
+approach: "通过JavaScript实现完整的应用功能，包含性能优化和最佳实践"
 files:
-  - path: "finance-tracker.html"
+  - path: "index.html"
     language: "html"
-    description: "完整的财务追踪器实现，包含所有存储技术的综合应用"
+    description: "主HTML文件"
+  - path: "app.js"
+    language: "javascript"
+    description: "主应用逻辑"
+  - path: "styles.css"
+    language: "css"
+    description: "样式文件"
 keyTakeaways:
-  - "localStorage适合存储用户偏好设置等持久化配置"
-  - "sessionStorage用于临时数据，如草稿和当前会话状态"
-  - "IndexedDB是存储大量结构化数据的最佳选择"
-  - "Service Worker实现离线功能和后台同步"
-  - "合理的存储策略能显著提升用户体验"
-commonMistakes:
-  - "在localStorage中存储敏感信息或大量数据"
-  - "忘记处理存储配额限制和错误情况"
-  - "没有实现数据版本控制和迁移策略"
-  - "Service Worker缓存策略不当导致数据不同步"
-  - "没有考虑跨标签页的数据同步"
-extensions:
-  - title: "添加数据加密功能"
-    description: "使用Web Crypto API加密敏感财务数据"
-  - title: "实现云端同步"
-    description: "添加账户系统，支持多设备数据同步"
-  - title: "集成图表分析"
-    description: "使用Chart.js展示财务趋势和分析报告"
+  - "理解JavaScript核心概念的实际应用"
+  - "掌握代码组织和架构设计"
+  - "学习性能优化技巧"
+  - "实践安全编码和错误处理"
 ---
-
 # 解决方案：离线个人财务追踪器
 
 ## 实现思路

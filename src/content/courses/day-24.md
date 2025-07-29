@@ -1,32 +1,25 @@
 ---
 day: 24
-phase: "phase-2"
-title: "Phase 2项目实战：TaskFlow Pro"
-description: "构建一个功能完整的任务管理应用，综合运用JavaScript高级特性"
+phase: "javascript-mastery"
+title: "Phase 2 项目实战"
+description: "综合运用所学知识，构建一个完整的现代JavaScript应用"
 objectives:
-  - "整合Phase 2所有JavaScript知识点"
-  - "构建模块化、可维护的应用架构"
-  - "实现完整的用户认证和数据持久化"
+  - "整合Phase 2所学的所有概念"
+  - "构建完整的单页应用"
+  - "实现用户认证和数据持久化"
   - "应用性能优化和安全最佳实践"
-  - "使用现代开发工具链进行项目构建"
-estimatedTime: 480
+  - "部署和发布应用"
 prerequisites:
-  - "完成Days 13-23的所有课程"
-  - "熟悉ES6+语法和异步编程"
-  - "了解模块系统和构建工具"
+  - 23
+estimatedTime: 240
+difficulty: "advanced"
 resources:
-  - title: "现代JavaScript应用架构"
-    url: "https://javascript.info/modules"
+  - title: "项目部署指南"
+    url: "https://create-react-app.dev/docs/deployment/"
+    type: "documentation"
+  - title: "现代Web应用架构"
+    url: "https://developer.mozilla.org/zh-CN/docs/Web/Progressive_web_apps"
     type: "article"
-    description: "JavaScript模块化开发指南"
-  - title: "Web应用安全最佳实践"
-    url: "https://owasp.org/www-project-top-ten/"
-    type: "article"
-    description: "OWASP安全指南"
-  - title: "JavaScript性能优化技巧"
-    url: "https://web.dev/fast/"
-    type: "article"
-    description: "Web性能优化指南"
 ---
 
 # Phase 2项目实战：TaskFlow Pro 🚀

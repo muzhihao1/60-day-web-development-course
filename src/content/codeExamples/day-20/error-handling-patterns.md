@@ -1,5 +1,6 @@
 ---
 title: "错误处理模式与策略"
+description: "学习和掌握错误处理模式与策略的实际应用"
 category: "advanced"
 language: "javascript"
 ---

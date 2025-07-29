@@ -1,5 +1,6 @@
 ---
 title: "ES Modules基础用法"
+description: "学习和掌握ES Modules基础用法的实际应用"
 category: "basic"
 language: "javascript"
 ---

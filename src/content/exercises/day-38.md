@@ -2,37 +2,14 @@
 day: 38
 title: "服务端渲染SSR实践"
 description: "构建高性能的Next.js应用"
-difficulty: "advanced"
-estimatedTime: 240
+difficulty: "intermediate"
+estimatedTime: 180
 requirements:
-  - "掌握React基础"
-  - "了解路由概念"
-  - "熟悉Node.js基础"
-exercises:
-  - id: "blog-platform"
-    title: "博客平台开发"
-    difficulty: "advanced"
-    description: "使用Next.js创建完整博客系统"
-    hints:
-      - "实现文章列表和详情页"
-      - "添加Markdown支持"
-      - "优化SEO和性能"
-  - id: "ecommerce-product"
-    title: "电商产品页"
-    difficulty: "advanced"
-    description: "构建高性能产品展示页面"
-    hints:
-      - "实现SSR和ISR混合策略"
-      - "优化图片加载"
-      - "添加购物车功能"
-  - id: "performance-optimization"
-    title: "性能优化实战"
-    difficulty: "intermediate"
-    description: "优化现有Next.js应用性能"
-    hints:
-      - "实现缓存策略"
-      - "优化Core Web Vitals"
-      - "添加性能监控"
+  - "创建Next.js博客应用"
+  - "实现服务端渲染和静态生成"
+  - "优化SEO和性能指标"
+  - "实现动态路由和数据获取"
+  - "部署到Vercel或其他平台"
 ---
 
 # Day 38 练习：服务端渲染SSR

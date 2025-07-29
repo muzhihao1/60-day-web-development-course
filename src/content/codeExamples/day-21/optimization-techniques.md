@@ -1,5 +1,6 @@
 ---
 title: "优化技巧实践"
+description: "学习和掌握优化技巧实践的实际应用"
 category: "practice"
 language: "javascript"
 ---

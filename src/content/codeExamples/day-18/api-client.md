@@ -1,5 +1,6 @@
 ---
 title: "高级API客户端实现"
+description: "学习和掌握高级API客户端实现的实际应用"
 category: "advanced"
 language: "javascript"
 ---

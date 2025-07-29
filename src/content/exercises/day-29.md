@@ -2,80 +2,12 @@
 day: 29
 title: "React Router路由练习"
 description: "通过实际项目掌握React Router v6的核心功能，包括动态路由、嵌套路由、路由守卫等"
-exercises:
-  - title: "博客应用路由系统"
-    description: "创建一个完整的博客应用，实现文章列表、详情、分类筛选、搜索等功能"
-    difficulty: "intermediate"
-    requirements:
-      - "使用React Router v6实现完整的路由系统"
-      - "实现文章列表页面，支持分页和分类筛选"
-      - "创建文章详情页面，使用动态路由参数"
-      - "实现面包屑导航，显示当前位置"
-      - "添加搜索功能，使用查询参数管理搜索状态"
-      - "实现404页面和错误边界"
-      - "使用NavLink实现导航菜单的激活状态"
-      - "实现代码分割和懒加载优化性能"
-    tips:
-      - "使用useParams获取文章ID等动态参数"
-      - "使用useSearchParams管理分类和搜索参数"
-      - "考虑使用Outlet实现嵌套路由布局"
-      - "使用Suspense包裹懒加载的组件"
-  - title: "多步表单向导"
-    description: "构建一个用户注册流程的多步表单，支持步骤导航、数据保存和验证"
-    difficulty: "advanced"
-    requirements:
-      - "创建至少4个步骤：个人信息、联系方式、账户设置、确认提交"
-      - "实现步骤导航，显示当前进度"
-      - "支持前进后退，保存每步填写的数据"
-      - "实现路由守卫，防止跳过必填步骤"
-      - "添加离开确认提示（未保存数据时）"
-      - "完成后显示成功页面，支持查看和编辑已填信息"
-      - "实现表单验证，错误时阻止进入下一步"
-      - "支持直接通过URL访问特定步骤（需验证权限）"
-    tips:
-      - "使用Context或状态管理保存表单数据"
-      - "使用useBlocker实现离开确认功能"
-      - "考虑将每个步骤作为独立路由"
-      - "使用Navigate组件实现条件重定向"
-  - title: "受保护的仪表板"
-    description: "创建一个需要登录的仪表板应用，实现认证、权限控制和私有路由"
-    difficulty: "advanced"
-    requirements:
-      - "实现登录/注册页面"
-      - "创建认证上下文管理用户状态"
-      - "实现私有路由组件保护需要登录的页面"
-      - "添加角色权限系统（普通用户、管理员）"
-      - "实现自动跳转：登录后返回之前页面"
-      - "添加token过期处理和自动登出"
-      - "创建用户profile页面和设置页面"
-      - "实现管理员专属页面（用户管理）"
-    tips:
-      - "使用location.state保存来源页面"
-      - "在RequireAuth组件中检查认证状态"
-      - "考虑使用localStorage保存token"
-      - "使用嵌套路由组织仪表板布局"
-selfCheckQuestions:
-  - "如何实现路由级别的代码分割？"
-  - "useNavigate和Navigate组件的区别是什么？"
-  - "如何在React Router v6中实现路由守卫？"
-  - "什么情况下应该使用嵌套路由？"
-  - "如何优雅地处理路由加载和错误状态？"
-resources:
-  - title: "React Router v6迁移指南"
-    url: "https://reactrouter.com/docs/en/v6/upgrading/v5"
-    type: "article"
-  - title: "React Router示例集合"
-    url: "https://github.com/remix-run/react-router/tree/dev/examples"
-    type: "article"
-  - title: "路由最佳实践"
-    url: "https://ui.dev/react-router-tutorial"
-    type: "article"
-estimatedTime: 240
-objectives:
-  - "掌握React Router v6的所有核心功能"
-  - "学会实现复杂的路由场景"
-  - "理解路由守卫和权限控制"
-  - "掌握路由性能优化技巧"
+difficulty: "intermediate"
+estimatedTime: 180
+requirements:
+  - "博客应用路由系统"
+  - "多步表单向导"
+  - "受保护的仪表板"
 ---
 
 # Day 29: React Router路由练习

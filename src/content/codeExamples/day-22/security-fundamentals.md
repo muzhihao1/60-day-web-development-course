@@ -1,5 +1,6 @@
 ---
 title: "安全基础实践"
+description: "学习和掌握安全基础实践的实际应用"
 category: "security"
 language: "javascript"
 ---

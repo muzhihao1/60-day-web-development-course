@@ -1,32 +1,23 @@
 ---
 day: 19
-exerciseTitle: "构建模块化组件库"
-approach: "使用ES Modules、Rollup打包和TypeScript类型定义构建现代化组件库"
+exerciseTitle: "构建模块化应用架构"
+approach: "通过JavaScript实现完整的应用功能，包含性能优化和最佳实践"
 files:
-  - path: "ui-library-complete.js"
+  - path: "index.html"
+    language: "html"
+    description: "主HTML文件"
+  - path: "app.js"
     language: "javascript"
-    description: "完整的组件库实现，包含构建配置和使用示例"
+    description: "主应用逻辑"
+  - path: "styles.css"
+    language: "css"
+    description: "样式文件"
 keyTakeaways:
-  - "ES Modules是组织现代JavaScript库的最佳方式"
-  - "提供多种构建格式确保最大兼容性"
-  - "Tree Shaking需要正确的模块导出方式"
-  - "类型定义提升开发体验"
-  - "插件系统增强库的可扩展性"
-commonMistakes:
-  - "混用CommonJS和ES Modules导致Tree Shaking失效"
-  - "忘记在package.json中声明sideEffects"
-  - "循环依赖导致构建失败"
-  - "没有正确配置external防止打包依赖"
-  - "类型定义与实际实现不匹配"
-extensions:
-  - title: "添加React组件支持"
-    description: "扩展库支持React组件和hooks"
-  - title: "实现CSS-in-JS"
-    description: "添加运行时样式生成系统"
-  - title: "创建CLI工具"
-    description: "开发脚手架工具快速创建组件"
+  - "理解JavaScript核心概念的实际应用"
+  - "掌握代码组织和架构设计"
+  - "学习性能优化技巧"
+  - "实践安全编码和错误处理"
 ---
-
 # 解决方案：模块化组件库
 
 ## 实现思路

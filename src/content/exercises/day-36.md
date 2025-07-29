@@ -5,35 +5,11 @@ description: "练习React应用的环境配置和部署流程"
 difficulty: "intermediate"
 estimatedTime: 180
 requirements:
-  - "理解React应用的构建流程"
-  - "掌握环境变量配置"
-  - "熟悉常见部署平台"
-  - "了解性能优化策略"
-exercises:
-  - id: "env-config"
-    title: "多环境配置系统"
-    difficulty: "intermediate"
-    description: "创建一个完整的多环境配置系统"
-    hints:
-      - "使用.env文件管理环境变量"
-      - "创建环境配置类"
-      - "实现功能开关系统"
-  - id: "optimization"
-    title: "构建优化实践"
-    difficulty: "advanced"
-    description: "优化React应用的构建和加载性能"
-    hints:
-      - "实现代码分割"
-      - "配置资源压缩"
-      - "添加性能监控"
-  - id: "deployment"
-    title: "自动化部署流程"
-    difficulty: "advanced"
-    description: "配置CI/CD和自动化部署"
-    hints:
-      - "编写GitHub Actions配置"
-      - "设置环境变量"
-      - "配置健康检查"
+  - "创建多环境配置管理系统"
+  - "实现构建优化和代码分割"
+  - "配置CI/CD流水线"
+  - "部署应用到多个平台"
+  - "实现版本管理和回滚机制"
 ---
 
 # Day 36 练习：环境配置与部署

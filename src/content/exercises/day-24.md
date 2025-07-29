@@ -1,6 +1,7 @@
 ---
 day: 24
 title: "构建TaskFlow Pro任务管理应用"
+description: "综合运用所学知识，构建完整的TaskFlow Pro任务管理应用"
 difficulty: "advanced"
 objectives:
   - "创建模块化的应用架构"

@@ -1,6 +1,6 @@
 ---
 day: 18
-phase: "phase-2"
+phase: "javascript-mastery"
 title: "网络请求与Fetch API"
 description: "掌握现代JavaScript中的网络请求处理，深入理解Fetch API及其高级用法"
 objectives:
@@ -10,10 +10,11 @@ objectives:
   - "实现错误处理和请求拦截"
   - "掌握并发请求和请求取消"
 prerequisites:
-  - "JavaScript Promise和异步编程"
-  - "基本的HTTP知识"
-  - "JSON数据格式"
+  - 15
+  - 1
+  - 16
 estimatedTime: 180
+difficulty: "intermediate"
 resources:
   - title: "MDN Fetch API指南"
     url: "https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API"

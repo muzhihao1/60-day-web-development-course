@@ -1,5 +1,6 @@
 ---
 title: "开发工作流配置"
+description: "学习和掌握开发工作流配置的实际应用"
 category: "workflow"
 language: "javascript"
 ---

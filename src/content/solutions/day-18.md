@@ -1,32 +1,23 @@
 ---
 day: 18
-exerciseTitle: "构建实时天气应用"
-approach: "使用Fetch API、地理位置API和Service Worker构建功能完整的天气应用"
+exerciseTitle: "构建REST API客户端"
+approach: "通过JavaScript实现完整的应用功能，包含性能优化和最佳实践"
 files:
-  - path: "weather-app.html"
+  - path: "index.html"
     language: "html"
-    description: "完整的天气应用实现，包含搜索、定位、缓存和离线功能"
+    description: "主HTML文件"
+  - path: "app.js"
+    language: "javascript"
+    description: "主应用逻辑"
+  - path: "styles.css"
+    language: "css"
+    description: "样式文件"
 keyTakeaways:
-  - "Fetch API的错误处理和重试机制至关重要"
-  - "合理的缓存策略能显著提升用户体验"
-  - "防抖技术对于搜索功能必不可少"
-  - "地理位置API需要用户授权"
-  - "离线支持通过Service Worker实现"
-commonMistakes:
-  - "忘记处理API限流和配额限制"
-  - "没有正确处理CORS错误"
-  - "缓存时间设置不合理"
-  - "忽略了网络超时处理"
-  - "没有考虑API密钥的安全性"
-extensions:
-  - title: "添加天气地图"
-    description: "集成地图API显示天气分布"
-  - title: "实现天气预警"
-    description: "使用通知API推送恶劣天气预警"
-  - title: "数据可视化"
-    description: "使用Chart.js展示温度趋势"
+  - "理解JavaScript核心概念的实际应用"
+  - "掌握代码组织和架构设计"
+  - "学习性能优化技巧"
+  - "实践安全编码和错误处理"
 ---
-
 # 解决方案：实时天气应用
 
 ## 实现思路

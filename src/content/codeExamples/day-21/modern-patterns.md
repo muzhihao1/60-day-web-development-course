@@ -1,5 +1,6 @@
 ---
 title: "现代开发模式"
+description: "学习和掌握现代开发模式的实际应用"
 category: "advanced"
 language: "javascript"
 ---

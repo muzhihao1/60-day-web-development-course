@@ -2,74 +2,32 @@
 day: 40
 title: "DevConnect社交平台扩展练习"
 description: "综合运用React生态系统扩展社交平台功能"
-exercises:
-  - title: "实现私信系统"
-    description: "为DevConnect添加实时私信功能"
-    difficulty: "advanced"
-    requirements:
-      - "使用Firebase Realtime Database实现实时消息"
-      - "创建对话列表和聊天界面"
-      - "实现消息已读状态"
-      - "添加在线状态显示"
-      - "支持发送图片和表情"
-    tips:
-      - "使用Firebase的onSnapshot监听实时变化"
-      - "考虑消息加密存储"
-      - "实现无限滚动加载历史消息"
-    
-  - title: "高级搜索功能"
-    description: "实现全文搜索和过滤系统"
-    difficulty: "advanced"
-    requirements:
-      - "集成Algolia或ElasticSearch"
-      - "实现多条件过滤（用户、标签、时间）"
-      - "添加搜索建议和自动完成"
-      - "保存搜索历史"
-      - "实现搜索结果高亮"
-    tips:
-      - "使用防抖优化搜索性能"
-      - "考虑搜索结果的相关性排序"
-      - "实现搜索分析和热门搜索"
-      
-  - title: "数据分析仪表板"
-    description: "创建用户和内容分析系统"
-    difficulty: "advanced"
-    requirements:
-      - "使用Recharts或D3.js创建图表"
-      - "展示用户活跃度趋势"
-      - "分析帖子互动数据"
-      - "实现实时数据更新"
-      - "添加数据导出功能"
-    tips:
-      - "使用React Query缓存图表数据"
-      - "考虑数据聚合和采样"
-      - "实现响应式图表设计"
-
-selfCheckQuestions:
-  - "你的应用是否通过了Lighthouse性能测试（分数>90）？"
-  - "是否实现了完整的错误边界和错误处理？"
-  - "是否所有功能都有相应的单元测试？"
-  - "是否实现了适当的访问控制和数据验证？"
-  - "是否考虑了国际化和无障碍访问？"
-
-resources:
-  - title: "Firebase实时数据库文档"
-    url: "https://firebase.google.com/docs/database"
-    type: "article"
-  - title: "Algolia React集成指南"
-    url: "https://www.algolia.com/doc/guides/building-search-ui/getting-started/react/"
-    type: "article"
-  - title: "Recharts图表库"
-    url: "https://recharts.org/"
-    type: "tool"
-
-estimatedTime: 360
-objectives:
-  - "实现复杂的实时功能"
-  - "集成第三方服务"
-  - "处理大规模数据"
-  - "优化应用性能"
-  - "完成生产级部署"
+difficulty: "advanced"
+estimatedTime: 240
+requirements:
+  - "实现私信系统"
+  - "高级搜索功能"
+  - "数据分析仪表板"
+hints:
+  - "使用Firebase的onSnapshot监听实时变化"
+  - "考虑消息加密存储"
+  - "实现无限滚动加载历史消息"
+  - "集成Algolia或ElasticSearch"
+  - "实现多条件过滤（用户、标签、时间）"
+  - "添加搜索建议和自动完成"
+  - "保存搜索历史"
+  - "实现搜索结果高亮"
+  - "使用防抖优化搜索性能"
+  - "考虑搜索结果的相关性排序"
+  - "实现搜索分析和热门搜索"
+  - "使用Recharts或D3.js创建图表"
+  - "展示用户活跃度趋势"
+  - "分析帖子互动数据"
+  - "实现实时数据更新"
+  - "添加数据导出功能"
+  - "使用React Query缓存图表数据"
+  - "考虑数据聚合和采样"
+  - "实现响应式图表设计"
 ---
 
 # Day 40 练习：DevConnect社交平台扩展

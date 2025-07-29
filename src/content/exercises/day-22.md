@@ -2,7 +2,7 @@
 day: 22
 title: "构建安全的用户认证系统"
 description: "实现一个包含完整安全特性的认证系统"
-difficulty: "hard"
+difficulty: "advanced"
 requirements:
   - "实现安全的用户注册和登录"
   - "使用JWT进行身份认证"

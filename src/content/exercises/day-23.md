@@ -2,7 +2,7 @@
 day: 23
 title: "构建现代化开发环境"
 description: "从零开始搭建一个完整的现代JavaScript开发环境"
-difficulty: "hard"
+difficulty: "advanced"
 requirements:
   - "配置构建工具（Vite或Webpack）"
   - "设置代码质量工具（ESLint、Prettier）"

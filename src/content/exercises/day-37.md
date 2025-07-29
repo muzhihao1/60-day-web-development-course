@@ -5,34 +5,11 @@ description: "实践使用React生态系统中的各种工具和库"
 difficulty: "intermediate"
 estimatedTime: 180
 requirements:
-  - "熟悉React基础"
-  - "了解状态管理概念"
-  - "掌握组件开发"
-exercises:
-  - id: "ui-library-comparison"
-    title: "UI组件库对比"
-    difficulty: "intermediate"
-    description: "使用不同UI库实现相同界面"
-    hints:
-      - "创建一个登录表单"
-      - "实现响应式布局"
-      - "比较bundle大小"
-  - id: "state-management"
-    title: "状态管理实战"
-    difficulty: "advanced"
-    description: "使用Zustand实现购物车功能"
-    hints:
-      - "实现商品列表展示"
-      - "添加购物车功能"
-      - "持久化购物车数据"
-  - id: "animation-showcase"
-    title: "动画交互设计"
-    difficulty: "intermediate"
-    description: "创建产品展示页面动画"
-    hints:
-      - "使用Framer Motion"
-      - "实现页面过渡效果"
-      - "添加手势交互"
+  - "使用不同的UI组件库创建用户注册界面"
+  - "集成React Hook Form实现表单验证"
+  - "使用React Query处理数据获取"
+  - "实现图表可视化功能"
+  - "创建动画效果和过渡"
 ---
 
 # Day 37 练习：React生态系统工具
