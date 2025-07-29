@@ -4,79 +4,148 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an educational web development course repository containing structured learning materials. The project consists of:
-- A 60-day beginner course (in development)
-- A 28-day intensive course (backup/legacy)
-- Static HTML/CSS/JavaScript content served via Docsify
+This is a modern web development course built with Astro 5.12.3. The project provides a 60-day structured learning path covering web development from fundamentals to full-stack deployment. It features a responsive, performant learning platform with progress tracking and theme switching.
 
 ## Commands
 
-### Running the Course Viewer
+### Development & Build Commands
 ```bash
-# Open the course in a browser (no build process required)
-open index.html
+# Install dependencies
+npm install
 
-# Or use a local web server for better development experience
-python3 -m http.server 8000
-# Then navigate to http://localhost:8000
+# Run development server (port 4321)
+npm run dev
 
-# Alternative using Node.js
-npx serve .
+# Build for production
+npm run build
+
+# Build with type checking
+npm run build:check
+
+# Preview production build locally
+npm run preview
+
+# Run content migration script
+npm run migrate
 ```
 
-### File Organization Commands
+### Content Management Commands
 ```bash
-# Search for specific day content
-find . -name "day-*.md" -o -name "day*.md"
+# Find specific day content
+find src/content -name "day-*.md" -o -name "day-*.mdx"
 
-# Find all README files for course modules
-find . -path "*/node_modules" -prune -o -name "README.md" -print
+# Search for phase-specific content
+find src/content/courses -name "*.md" | grep "day-"
 
-# Search for specific phase content
-find phase-* -name "*.md"
+# Check TypeScript types
+npx astro check
 ```
 
 ## Architecture & Structure
 
-### Course Organization
-The course is organized into two main structures:
+### Technology Stack
+- **Framework**: Astro 5.12.3 with SSG (Static Site Generation)
+- **Language**: TypeScript with strict mode
+- **Content**: MDX for rich content with components
+- **Styling**: CSS Variables with responsive design system
+- **Deployment**: Vercel (https://60-day-web-course.vercel.app)
 
-1. **60-Day Course** (root level)
-   - `/phase-1-foundations/` - Days 1-15: Web basics, no coding
-   - `/phase-2-html/` - Days 16-25: HTML fundamentals
-   - `/phase-3-css/` - Days 26-40: CSS styling
-   - `/phase-4-javascript/` - Days 41-55: JavaScript programming
-   - `/phase-5-integration/` - Days 56-60: Full projects
+### Project Structure
+```
+/
+├── src/
+│   ├── components/        # Reusable UI components
+│   │   ├── CourseCard.astro
+│   │   ├── CourseNavigation.astro
+│   │   ├── PhaseOverview.astro
+│   │   └── ProgressTracker.astro
+│   ├── layouts/           # Page layouts
+│   │   ├── BaseLayout.astro
+│   │   └── CourseLayout.astro
+│   ├── pages/             # File-based routing
+│   │   ├── index.astro
+│   │   └── course/
+│   │       ├── day-[day].astro          # Dynamic day pages
+│   │       ├── day-[day]/exercise.astro  # Exercise pages
+│   │       ├── day-[day]/solution.astro  # Solution pages
+│   │       └── phase-[phase].astro      # Phase overview pages
+│   ├── content/           # Content collections
+│   │   ├── config.ts      # Collection schemas
+│   │   ├── courses/       # Daily lesson content
+│   │   ├── exercises/     # Exercise definitions
+│   │   ├── solutions/     # Exercise solutions
+│   │   ├── codeExamples/  # Code snippets
+│   │   └── phases/        # Phase metadata
+│   ├── lib/              # Utility functions
+│   │   ├── progress.ts    # Progress tracking
+│   │   └── utils.ts       # General utilities
+│   └── types/            # TypeScript type definitions
+├── public/               # Static assets
+├── scripts/              # Build/migration scripts
+└── astro.config.mjs      # Astro configuration
+```
 
-2. **28-Day Course** (`/28-day-course-backup/`)
-   - `/week1/` - HTML/CSS advanced (Days 1-7)
-   - `/week2/` - JavaScript deep dive (Days 8-14)
-   - `/week3/` - Backend development (Days 15-21)
-   - `/week4/` - Full stack integration (Days 22-28)
+### Content Collections Schema
 
-### Content Structure
-Each day typically contains:
-- `README.md` - Main lesson content
-- `index.html` - Exercise starter file
-- `solution.html` - Complete solution
-- `warm-up.html` - Quick practice exercise
-- Supporting assets (CSS, JS files)
+The project uses Astro's content collections with strict TypeScript schemas:
 
-### Documentation System
-- Uses Docsify for course viewer (configured in index.html)
-- `/_sidebar.md` - Navigation structure
-- `/course-overview.md` - Main course introduction
-- No build process - pure static files
+1. **courses**: Daily lesson content
+   - Required: day, phase, title, description, objectives, difficulty
+   - Optional: prerequisites, tags, resources, codeExamples
 
-### Key Integration Points
-- **Docsify Configuration**: Modified via `window.$docsify` in index.html
-- **Navigation**: Controlled by _sidebar.md
-- **Styling**: Custom CSS embedded in index.html
-- **Search**: Enabled via Docsify search plugin
+2. **exercises**: Practice exercises
+   - Required: day, title, description, difficulty, requirements
+   - Optional: hints, checkpoints, starterCode
 
-### Development Patterns
-- Educational content uses progressive disclosure
-- Each lesson builds on previous concepts
-- Solutions provided for self-checking
-- No automated testing framework
-- Manual verification approach for exercises
+3. **solutions**: Exercise solutions
+   - Required: day, exerciseTitle, approach, files, keyTakeaways
+   - Optional: commonMistakes, extensions
+
+4. **phases**: Course phase metadata
+   - Required: number, name, description, startDay, endDay, objectives
+
+### Course Structure
+
+The 60-day course is divided into 5 phases:
+
+1. **Modern Web Foundations** (Days 1-12)
+   - Git version control, HTML5/CSS3, responsive design
+
+2. **JavaScript Mastery** (Days 13-24)
+   - ES6+ syntax, async programming, DOM manipulation
+
+3. **React Development** (Days 25-40)
+   - Component architecture, state management, performance
+
+4. **Backend Development** (Days 41-52)
+   - Node.js, databases, API development
+
+5. **Full-Stack Deployment** (Days 53-60)
+   - Docker, CI/CD, cloud deployment
+
+### Key Features & Implementation
+
+- **Progress Tracking**: LocalStorage-based progress saved per user
+- **Theme Switching**: CSS variables for light/dark mode
+- **Responsive Design**: Mobile-first approach with breakpoints
+- **Code Highlighting**: Shiki with GitHub Dark theme
+- **Dynamic Routing**: File-based routing with dynamic segments
+- **Type Safety**: Full TypeScript coverage with strict mode
+
+### Path Aliases
+
+TypeScript path aliases configured for cleaner imports:
+- `@components/*` → `src/components/*`
+- `@layouts/*` → `src/layouts/*`
+- `@lib/*` → `src/lib/*`
+- `@types/*` → `src/types/*`
+- `@content/*` → `src/content/*`
+
+### Development Guidelines
+
+- Content files use MDX format for component integration
+- All new components should be in `.astro` format
+- Use CSS variables for theming consistency
+- Follow mobile-first responsive design
+- Implement proper TypeScript types for all data
+- Use Astro's built-in image optimization for assets
