@@ -95,6 +95,14 @@ npm run preview
 - 自适应布局
 - 触控友好
 
+## 📊 项目状态
+
+### 当前进度
+- ✅ **Phase 1-3 (Day 1-40)**: 已完成所有课程内容、练习和解决方案
+- 🚧 **Phase 4-5 (Day 41-60)**: 待开发
+
+详细的项目总结和后续开发计划请查看 [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)。
+
 ## 📝 内容贡献
 
 欢迎贡献课程内容！请查看 [贡献指南](CONTRIBUTING.md)。
