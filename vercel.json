@@ -1,12 +1,8 @@
 {
-  "routes": [
+  "rewrites": [
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1.html",
-      "status": 200
+      "source": "/(.*)",
+      "destination": "/$1.html"
     }
   ],
   "trailingSlash": false
