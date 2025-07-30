@@ -27,6 +27,16 @@ resources:
   - title: "GitHub文档"
     url: "https://docs.github.com/zh"
     type: "documentation"
+codeExamples:
+  - title: "VS Code配置"
+    language: "markdown"
+    path: "/codeExamples/day-1/vscode-settings.md"
+  - title: "Git基础命令"
+    language: "markdown"
+    path: "/codeExamples/day-1/git-basics.md"
+  - title: "第一次提交"
+    language: "markdown"
+    path: "/codeExamples/day-1/first-commit.md"
 ---
 
 # Day 01: 开发环境与版本控制
