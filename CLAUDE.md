@@ -39,6 +39,7 @@ find src/content/courses -name "*.md" | grep "day-"
 
 # Check TypeScript types
 npx astro check
+
 ```
 
 ## Architecture & Structure
