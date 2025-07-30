@@ -1,4 +1,5 @@
 ---
+day: 2
 title: "语义化HTML结构示例"
 description: "展示如何使用HTML5语义化标签构建完整的博客页面，包含可访问性最佳实践"
 category: "html"

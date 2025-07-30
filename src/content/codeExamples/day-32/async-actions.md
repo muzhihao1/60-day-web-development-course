@@ -1,4 +1,5 @@
 ---
+day: 32
 title: "Redux异步操作处理"
 description: "Redux中处理异步操作的各种模式，包括Thunk、Saga、Observable和最佳实践"
 category: "advanced"

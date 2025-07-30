@@ -1,4 +1,5 @@
 ---
+day: 32
 title: "Redux Toolkit现代化实践"
 description: "使用Redux Toolkit简化Redux开发，包括createSlice、createAsyncThunk和RTK Query"
 category: "advanced"

@@ -1,4 +1,5 @@
 ---
+day: 7
 title: "解决合并冲突"
 description: "演示如何识别和解决Git合并冲突"
 category: "version-control"

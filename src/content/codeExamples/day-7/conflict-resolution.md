@@ -1,4 +1,5 @@
 ---
+day: 7
 title: "Git冲突解决实战"
 description: "详细演示如何识别和解决各种类型的Git冲突"
 category: "version-control"

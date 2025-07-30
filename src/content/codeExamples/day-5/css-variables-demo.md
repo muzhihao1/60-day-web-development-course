@@ -1,4 +1,5 @@
 ---
+day: 5
 title: "CSS自定义属性（变量）完整演示"
 description: "展示CSS自定义属性的完整用法，包括主题切换、动态更新、响应式设计和JavaScript集成"
 category: "advanced"

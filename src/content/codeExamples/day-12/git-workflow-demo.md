@@ -1,4 +1,5 @@
 ---
+day: 12
 title: "Git Flow团队协作实战"
 description: "模拟真实开发场景的Git工作流"
 category: "project"

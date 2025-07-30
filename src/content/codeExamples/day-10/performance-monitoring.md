@@ -1,4 +1,5 @@
 ---
+day: 10
 title: "性能监控与分析"
 description: "使用Performance API和其他工具监控Web应用性能"
 category: "performance"

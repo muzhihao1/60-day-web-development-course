@@ -1,4 +1,5 @@
 ---
+day: 8
 title: "依赖管理最佳实践"
 description: "展示如何有效管理项目依赖"
 category: "tooling"

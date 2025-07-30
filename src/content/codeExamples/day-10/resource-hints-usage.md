@@ -1,4 +1,5 @@
 ---
+day: 10
 title: "资源提示（Resource Hints）使用指南"
 description: "深入了解dns-prefetch、preconnect、preload、prefetch等资源提示的使用"
 category: "performance"

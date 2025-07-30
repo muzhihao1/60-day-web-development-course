@@ -1,4 +1,5 @@
 ---
+day: 7
 title: "团队协作工作流实战"
 description: "Git Flow、GitHub Flow和GitLab Flow的实际应用"
 category: "version-control"

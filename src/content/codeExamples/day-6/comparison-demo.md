@@ -1,4 +1,5 @@
 ---
+day: 6
 title: "传统CSS vs Tailwind CSS对比"
 description: "展示传统CSS和Tailwind CSS两种开发方式的对比"
 category: "comparison"

@@ -1,4 +1,5 @@
 ---
+day: 10
 title: "图片优化技术详解"
 description: "包括响应式图片、现代格式、懒加载等图片优化的完整方案"
 category: "performance"

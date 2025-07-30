@@ -1,4 +1,5 @@
 ---
+day: 8
 title: "npm Scripts模式和技巧"
 description: "展示各种npm scripts的使用模式和最佳实践"
 category: "tooling"

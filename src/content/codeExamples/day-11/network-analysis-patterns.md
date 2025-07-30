@@ -1,4 +1,5 @@
 ---
+day: 11
 title: "网络分析模式"
 description: "HAR文件分析、请求拦截、响应模拟等网络调试技巧"
 category: "debugging"

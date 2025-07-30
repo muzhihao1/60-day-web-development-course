@@ -1,4 +1,5 @@
 ---
+day: 5
 title: "现代CSS Grid布局模式集合"
 description: "7种现代Web布局模式实现，包括圣杯布局、12列网格、卡片网格、瀑布流等"
 category: "practice"

@@ -1,4 +1,5 @@
 ---
+day: 30
 title: "CSS Modules使用指南"
 description: "CSS Modules的完整使用示例，包括基础用法、组合样式和最佳实践"
 category: "advanced"

@@ -1,4 +1,5 @@
 ---
+day: 6
 title: "Tailwind CSS基础工具类示例"
 description: "展示Tailwind CSS核心工具类的使用方法，包括布局、间距、颜色、文字等"
 category: "basics"

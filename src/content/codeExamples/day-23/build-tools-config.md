@@ -1,4 +1,5 @@
 ---
+day: 23
 title: "构建工具配置"
 description: "学习和掌握构建工具配置的实际应用"
 category: "tools"

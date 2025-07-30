@@ -1,4 +1,5 @@
 ---
+day: 8
 title: "创建npm包的完整示例"
 description: "从零开始创建一个功能完整的npm包"
 category: "tooling"

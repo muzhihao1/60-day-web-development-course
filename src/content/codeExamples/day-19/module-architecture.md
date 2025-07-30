@@ -1,4 +1,5 @@
 ---
+day: 19
 title: "模块化架构设计"
 description: "学习和掌握模块化架构设计的实际应用"
 category: "advanced"

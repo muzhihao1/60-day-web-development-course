@@ -150,3 +150,11 @@ TypeScript path aliases configured for cleaner imports:
 - Follow mobile-first responsive design
 - Implement proper TypeScript types for all data
 - Use Astro's built-in image optimization for assets
+
+### MCP Serena Tools
+
+When working with this codebase using MCP Serena tools:
+```bash
+# Initialize Serena for the project
+/mcp__serena__initial_instructions
+```

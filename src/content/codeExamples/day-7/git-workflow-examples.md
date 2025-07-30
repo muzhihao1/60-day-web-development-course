@@ -1,4 +1,5 @@
 ---
+day: 7
 title: "Git工作流实例"
 description: "演示Git Flow和GitHub Flow的实际应用"
 category: "version-control"

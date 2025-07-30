@@ -1,4 +1,5 @@
 ---
+day: 9
 title: "开发服务器配置示例"
 description: "Webpack Dev Server和Vite开发服务器的详细配置"
 category: "build-tools"

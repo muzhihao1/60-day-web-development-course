@@ -1,4 +1,5 @@
 ---
+day: 8
 title: "package.json完整参考"
 description: "package.json所有字段的详细说明和最佳实践"
 category: "tooling"

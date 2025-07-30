@@ -1,4 +1,5 @@
 ---
+day: 31
 title: "状态提升策略"
 description: "React中的状态提升模式、共享状态管理和组件通信最佳实践"
 category: "advanced"

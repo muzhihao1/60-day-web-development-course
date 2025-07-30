@@ -1,4 +1,5 @@
 ---
+day: 7
 title: "Git Rebase工作流详解"
 description: "深入理解rebase的使用场景和最佳实践"
 category: "version-control"

@@ -1,4 +1,5 @@
 ---
+day: 7
 title: "Git分支基础操作"
 description: "演示Git分支的创建、切换、合并等基础操作"
 category: "version-control"

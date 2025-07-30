@@ -1,4 +1,5 @@
 ---
+day: 8
 title: "npm包发布工作流"
 description: "展示如何准备和发布npm包的完整流程"
 category: "tooling"

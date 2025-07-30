@@ -1,4 +1,5 @@
 ---
+day: 9
 title: "Vite基础配置示例"
 description: "展示Vite的基本配置和常用功能"
 category: "build-tools"

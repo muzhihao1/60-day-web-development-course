@@ -1,4 +1,5 @@
 ---
+day: 11
 title: "高级调试策略"
 description: "断点类型、条件调试、异步调试等高级技巧"
 category: "debugging"

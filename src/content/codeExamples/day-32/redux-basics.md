@@ -1,4 +1,5 @@
 ---
+day: 32
 title: "Redux基础概念"
 description: "Redux核心概念详解，包括Store、Action、Reducer和中间件"
 category: "advanced"

@@ -1,4 +1,5 @@
 ---
+day: 31
 title: "Context API设计模式"
 description: "React Context API的高级设计模式和最佳实践"
 category: "advanced"

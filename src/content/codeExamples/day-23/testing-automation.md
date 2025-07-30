@@ -1,4 +1,5 @@
 ---
+day: 23
 title: "测试与自动化"
 description: "学习和掌握测试与自动化的实际应用"
 category: "testing"

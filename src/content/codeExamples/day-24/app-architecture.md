@@ -1,4 +1,5 @@
 ---
+day: 24
 title: "应用架构设计"
 description: "学习和掌握应用架构设计的实际应用"
 category: "advanced"

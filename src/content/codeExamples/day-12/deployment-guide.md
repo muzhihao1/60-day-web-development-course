@@ -1,4 +1,5 @@
 ---
+day: 12
 title: "多平台部署完整指南"
 description: "部署到Vercel、Netlify、GitHub Pages等平台"
 category: "project"

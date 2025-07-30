@@ -1,4 +1,5 @@
 ---
+day: 11
 title: "DevTools自动化"
 description: "使用Puppeteer进行自动化调试、性能测试和数据提取"
 category: "debugging"

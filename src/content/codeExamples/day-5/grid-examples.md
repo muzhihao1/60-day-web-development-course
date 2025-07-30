@@ -1,4 +1,5 @@
 ---
+day: 5
 title: "CSS Grid完整示例集合"
 description: "8个CSS Grid布局示例，涵盖网格模板、自动布局、命名线条、区域和高级技巧"
 category: "advanced"

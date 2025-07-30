@@ -1,4 +1,5 @@
 ---
+day: 31
 title: "全局状态管理"
 description: "React应用中的全局状态管理方案，包括Context、Zustand、Jotai等现代解决方案"
 category: "advanced"

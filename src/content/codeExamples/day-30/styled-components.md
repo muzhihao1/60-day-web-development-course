@@ -1,4 +1,5 @@
 ---
+day: 30
 title: "styled-components完整示例"
 description: "使用styled-components创建样式化组件的完整示例"
 category: "advanced"

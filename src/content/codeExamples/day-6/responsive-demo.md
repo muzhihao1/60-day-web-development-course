@@ -1,4 +1,5 @@
 ---
+day: 6
 title: "Tailwind CSS响应式设计示例"
 description: "展示Tailwind CSS响应式设计的完整实现，包括导航、网格、间距等"
 category: "responsive"

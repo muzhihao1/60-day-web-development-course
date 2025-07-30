@@ -1,4 +1,5 @@
 ---
+day: 20
 title: "调试工具与技巧"
 description: "学习和掌握调试工具与技巧的实际应用"
 category: "tools"

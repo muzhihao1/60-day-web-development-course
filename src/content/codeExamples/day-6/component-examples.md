@@ -1,4 +1,5 @@
 ---
+day: 6
 title: "Tailwind CSS组件示例集合"
 description: "展示各种常用UI组件的Tailwind CSS实现方式"
 category: "components"

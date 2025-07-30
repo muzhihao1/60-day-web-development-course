@@ -1,4 +1,5 @@
 ---
+day: 30
 title: "主题系统设计实战"
 description: "构建灵活可扩展的主题系统，支持多主题切换、CSS变量和设计令牌"
 category: "advanced"

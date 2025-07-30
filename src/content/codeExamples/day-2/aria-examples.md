@@ -1,4 +1,5 @@
 ---
+day: 2
 title: "ARIA属性使用示例"
 description: "展示常见ARIA属性的正确使用方法，包括标签、描述、状态管理等可访问性增强技术"
 category: "accessibility"

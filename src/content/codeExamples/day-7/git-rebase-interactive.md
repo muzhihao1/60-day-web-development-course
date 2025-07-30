@@ -1,4 +1,5 @@
 ---
+day: 7
 title: "Git Rebase和交互式历史编辑"
 description: "演示rebase的使用和交互式历史编辑功能"
 category: "version-control"

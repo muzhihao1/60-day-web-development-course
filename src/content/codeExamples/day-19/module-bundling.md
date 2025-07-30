@@ -1,4 +1,5 @@
 ---
+day: 19
 title: "模块打包与优化"
 description: "学习和掌握模块打包与优化的实际应用"
 category: "tips"

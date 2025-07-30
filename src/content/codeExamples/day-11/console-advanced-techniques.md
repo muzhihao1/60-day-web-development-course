@@ -1,4 +1,5 @@
 ---
+day: 11
 title: "Console高级调试技巧"
 description: "超越console.log的高级调试方法"
 category: "debugging"
