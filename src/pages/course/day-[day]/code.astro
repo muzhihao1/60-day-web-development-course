@@ -11,9 +11,9 @@ export async function getStaticPaths() {
   const courses = await getCollection('courses')
   const phases = await getCollection('phases')
   
-  // Generate paths for all 40 days
+  // Generate paths for all 60 days
   const paths = []
-  for (let day = 1; day <= 40; day++) {
+  for (let day = 1; day <= 60; day++) {
     const dayCodeExamples = codeExamples.filter(ex => ex.data.day === day)
     const course = courses.find(c => c.data.day === day)
     const phase = course ? phases.find(p => p.id.includes(course.data.phase)) : null
