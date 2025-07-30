@@ -228,6 +228,7 @@ function isDayCompleted(day: number): boolean {
     margin: 0 0.75rem;
     position: relative;
     z-index: 1;
+    min-height: 60px; /* 确保触控区域足够大 */
   }
 
   .phase-header:hover {
@@ -270,7 +271,6 @@ function isDayCompleted(day: number): boolean {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    pointer-events: none;
     min-height: 44px;
     padding: 0.5rem 0;
   }

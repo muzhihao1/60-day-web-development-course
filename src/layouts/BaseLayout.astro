@@ -152,6 +152,9 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
       <!-- 侧边栏 -->
       <Navigation currentPath={Astro.url.pathname} />
       
+      <!-- 移动端遮罩层 -->
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+      
       <!-- 主内容区 -->
       <main class="app-main" id="main-content">
         <!-- 面包屑导航 -->
@@ -349,6 +352,23 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
         }
       }
       
+      /* 移动端遮罩层 */
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 199;
+        backdrop-filter: blur(2px);
+      }
+      
+      .sidebar-overlay.show {
+        display: block;
+      }
+      
       /* 响应式设计 */
       @media (max-width: 768px) {
         .app-layout {
@@ -431,9 +451,17 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
       // 移动端菜单切换
       const menuToggle = document.querySelector('.menu-toggle');
       const sidebar = document.querySelector('.app-sidebar');
+      const overlay = document.querySelector('.sidebar-overlay');
       
       menuToggle?.addEventListener('click', () => {
         sidebar?.classList.toggle('show');
+        overlay?.classList.toggle('show');
+      });
+      
+      // 点击遮罩层关闭侧边栏
+      overlay?.addEventListener('click', () => {
+        sidebar?.classList.remove('show');
+        overlay?.classList.remove('show');
       });
     </script>
   </body>

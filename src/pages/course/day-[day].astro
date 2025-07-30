@@ -279,8 +279,8 @@ const { Content } = await course.render()
     .learning-objectives {
       background: var(--color-bg);
       border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      margin-bottom: 2rem;
+      padding: 2rem;
+      margin-bottom: 3rem;
       border: 1px solid var(--color-border);
     }
 
@@ -314,9 +314,9 @@ const { Content } = await course.render()
     .course-content {
       background: var(--color-bg);
       border-radius: var(--radius-lg);
-      padding: 2rem;
-      margin-bottom: 2rem;
-      line-height: 1.8;
+      padding: 3rem 2.5rem;
+      margin-bottom: 3rem;
+      line-height: 1.9;
     }
 
     .course-content h2 {
@@ -334,17 +334,19 @@ const { Content } = await course.render()
     }
 
     .course-content p {
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       color: var(--color-text-secondary);
+      line-height: 1.8;
     }
 
     .course-content pre {
       background: var(--color-bg-secondary);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-md);
-      padding: 1rem;
+      padding: 1.5rem;
       overflow-x: auto;
-      margin-bottom: 1rem;
+      margin: 1.5rem 0 2rem 0;
+      position: relative;
     }
 
     .course-content code {
@@ -356,7 +358,7 @@ const { Content } = await course.render()
     .code-examples-section,
     .exercises-section,
     .resources-section {
-      margin-bottom: 2rem;
+      margin-bottom: 3.5rem;
     }
 
     .code-examples-section h2,
@@ -374,6 +376,31 @@ const { Content } = await course.render()
       border-radius: var(--radius-lg);
       padding: 1.5rem;
       margin-bottom: 1rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .exercise-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--color-primary);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+    
+    .exercise-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-primary);
+    }
+    
+    .exercise-card:hover::before {
+      transform: scaleY(1);
     }
 
     .code-example-card h3,

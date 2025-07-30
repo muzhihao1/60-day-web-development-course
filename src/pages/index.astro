@@ -59,13 +59,38 @@ function startLearning() {
     </div>
     
     <div class="hero-visual">
-      <div class="code-preview">
-        <div class="code-header">
-          <span class="dot red"></span>
-          <span class="dot yellow"></span>
-          <span class="dot green"></span>
+      <div class="hero-features">
+        <div class="feature-item">
+          <div class="feature-icon">🎯</div>
+          <div class="feature-content">
+            <h3>结构化学习路径</h3>
+            <p>每天1-2小时，循序渐进掌握全栈技能</p>
+          </div>
         </div>
-        <pre><code class="language-javascript">{codeExample}</code></pre>
+        <div class="feature-item">
+          <div class="feature-icon">💼</div>
+          <div class="feature-content">
+            <h3>项目驱动教学</h3>
+            <p>10+实战项目，构建真实作品集</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🚀</div>
+          <div class="feature-content">
+            <h3>即学即用</h3>
+            <p>注重实践，每天都有可见进步</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-text">"这门课程帮助我在2个月内从零基础成功转行前端开发，现在已经入职心仪的公司！"</p>
+        <div class="testimonial-author">
+          <img src="/avatars/student-1.jpg" alt="学员头像" class="author-avatar" />
+          <div>
+            <p class="author-name">张明</p>
+            <p class="author-title">前端开发工程师 @字节跳动</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -188,12 +213,23 @@ function startLearning() {
   .btn-primary {
     background: var(--color-primary);
     color: white;
+    box-shadow: 0 4px 14px rgba(66, 184, 131, 0.25);
+    font-size: 1.125rem;
+    padding: 1rem 2rem;
   }
 
   .btn-primary:hover {
     background: var(--color-primary);
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(66, 184, 131, 0.3);
+    box-shadow: 0 12px 24px rgba(66, 184, 131, 0.35);
+  }
+
+  .btn-primary svg {
+    transition: transform 0.3s ease;
+  }
+
+  .btn-primary:hover svg {
+    transform: translateX(4px);
   }
 
   .btn-secondary {
@@ -224,6 +260,18 @@ function startLearning() {
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--color-primary);
+    animation: countUp 1s ease-out;
+  }
+  
+  @keyframes countUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .stat-label {
@@ -231,66 +279,98 @@ function startLearning() {
     color: var(--color-text-secondary);
   }
 
-  /* Code Preview */
-  .code-preview {
-    background: #1e293b;
-    border: 1px solid #334155;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-lg);
-  }
-
-  .code-header {
-    background: #0f172a;
-    padding: 0.75rem 1rem;
+  /* Hero Visual Enhancements */
+  .hero-features {
     display: flex;
-    gap: 0.5rem;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
   }
 
-  .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+  .feature-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: all 0.3s;
   }
 
-  .dot.red { background: #ff5f56; }
-  .dot.yellow { background: #ffbd2e; }
-  .dot.green { background: #27c93f; }
-
-  .code-preview pre {
-    padding: 1.5rem;
-    margin: 0;
-    overflow-x: auto;
+  .feature-item:hover {
+    transform: translateX(4px);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
   }
 
-  .code-preview code {
-    color: #e2e8f0;
-    font-family: 'Consolas', 'Monaco', monospace;
+  .feature-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .feature-content h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.25rem;
+  }
+
+  .feature-content p {
     font-size: 0.875rem;
-    line-height: 1.7;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
   }
 
-  /* Syntax Highlighting */
-  .code-preview .comment {
-    color: #64748b;
+  /* Testimonial Card */
+  .testimonial-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    font-size: 80px;
+    color: var(--color-primary);
+    opacity: 0.1;
+  }
+
+  .testimonial-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin-bottom: 1rem;
     font-style: italic;
   }
 
-  .code-preview .keyword {
-    color: #c084fc;
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .author-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-bg-secondary);
+  }
+
+  .author-name {
     font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.125rem;
   }
 
-  .code-preview .function {
-    color: #60a5fa;
-  }
-
-  .code-preview .variable {
-    color: #fbbf24;
-  }
-
-  .code-preview .string {
-    color: #34d399;
+  .author-title {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
   }
 
   /* Features Section */

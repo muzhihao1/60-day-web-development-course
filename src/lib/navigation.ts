@@ -53,27 +53,11 @@ export const phases: Phase[] = [
 export function getDayNavigation(day: number): NavItem[] {
   return [
     {
-      label: '📚 学习内容',
+      label: '学习内容',
       href: `/course/day-${day}`,
       type: 'theory',
       icon: '📚',
-      children: [
-        {
-          label: '今日概览',
-          href: `/course/day-${day}#overview`,
-          type: 'overview'
-        },
-        {
-          label: '核心概念',
-          href: `/course/day-${day}#concepts`,
-          type: 'theory'
-        },
-        {
-          label: '详细讲解',
-          href: `/course/day-${day}#details`,
-          type: 'theory'
-        }
-      ]
+      children: []
     },
     {
       label: '代码示例',
