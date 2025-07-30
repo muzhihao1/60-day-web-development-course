@@ -109,10 +109,13 @@ const solutions = defineCollection({
 const codeExamples = defineCollection({
   type: 'content',
   schema: z.object({
+    day: z.number(),
     title: z.string(),
     description: z.string(),
     category: z.string(),
-    language: z.string()
+    language: z.string(),
+    concepts: z.array(z.string()).optional(),
+    relatedTopics: z.array(z.string()).optional()
   })
 })
 
