@@ -110,7 +110,7 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
       <!-- 头部 -->
       <header class="app-header">
         <div class="header-content">
-          <button class="menu-toggle" aria-label="切换菜单">
+          <button class="menu-toggle" aria-label="切换菜单" aria-expanded="false" aria-controls="sidebar">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                     d="M4 6h16M4 12h16M4 18h16" />
@@ -454,14 +454,37 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
       const overlay = document.querySelector('.sidebar-overlay');
       
       menuToggle?.addEventListener('click', () => {
-        sidebar?.classList.toggle('show');
-        overlay?.classList.toggle('show');
+        if (sidebar && overlay) {
+          sidebar.classList.toggle('show');
+          overlay.classList.toggle('show');
+          
+          // 更新aria-expanded属性
+          const isExpanded = sidebar.classList.contains('show');
+          menuToggle.setAttribute('aria-expanded', isExpanded.toString());
+          
+          // 防止背景滚动
+          document.body.style.overflow = isExpanded ? 'hidden' : '';
+        }
       });
       
       // 点击遮罩层关闭侧边栏
       overlay?.addEventListener('click', () => {
-        sidebar?.classList.remove('show');
-        overlay?.classList.remove('show');
+        if (sidebar && overlay) {
+          sidebar.classList.remove('show');
+          overlay.classList.remove('show');
+          menuToggle?.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
+      });
+      
+      // ESC键关闭侧边栏
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sidebar?.classList.contains('show')) {
+          sidebar.classList.remove('show');
+          overlay?.classList.remove('show');
+          menuToggle?.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
       });
     </script>
   </body>

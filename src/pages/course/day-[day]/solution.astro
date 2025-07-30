@@ -470,6 +470,113 @@ const { Content } = await solution.render()
       margin: 0;
     }
 
+    /* 解决方案内容样式 */
+    .solution-content {
+      margin-bottom: var(--space-8);
+      background: var(--bg-primary);
+      padding: 2.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      line-height: 1.9;
+    }
+
+    /* 针对解决方案内容的代码块样式 */
+    .solution-content pre {
+      background-color: #1e1e1e;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+      position: relative;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .solution-content code {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    .solution-content pre code {
+      display: block;
+      background: none;
+      color: #d4d4d4;
+      white-space: pre;
+      overflow-x: visible;
+    }
+
+    .solution-content :not(pre) > code {
+      background-color: var(--bg-tertiary);
+      padding: 0.125rem 0.25rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875em;
+      color: var(--color-primary);
+    }
+
+    /* 解决方案内容的其他元素样式 */
+    .solution-content h2 {
+      font-size: 1.75rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .solution-content h3 {
+      font-size: 1.375rem;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .solution-content p {
+      margin-bottom: 1.5rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .solution-content ul,
+    .solution-content ol {
+      margin-bottom: 1.5rem;
+      padding-left: 2rem;
+      color: var(--text-secondary);
+    }
+
+    .solution-content li {
+      margin-bottom: 0.5rem;
+      line-height: 1.7;
+    }
+
+    .solution-content blockquote {
+      border-left: 4px solid var(--color-primary);
+      padding-left: 1.5rem;
+      margin: 1.5rem 0;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    /* 代码块滚动条样式 */
+    .solution-content pre::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .solution-content pre::-webkit-scrollbar-track {
+      background: #2d2d2d;
+      border-radius: 4px;
+    }
+
+    .solution-content pre::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 4px;
+    }
+
+    .solution-content pre::-webkit-scrollbar-thumb:hover {
+      background: #777;
+    }
+
     .learning-feedback {
       background-color: var(--bg-secondary);
       padding: var(--space-6);
