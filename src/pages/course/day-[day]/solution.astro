@@ -29,7 +29,7 @@ export async function getStaticPaths() {
 const { day } = Astro.params
 const { solution, course, exercise, phase } = Astro.props
 
-const pageTitle = `解决方案 - Day ${day}: ${solution.data.exerciseTitle} | 60天Web开发课程`
+const pageTitle = `解决方案 - Day ${day}: ${solution.data.exerciseTitle} | 40天Web开发课程`
 const pageDescription = `Day ${day} 练习的参考解决方案：${solution.data.approach}`
 
 // Get the Content component from the solution
@@ -201,7 +201,7 @@ const { Content } = await solution.render()
         <a href={`/course/day-${day}`} class="btn btn-secondary">
           回到课程
         </a>
-        {parseInt(day) < 60 && (
+        {parseInt(day) < 40 && (
           <a href={`/course/day-${parseInt(day) + 1}`} class="btn btn-primary">
             下一天课程 →
           </a>
