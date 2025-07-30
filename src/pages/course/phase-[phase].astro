@@ -10,13 +10,16 @@ import { phases } from '@lib/navigation'
 export async function getStaticPaths() {
   const phaseData = await getCollection('phases')
   
-  return phaseData.map((phase) => {
-    const phaseInfo = phases.find(p => p.id === phase.data.number)
-    return {
-      params: { phase: phase.data.number.toString() },
-      props: { phase, phaseInfo }
-    }
-  })
+  // Only generate pages for phases 1-3
+  return phaseData
+    .filter(phase => phase.data.number <= 3)
+    .map((phase) => {
+      const phaseInfo = phases.find(p => p.id === phase.data.number)
+      return {
+        params: { phase: phase.data.number.toString() },
+        props: { phase, phaseInfo }
+      }
+    })
 }
 
 const { phase } = Astro.params
@@ -28,7 +31,7 @@ const phaseIdString = phaseData.id.split('-').slice(2).join('-') // Extract "jav
 const courses = await getCollection('courses', ({ data }) => data.phase === phaseIdString)
 const sortedCourses = courses.sort((a, b) => a.data.day - b.data.day)
 
-const pageTitle = `${phaseData.data.name} | 60天Web开发课程`
+const pageTitle = `${phaseData.data.name} | 40天Web开发课程`
 const pageDescription = phaseData.data.description
 ---
 
