@@ -1,4 +1,5 @@
 ---
+day: 3
 title: "HTML5表单元素参考手册"
 description: "完整的HTML5表单元素参考，包括所有输入类型、属性、验证规则和最佳实践示例"
 category: "advanced"

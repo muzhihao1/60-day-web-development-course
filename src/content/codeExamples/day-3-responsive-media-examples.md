@@ -1,4 +1,5 @@
 ---
+day: 3
 title: "响应式媒体完整示例"
 description: "展示HTML5音频、视频、响应式图片和iframe的完整实现，包括兼容性处理和性能优化"
 category: "advanced"
