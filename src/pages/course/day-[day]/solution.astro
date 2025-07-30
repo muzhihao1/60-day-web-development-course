@@ -5,6 +5,7 @@
  */
 import { getCollection } from 'astro:content'
 import type { Solution, PhaseInfo } from '../../../types'
+import CodeDisplay from '../../../components/CodeDisplay.astro'
 import '../../../styles/global.css'
 
 export async function getStaticPaths() {
@@ -121,7 +122,14 @@ const { Content } = await solution.render()
             </div>
             <div class="code-preview">
               <pre><code class={`language-${file.language}`}>
-                {/* 这里将在内容迁移时填充实际代码内容 */}
+                {/* 注意：在实际使用时，这里应该使用CodeDisplay组件 */}
+                {/* <CodeDisplay 
+                  code={file.content} 
+                  language={file.language} 
+                  filename={file.path}
+                  description={file.description}
+                  maxLines={30}
+                /> */}
                 <span class="code-placeholder">代码内容将在这里显示...</span>
               </code></pre>
             </div>

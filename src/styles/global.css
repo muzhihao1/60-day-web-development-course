@@ -139,7 +139,7 @@ html {
 body {
   font-family: var(--font-sans);
   font-size: var(--text-base);
-  line-height: 1.7;
+  line-height: 1.8;
   color: var(--text-primary);
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -447,32 +447,35 @@ h6 {
 }
 
 .course-content h2 {
-  margin-top: var(--space-10);
-  margin-bottom: var(--space-5);
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-6);
   letter-spacing: -0.02em;
 }
 
 .course-content h3 {
-  margin-top: var(--space-8);
-  margin-bottom: var(--space-4);
+  margin-top: var(--space-10);
+  margin-bottom: var(--space-5);
   letter-spacing: -0.01em;
 }
 
 .course-content p {
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-8);
   line-height: 1.9;
   max-width: 75ch;
   margin-left: auto;
   margin-right: auto;
+  letter-spacing: 0.01em;
 }
 
 .course-content pre {
   background-color: var(--bg-tertiary);
-  padding: var(--space-6);
+  padding: var(--space-8) var(--space-6);
   border-radius: var(--radius-md);
   overflow-x: auto;
-  margin: var(--space-6) 0;
+  margin: var(--space-8) 0;
   position: relative;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
 }
 
 .course-content code {
@@ -484,6 +487,17 @@ h6 {
   background-color: var(--bg-tertiary);
   padding: var(--space-1);
   border-radius: var(--radius-sm);
+}
+
+.course-content ul,
+.course-content ol {
+  margin-bottom: var(--space-8);
+  padding-left: var(--space-6);
+}
+
+.course-content li {
+  margin-bottom: var(--space-4);
+  line-height: 1.9;
 }
 
 /* 代码示例部分 */

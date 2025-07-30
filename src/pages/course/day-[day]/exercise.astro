@@ -42,7 +42,7 @@ const { Content } = await exercise.render()
   <meta name="description" content={pageDescription}>
 </head>
 <body>
-  <div class="course-container">
+  <div class="exercise-page-container">
     <!-- 面包屑导航 -->
     <nav class="breadcrumb" aria-label="面包屑导航">
       <ol>
@@ -261,9 +261,19 @@ const { Content } = await exercise.render()
   </script>
 
   <style>
+    /* 练习页面容器 */
+    .exercise-page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--space-8) var(--space-6);
+      min-height: 100vh;
+    }
+
     /* 练习页面特定样式 */
     .exercise-header {
       margin-bottom: var(--space-8);
+      padding-bottom: var(--space-6);
+      border-bottom: 2px solid var(--border-color);
     }
 
     .exercise-meta-top {
@@ -271,6 +281,7 @@ const { Content } = await exercise.render()
       align-items: center;
       gap: var(--space-3);
       margin-bottom: var(--space-4);
+      flex-wrap: wrap;
     }
 
     .exercise-label {
@@ -280,11 +291,44 @@ const { Content } = await exercise.render()
       margin-bottom: var(--space-2);
     }
 
+    .exercise-title {
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: var(--space-3);
+    }
+
+    .exercise-description {
+      font-size: var(--text-lg);
+      color: var(--text-secondary);
+      line-height: 1.8;
+      max-width: 75ch;
+    }
+
     .exercise-requirements {
       background-color: var(--bg-secondary);
-      padding: var(--space-6);
+      padding: var(--space-8);
       border-radius: var(--radius-lg);
-      margin-bottom: var(--space-6);
+      margin-bottom: var(--space-8);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .exercise-requirements h2 {
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-5);
+      color: var(--text-primary);
+    }
+
+    .exercise-requirements ul {
+      list-style-position: inside;
+      color: var(--text-secondary);
+    }
+
+    .exercise-requirements li {
+      margin-bottom: var(--space-3);
+      line-height: 1.8;
+      padding-left: var(--space-4);
     }
 
     .exercise-checkpoints {
@@ -387,6 +431,69 @@ const { Content } = await exercise.render()
       font-size: var(--text-sm);
     }
 
+    /* 练习内容样式 */
+    .exercise-content {
+      background-color: var(--bg-primary);
+      padding: var(--space-8);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-8);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      line-height: 1.9;
+    }
+
+    .exercise-content h2 {
+      font-size: var(--text-2xl);
+      margin-top: var(--space-10);
+      margin-bottom: var(--space-5);
+      color: var(--text-primary);
+    }
+
+    .exercise-content h3 {
+      font-size: var(--text-xl);
+      margin-top: var(--space-8);
+      margin-bottom: var(--space-4);
+      color: var(--text-primary);
+    }
+
+    .exercise-content p {
+      margin-bottom: var(--space-6);
+      color: var(--text-secondary);
+      line-height: 1.9;
+    }
+
+    .exercise-content pre {
+      background-color: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: var(--space-6);
+      overflow-x: auto;
+      margin: var(--space-6) 0;
+    }
+
+    .exercise-content code {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+    }
+
+    .exercise-content :not(pre) > code {
+      background-color: var(--bg-tertiary);
+      padding: var(--space-1);
+      border-radius: var(--radius-sm);
+      color: var(--color-primary);
+    }
+
+    /* 提交选项样式 */
+    .exercise-submission {
+      margin-bottom: var(--space-8);
+    }
+
+    .exercise-submission h2 {
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-5);
+      color: var(--text-primary);
+    }
+
     .submission-options {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -396,8 +503,15 @@ const { Content } = await exercise.render()
 
     .option-card {
       background-color: var(--bg-secondary);
-      padding: var(--space-6);
+      padding: var(--space-8);
       border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      transition: all var(--transition-fast);
+    }
+
+    .option-card:hover {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-md);
     }
 
     .option-card h3 {
@@ -440,8 +554,29 @@ const { Content } = await exercise.render()
     }
 
     @media (max-width: 768px) {
+      .exercise-page-container {
+        padding: var(--space-6) var(--space-4);
+      }
+
+      .exercise-header {
+        padding-bottom: var(--space-4);
+      }
+
+      .exercise-title {
+        font-size: var(--text-2xl);
+      }
+
+      .exercise-requirements,
+      .exercise-content {
+        padding: var(--space-6);
+      }
+
       .submission-options {
         grid-template-columns: 1fr;
+      }
+
+      .option-card {
+        padding: var(--space-6);
       }
 
       .exercise-navigation {

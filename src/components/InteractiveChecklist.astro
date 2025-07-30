@@ -1,0 +1,273 @@
+---
+/**
+ * 交互式检查清单组件
+ * 用于替换静态的Markdown检查清单，使其可以被勾选
+ */
+export interface Props {
+  items: string[]
+  storageKey?: string
+}
+
+const { items, storageKey = 'checklist' } = Astro.props
+const checklistId = `checklist-${Math.random().toString(36).substr(2, 9)}`
+---
+
+<div class="interactive-checklist" data-checklist-id={checklistId} data-storage-key={storageKey}>
+  <div class="checklist-header">
+    <h2>✅ 今日检查清单</h2>
+    <span class="checklist-progress">
+      <span class="progress-count">0</span> / {items.length} 完成
+    </span>
+  </div>
+  <p class="checklist-description">确保你已完成以下任务：</p>
+  <div class="checklist-items">
+    {items.map((item, index) => (
+      <div class="checklist-item">
+        <input 
+          type="checkbox" 
+          id={`${checklistId}-item-${index}`}
+          class="checklist-checkbox"
+          data-index={index}
+        />
+        <label for={`${checklistId}-item-${index}`}>{item}</label>
+      </div>
+    ))}
+  </div>
+  <div class="checklist-actions">
+    <button class="btn-reset" aria-label="重置清单">
+      🔄 重置清单
+    </button>
+  </div>
+</div>
+
+<style>
+  .interactive-checklist {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    margin: var(--space-8) 0;
+    position: relative;
+  }
+
+  .checklist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+  }
+
+  .checklist-header h2 {
+    margin: 0;
+    font-size: var(--text-xl);
+    color: var(--text-primary);
+  }
+
+  .checklist-progress {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .progress-count {
+    color: var(--color-success);
+    font-weight: 600;
+  }
+
+  .checklist-description {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-4);
+  }
+
+  .checklist-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .checklist-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+  }
+
+  .checklist-item:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .checklist-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--color-success);
+    flex-shrink: 0;
+  }
+
+  .checklist-checkbox:checked + label {
+    text-decoration: line-through;
+    color: var(--text-tertiary);
+  }
+
+  .checklist-item label {
+    cursor: pointer;
+    flex: 1;
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+    user-select: none;
+  }
+
+  .checklist-item.completed {
+    background-color: var(--bg-secondary);
+    border-color: var(--color-success);
+    opacity: 0.8;
+  }
+
+  .checklist-actions {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn-reset {
+    padding: var(--space-2) var(--space-4);
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-reset:hover {
+    background-color: var(--bg-secondary);
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 768px) {
+    .interactive-checklist {
+      padding: var(--space-4);
+    }
+
+    .checklist-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-2);
+    }
+
+    .checklist-item {
+      padding: var(--space-2) var(--space-3);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 获取所有检查清单实例
+    const checklists = document.querySelectorAll('.interactive-checklist')
+    
+    checklists.forEach((checklist) => {
+      const checklistId = checklist.getAttribute('data-checklist-id')
+      const storageKey = checklist.getAttribute('data-storage-key')
+      const checkboxes = checklist.querySelectorAll('.checklist-checkbox') as NodeListOf<HTMLInputElement>
+      const progressCount = checklist.querySelector('.progress-count')
+      const resetBtn = checklist.querySelector('.btn-reset')
+      
+      // 生成唯一的存储键
+      const fullStorageKey = `${storageKey}-day-${window.location.pathname.split('/').pop()}`
+      
+      // 从localStorage恢复状态
+      function restoreState() {
+        const saved = localStorage.getItem(fullStorageKey)
+        if (saved) {
+          try {
+            const states = JSON.parse(saved)
+            checkboxes.forEach((cb, index) => {
+              cb.checked = states[index] || false
+              updateItemStyle(cb)
+            })
+            updateProgress()
+          } catch (e) {
+            console.error('Error restoring checklist state:', e)
+          }
+        }
+      }
+      
+      // 更新进度
+      function updateProgress() {
+        const checked = Array.from(checkboxes).filter(cb => cb.checked).length
+        if (progressCount) {
+          progressCount.textContent = checked.toString()
+        }
+        
+        // 如果全部完成，添加完成动画
+        if (checked === checkboxes.length && checked > 0) {
+          checklist.classList.add('all-completed')
+          // 可以在这里触发一些庆祝动画
+          setTimeout(() => {
+            checklist.classList.remove('all-completed')
+          }, 1000)
+        }
+      }
+      
+      // 保存状态到localStorage
+      function saveState() {
+        const states = Array.from(checkboxes).map(cb => cb.checked)
+        localStorage.setItem(fullStorageKey, JSON.stringify(states))
+      }
+      
+      // 更新单项样式
+      function updateItemStyle(checkbox: HTMLInputElement) {
+        const item = checkbox.closest('.checklist-item')
+        if (item) {
+          if (checkbox.checked) {
+            item.classList.add('completed')
+          } else {
+            item.classList.remove('completed')
+          }
+        }
+      }
+      
+      // 监听checkbox变化
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener('change', () => {
+          updateItemStyle(checkbox)
+          updateProgress()
+          saveState()
+        })
+      })
+      
+      // 重置按钮
+      resetBtn?.addEventListener('click', () => {
+        const confirmed = confirm('确定要重置清单吗？这将清除所有已勾选的项目。')
+        if (confirmed) {
+          checkboxes.forEach(cb => {
+            cb.checked = false
+            updateItemStyle(cb)
+          })
+          updateProgress()
+          saveState()
+        }
+      })
+      
+      // 初始化
+      restoreState()
+    })
+  })
+</script>

@@ -1,0 +1,296 @@
+---
+/**
+ * 智能代码展示组件
+ * 用于展示代码文件，支持折叠/展开长代码，代码高亮等功能
+ */
+export interface Props {
+  code: string
+  language: string
+  filename?: string
+  description?: string
+  maxLines?: number
+  highlights?: number[]
+}
+
+const { 
+  code, 
+  language, 
+  filename, 
+  description, 
+  maxLines = 30,
+  highlights = [] 
+} = Astro.props
+
+// 计算代码行数
+const lines = code.split('\n')
+const totalLines = lines.length
+const isLongCode = totalLines > maxLines
+
+// 生成唯一ID
+const codeId = `code-${Math.random().toString(36).substr(2, 9)}`
+---
+
+<div class="code-display" data-code-id={codeId}>
+  {filename && (
+    <div class="code-header">
+      <div class="code-info">
+        <h3 class="code-filename">{filename}</h3>
+        <span class="code-language">{language}</span>
+      </div>
+      <div class="code-actions">
+        <button class="btn-copy" data-code-id={codeId} aria-label="复制代码">
+          📋 复制
+        </button>
+        {isLongCode && (
+          <button class="btn-toggle" data-code-id={codeId} aria-label="展开/折叠代码">
+            ⬇️ 展开全部 ({totalLines} 行)
+          </button>
+        )}
+      </div>
+    </div>
+  )}
+  
+  {description && (
+    <p class="code-description">{description}</p>
+  )}
+  
+  <div class="code-container" data-expanded="false" data-max-lines={maxLines}>
+    <pre class="code-pre"><code class={`language-${language}`} data-code-content>{code}</code></pre>
+    {isLongCode && (
+      <div class="code-fade"></div>
+    )}
+  </div>
+  
+  {totalLines > 10 && (
+    <div class="code-stats">
+      <span class="line-count">共 {totalLines} 行</span>
+      {code.length > 1000 && (
+        <span class="char-count">{Math.round(code.length / 1024)}KB</span>
+      )}
+    </div>
+  )}
+</div>
+
+<style>
+  .code-display {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin: var(--space-6) 0;
+    background-color: var(--bg-primary);
+  }
+
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4) var(--space-6);
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .code-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .code-filename {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .code-language {
+    background-color: var(--bg-tertiary);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .code-actions {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .btn-copy,
+  .btn-toggle {
+    padding: var(--space-2) var(--space-4);
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+  }
+
+  .btn-copy:hover,
+  .btn-toggle:hover {
+    background-color: var(--bg-primary);
+    border-color: var(--color-primary);
+  }
+
+  .btn-copy.copied {
+    background-color: var(--color-success);
+    color: white;
+    border-color: var(--color-success);
+  }
+
+  .code-description {
+    padding: var(--space-4) var(--space-6);
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+    margin: 0;
+    background-color: var(--bg-secondary);
+  }
+
+  .code-container {
+    position: relative;
+    max-height: calc(var(--space-16) * 8);
+    overflow: hidden;
+    transition: max-height var(--transition-slow);
+  }
+
+  .code-container[data-expanded="true"] {
+    max-height: none;
+  }
+
+  .code-pre {
+    margin: 0;
+    padding: var(--space-6);
+    background-color: #1e1e1e;
+    overflow-x: auto;
+  }
+
+  .code-pre code {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: #d4d4d4;
+  }
+
+  .code-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, #1e1e1e);
+    pointer-events: none;
+    transition: opacity var(--transition-fast);
+  }
+
+  .code-container[data-expanded="true"] .code-fade {
+    opacity: 0;
+  }
+
+  .code-stats {
+    padding: var(--space-3) var(--space-6);
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+  }
+
+  /* 滚动条样式 */
+  .code-pre::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .code-pre::-webkit-scrollbar-track {
+    background: #2d2d2d;
+    border-radius: 4px;
+  }
+
+  .code-pre::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+  }
+
+  .code-pre::-webkit-scrollbar-thumb:hover {
+    background: #777;
+  }
+
+  @media (max-width: 768px) {
+    .code-header {
+      flex-direction: column;
+      gap: var(--space-3);
+      align-items: flex-start;
+    }
+
+    .code-actions {
+      width: 100%;
+      justify-content: flex-end;
+    }
+
+    .code-pre {
+      padding: var(--space-4);
+      font-size: var(--text-xs);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 复制功能
+    document.querySelectorAll('.btn-copy').forEach(button => {
+      button.addEventListener('click', async (e) => {
+        const btn = e.target as HTMLButtonElement
+        const codeId = btn.dataset.codeId
+        const codeDisplay = document.querySelector(`[data-code-id="${codeId}"]`)
+        const codeContent = codeDisplay?.querySelector('[data-code-content]')?.textContent
+        
+        if (codeContent) {
+          try {
+            await navigator.clipboard.writeText(codeContent)
+            const originalText = btn.textContent
+            btn.textContent = '✓ 已复制'
+            btn.classList.add('copied')
+            
+            setTimeout(() => {
+              btn.textContent = originalText
+              btn.classList.remove('copied')
+            }, 2000)
+          } catch (err) {
+            console.error('复制失败:', err)
+          }
+        }
+      })
+    })
+    
+    // 展开/折叠功能
+    document.querySelectorAll('.btn-toggle').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const btn = e.target as HTMLButtonElement
+        const codeId = btn.dataset.codeId
+        const codeDisplay = document.querySelector(`[data-code-id="${codeId}"]`)
+        const container = codeDisplay?.querySelector('.code-container') as HTMLElement
+        
+        if (container) {
+          const isExpanded = container.dataset.expanded === 'true'
+          container.dataset.expanded = (!isExpanded).toString()
+          
+          // 更新按钮文本
+          const totalLines = codeDisplay?.querySelector('.line-count')?.textContent?.match(/\d+/)?.[0]
+          btn.textContent = isExpanded 
+            ? `⬇️ 展开全部 (${totalLines} 行)` 
+            : '⬆️ 折叠代码'
+        }
+      })
+    })
+    
+    // 代码高亮（如果有Prism或其他高亮库）
+    if (typeof Prism !== 'undefined') {
+      Prism.highlightAll()
+    }
+  })
+</script>

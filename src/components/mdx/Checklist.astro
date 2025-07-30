@@ -1,0 +1,59 @@
+---
+/**
+ * MDX中使用的检查清单组件包装器
+ * 用于在MDX内容中渲染交互式检查清单
+ */
+import InteractiveChecklist from '../InteractiveChecklist.astro'
+
+export interface Props {
+  items?: string[]
+  children?: any
+}
+
+const { items = [], children } = Astro.props
+
+// 如果没有提供items，尝试从children中解析
+let checklistItems = items
+
+if (checklistItems.length === 0 && children) {
+  // 解析children中的内容（通常是markdown列表）
+  const content = await Astro.slots.render('default')
+  
+  // 提取列表项文本
+  const matches = content.match(/- \[ \] (.+)/g)
+  if (matches) {
+    checklistItems = matches.map(match => match.replace('- [ ] ', '').trim())
+  }
+}
+---
+
+{checklistItems.length > 0 ? (
+  <InteractiveChecklist items={checklistItems} />
+) : (
+  <div class="checklist-fallback">
+    <slot />
+  </div>
+)}
+
+<style>
+  /* 降级样式，如果组件无法正常解析 */
+  .checklist-fallback {
+    background-color: var(--bg-secondary);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    margin: var(--space-8) 0;
+  }
+  
+  .checklist-fallback h2 {
+    margin-bottom: var(--space-4);
+  }
+  
+  .checklist-fallback ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .checklist-fallback li {
+    padding: var(--space-2) 0;
+  }
+</style>

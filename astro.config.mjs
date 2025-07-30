@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import { remarkInteractiveChecklist } from './src/lib/remark-interactive-checklist.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -10,6 +11,7 @@ export default defineConfig({
     sitemap()
   ],
   markdown: {
+    remarkPlugins: [remarkInteractiveChecklist],
     shikiConfig: {
       // Choose from Shiki's built-in themes (or add your own)
       theme: 'github-dark-default',
