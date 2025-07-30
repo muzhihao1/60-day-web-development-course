@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://60-day-web-course.vercel.app',
+  site: 'https://60-day-web-development-course.vercel.app',
   integrations: [
     mdx(),
     sitemap()
