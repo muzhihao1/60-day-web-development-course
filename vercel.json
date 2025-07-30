@@ -5,7 +5,9 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/$1.html"
+      "dest": "/$1.html",
+      "status": 200
     }
-  ]
+  ],
+  "trailingSlash": false
 }

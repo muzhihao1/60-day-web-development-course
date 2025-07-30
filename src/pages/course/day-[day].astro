@@ -30,10 +30,10 @@ const codeExamples = await getCollection('codeExamples', ({ data }) => data.day 
 
 // 计算前一天和后一天的链接
 const prevDay = parseInt(day) > 1 ? parseInt(day) - 1 : null
-const nextDay = parseInt(day) < 60 ? parseInt(day) + 1 : null
+const nextDay = parseInt(day) < 40 ? parseInt(day) + 1 : null
 
 // 获取页面元数据
-const pageTitle = `${course.data.title} | 60天Web开发课程`
+const pageTitle = `${course.data.title} | 40天Web开发课程`
 const pageDescription = course.data.description
 
 // Get the Content component from the course

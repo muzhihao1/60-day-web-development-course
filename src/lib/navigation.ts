@@ -30,23 +30,24 @@ export const phases: Phase[] = [
     days: [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40],
     color: '#61dafb',
     icon: '⚛️'
-  },
-  {
-    id: 4,
-    title: '后端开发',
-    description: 'Node.js、数据库、API设计等后端技术',
-    days: [41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52],
-    color: '#539e43',
-    icon: '🚀'
-  },
-  {
-    id: 5,
-    title: '全栈集成与部署',
-    description: '容器化、CI/CD、云服务部署等高级主题',
-    days: [53, 54, 55, 56, 57, 58, 59, 60],
-    color: '#ff6b6b',
-    icon: '🎯'
   }
+  // 以下阶段的内容正在开发中
+  // {
+  //   id: 4,
+  //   title: '后端开发',
+  //   description: 'Node.js、数据库、API设计等后端技术',
+  //   days: [41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52],
+  //   color: '#539e43',
+  //   icon: '🚀'
+  // },
+  // {
+  //   id: 5,
+  //   title: '全栈集成与部署',
+  //   description: '容器化、CI/CD、云服务部署等高级主题',
+  //   days: [53, 54, 55, 56, 57, 58, 59, 60],
+  //   color: '#ff6b6b',
+  //   icon: '🎯'
+  // }
 ];
 
 // 获取每日导航结构
@@ -189,7 +190,9 @@ export function calculateProgress(completedDays: number[]): {
   overall: number;
   phases: { id: number; progress: number }[];
 } {
-  const overall = (completedDays.length / 60) * 100;
+  // 计算总天数（目前只有40天的内容）
+  const totalDays = phases.reduce((sum, phase) => sum + phase.days.length, 0);
+  const overall = (completedDays.length / totalDays) * 100;
   
   const phasesProgress = phases.map(phase => {
     const completedInPhase = phase.days.filter(day => 
