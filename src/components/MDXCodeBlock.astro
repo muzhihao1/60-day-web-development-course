@@ -35,7 +35,7 @@ const langName = language || className?.replace('language-', '') || 'plaintext'
     </button>
   </div>
   <div class="code-wrapper">
-    <pre class={className} {...props} data-code-content><slot /></pre>
+    <pre class={`mdx-code-pre ${className || ''}`} {...props} data-code-content><slot /></pre>
   </div>
 </div>
 
@@ -45,7 +45,7 @@ const langName = language || className?.replace('language-', '') || 'plaintext'
     margin: 1.5rem 0;
     border-radius: 8px;
     overflow: hidden;
-    background: #0d1117;
+    background: #0d1117 !important;
     border: 1px solid rgba(240, 246, 252, 0.1);
   }
 
@@ -117,10 +117,27 @@ const langName = language || className?.replace('language-', '') || 'plaintext'
   }
 
   .code-wrapper pre {
-    margin: 0;
+    margin: 0 !important;
     padding: 1rem !important;
     overflow-x: auto;
+    background: #0d1117 !important;
+    color: #c9d1d9 !important;
+  }
+
+  /* Override any Shiki theme styles */
+  .mdx-code-pre,
+  .mdx-code-pre[class*="shiki"],
+  .mdx-code-block pre,
+  .mdx-code-block pre[class*="shiki"] {
+    background: #0d1117 !important;
+    background-color: #0d1117 !important;
+  }
+
+  .mdx-code-pre code,
+  .mdx-code-block pre code {
     background: transparent !important;
+    background-color: transparent !important;
+    color: inherit !important;
   }
 
   /* 滚动条样式 */
@@ -141,15 +158,20 @@ const langName = language || className?.replace('language-', '') || 'plaintext'
     background: rgba(110, 118, 129, 0.6);
   }
 
-  /* 亮色主题适配 */
+  /* 亮色主题适配 - 保持代码块深色背景 */
   [data-theme="light"] .mdx-code-block {
-    background: #f6f8fa;
-    border-color: #d1d9e0;
+    background: #0d1117 !important;
+    border-color: rgba(240, 246, 252, 0.1);
   }
 
   [data-theme="light"] .code-header {
-    background: rgba(246, 248, 250, 0.8);
-    border-bottom-color: #d1d9e0;
+    background: rgba(13, 17, 23, 0.8);
+    border-bottom-color: rgba(240, 246, 252, 0.1);
+  }
+
+  [data-theme="light"] .code-wrapper pre {
+    background: #0d1117 !important;
+    color: #c9d1d9 !important;
   }
 
   [data-theme="light"] .code-language {
