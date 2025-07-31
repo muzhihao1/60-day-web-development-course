@@ -4,6 +4,7 @@
  * 展示每日课程的代码示例
  */
 import { getCollection } from 'astro:content'
+import { components } from '@components/mdx-components'
 import '../../../styles/global.css'
 
 export async function getStaticPaths() {
@@ -102,7 +103,7 @@ const examplesWithContent = await Promise.all(
             </div>
             
             <article class="example-content">
-              <example.Content />
+              <example.Content components={components} />
             </article>
           </section>
         ))}
@@ -204,16 +205,7 @@ const examplesWithContent = await Promise.all(
       margin-top: var(--space-4);
     }
 
-    .example-content pre {
-      background-color: var(--bg-primary);
-      padding: var(--space-4);
-      border-radius: var(--radius-md);
-      overflow-x: auto;
-    }
-
-    .example-content code {
-      font-family: 'Consolas', 'Monaco', monospace;
-    }
+    /* MDXCodeBlock component now handles code block styling */
 
     .empty-state {
       text-align: center;

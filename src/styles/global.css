@@ -467,26 +467,14 @@ h6 {
   letter-spacing: 0.01em;
 }
 
-.course-content pre {
-  background-color: var(--bg-tertiary);
-  padding: var(--space-8) var(--space-6);
-  border-radius: var(--radius-md);
-  overflow-x: auto;
-  margin: var(--space-8) 0;
-  position: relative;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-sm);
-}
-
-.course-content code {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-}
-
+/* MDXCodeBlock component now handles pre/code block styling */
+/* Only keep inline code styling */
 .course-content :not(pre) > code {
   background-color: var(--bg-tertiary);
   padding: var(--space-1);
   border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
 }
 
 .course-content ul,

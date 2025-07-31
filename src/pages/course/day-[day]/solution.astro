@@ -168,85 +168,6 @@ const { Content } = await solution.render()
   </div>
 
   <script>
-    // 智能代码块增强 - 根据代码长度决定功能
-    document.querySelectorAll('.solution-content pre').forEach((pre, index) => {
-      const codeBlock = pre.querySelector('code')
-      if (codeBlock && codeBlock.textContent) {
-        // 统计代码信息
-        const codeText = codeBlock.textContent
-        const lineCount = codeText.split('\n').length
-        const charCount = codeText.length
-        const language = pre.querySelector('code').className.match(/language-(\w+)/)?.[1] || 'html'
-        
-        // 创建复制按钮（所有代码块都有）
-        const copyBtn = document.createElement('button')
-        copyBtn.className = 'copy-code-btn'
-        copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 9H11C9.89543 9 9 9.89543 9 11V20C9 21.1046 9.89543 22 11 22H20C21.1046 22 22 21.1046 22 20V11C22 9.89543 21.1046 9 20 9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 15H4C2.89543 15 2 14.1046 2 13V4C2 2.89543 2.89543 2 4 2H13C14.1046 2 15 2.89543 15 4V5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>复制'
-        copyBtn.title = '复制代码到剪贴板'
-        pre.appendChild(copyBtn)
-        
-        // 只有长代码块（≥50行）才显示信息栏和展开功能
-        if (lineCount >= 50) {
-          // 标记为长代码块，用于应用样式
-          pre.classList.add('has-info-bar')
-          
-          // 创建代码信息栏
-          const infoBar = document.createElement('div')
-          infoBar.className = 'code-info-bar'
-          infoBar.innerHTML = `
-            <div class="code-file-info">
-              <span>📄 index.${language}</span>
-              <span>🔤 ${language.toUpperCase()}</span>
-            </div>
-            <div class="code-stats">
-              <span>${lineCount} 行</span>
-              <span>${(charCount / 1024).toFixed(1)}KB</span>
-              <button class="code-expand-btn" data-action="expand">展开全部</button>
-            </div>
-          `
-          
-          // 将信息栏插入到代码块前面
-          pre.parentNode.insertBefore(infoBar, pre)
-          
-          // 获取展开按钮
-          const expandBtn = infoBar.querySelector('.code-expand-btn')
-          
-          // 展开/收起功能
-          expandBtn.addEventListener('click', () => {
-            const isExpanded = pre.classList.contains('expanded')
-            if (isExpanded) {
-              pre.classList.remove('expanded')
-              expandBtn.textContent = '展开全部'
-            } else {
-              pre.classList.add('expanded')
-              expandBtn.textContent = '收起代码'
-            }
-          })
-        } else {
-          // 短代码块：移除高度限制，保持简洁
-          pre.style.maxHeight = 'none'
-          pre.style.overflow = 'visible'
-        }
-        
-        // 复制功能（所有代码块都有）
-        copyBtn.addEventListener('click', async () => {
-          try {
-            await navigator.clipboard.writeText(codeText)
-            const originalText = copyBtn.innerHTML
-            copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>已复制'
-            copyBtn.classList.add('copied')
-            
-            setTimeout(() => {
-              copyBtn.innerHTML = originalText
-              copyBtn.classList.remove('copied')
-            }, 2000)
-          } catch (err) {
-            console.error('复制失败:', err)
-          }
-        })
-      }
-    })
-    
     // 学习反馈
     const feedbackBtns = document.querySelectorAll('.feedback-btn')
     const feedbackMessage = document.querySelector('.feedback-message') as HTMLElement
@@ -354,44 +275,7 @@ const { Content } = await solution.render()
     }
 
     /* 复制代码按钮样式 - 重新设计 */
-    .copy-code-btn {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(8px);
-      color: #e2e8f0;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 0.375rem 0.75rem;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 10;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
 
-    .copy-code-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.3);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .copy-code-btn:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    }
-
-    .copy-code-btn.copied {
-      background: rgba(34, 197, 94, 0.2);
-      border-color: rgba(34, 197, 94, 0.4);
-      color: #4ade80;
-    }
 
     .common-mistakes {
       background-color: var(--bg-secondary);
@@ -478,73 +362,10 @@ const { Content } = await solution.render()
       transition: max-height 0.3s ease;
     }
 
-    .solution-content pre.expanded {
-      max-height: none;
-    }
 
-    /* 代码块信息栏 */
-    .code-info-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 1rem;
-      background: #2d2d2d;
-      border: 1px solid var(--border-color);
-      border-bottom: none;
-      border-radius: var(--radius-md) var(--radius-md) 0 0;
-      font-family: var(--font-mono);
-      font-size: var(--text-sm);
-      color: #9ca3af;
-    }
 
-    .code-info-bar + pre {
-      border-radius: 0 0 var(--radius-md) var(--radius-md);
-      margin-top: 0;
-    }
 
-    .code-file-info {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
 
-    .code-stats {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      font-size: var(--text-xs);
-    }
-
-    /* 展开/收起按钮 */
-    .code-expand-btn {
-      background: rgba(59, 130, 246, 0.8);
-      color: white;
-      border: none;
-      padding: 0.375rem 0.75rem;
-      border-radius: var(--radius-sm);
-      font-size: var(--text-xs);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      font-weight: 500;
-    }
-
-    .code-expand-btn:hover {
-      background: rgba(59, 130, 246, 1);
-      transform: translateY(-1px);
-    }
-
-    /* 渐变遮罩效果 - 只应用到长代码块 */
-    .solution-content pre.has-info-bar:not(.expanded)::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 80px;
-      background: linear-gradient(transparent, #1e1e1e);
-      pointer-events: none;
-      border-radius: 0 0 var(--radius-md) var(--radius-md);
-    }
 
     .solution-content code {
       font-family: var(--font-mono);
@@ -690,33 +511,8 @@ const { Content } = await solution.render()
         width: 100%;
       }
 
-      .copy-code-btn {
-        position: static;
-        margin-top: 0.5rem;
-        width: 100%;
-        justify-content: center;
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(4px);
-      }
-
       .solution-content pre {
         padding: 1rem; /* 移动端减少padding */
-      }
-
-      .code-info-bar {
-        flex-direction: column;
-        gap: 0.75rem;
-        align-items: flex-start;
-      }
-
-      .code-stats {
-        width: 100%;
-        justify-content: space-between;
-      }
-
-      .code-expand-btn {
-        width: auto;
-        padding: 0.375rem 0.75rem;
       }
     }
   </style>
