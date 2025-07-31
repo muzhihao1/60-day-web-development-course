@@ -13,15 +13,28 @@ export default defineConfig({
   markdown: {
     // remarkPlugins: [remarkInteractiveChecklist],
     shikiConfig: {
-      // Choose from Shiki's built-in themes (or add your own)
-      theme: 'github-dark',
+      // Disable default theme to allow custom CSS
+      theme: 'css-variables',
       langs: [],
       // Enable word wrap to prevent horizontal scrolling
       wrap: true,
+      // Allow custom CSS to take precedence
+      transformers: [
+        {
+          name: 'remove-theme-colors',
+          pre(node) {
+            // Remove inline styles that conflict with our CSS
+            if (node.properties && node.properties.style) {
+              delete node.properties.style;
+            }
+          }
+        }
+      ]
     },
   },
   // Enable server-side rendering
   output: 'static',
+  // Force cache refresh - modern code block styling deployed
   // Customize build output
   build: {
     format: 'directory',
