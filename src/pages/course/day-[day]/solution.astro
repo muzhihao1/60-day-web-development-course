@@ -4,10 +4,9 @@
  * 展示每日练习的参考解决方案
  */
 import { getCollection } from 'astro:content'
+import BaseLayout from '@layouts/BaseLayout.astro'
 import type { Solution, PhaseInfo } from '../../../types'
-import CodeDisplay from '../../../components/CodeDisplay.astro'
-import { components } from '../../../components/mdx-components'
-import '../../../styles/global.css'
+import { components } from '@components/mdx-components'
 
 export async function getStaticPaths() {
   const solutions = await getCollection('solutions')
@@ -37,39 +36,32 @@ const pageDescription = `Day ${day} 练习的参考解决方案：${solution.dat
 const { Content } = await solution.render()
 ---
 
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{pageTitle}</title>
-  <meta name="description" content={pageDescription}>
-</head>
-<body>
-  <div class="course-container">
+<BaseLayout title={pageTitle} description={pageDescription} currentDay={parseInt(day)}>
+  <div class="solution-page-wrapper">
+    <div class="solution-container">
+
     <!-- 面包屑导航 -->
     <nav class="breadcrumb" aria-label="面包屑导航">
       <ol>
         <li><a href="/">首页</a></li>
-        <li><a href="/course">课程</a></li>
-        <li><a href={`/course/phase-${phase.data.number}`}>{phase.data.name}</a></li>
+        <li><a href="/course">课程总览</a></li>
         <li><a href={`/course/day-${day}`}>Day {day}</a></li>
         <li><a href={`/course/day-${day}/exercise`}>练习</a></li>
-        <li aria-current="page">解决方案</li>
+        <li class="current">解决方案</li>
       </ol>
     </nav>
 
     <!-- 解决方案头部 -->
     <header class="solution-header">
       <div class="solution-meta">
-        <span class="phase-badge">{phase.data.name}</span>
+        <span class="phase-badge">{phase?.data.name || '现代Web基础'}</span>
         <span class="solution-badge">参考解决方案</span>
+        <span class="approach-badge">思路解析</span>
       </div>
       
-      <h1 class="solution-title">
-        <span class="solution-label">Day {day} 解决方案</span>
-        {solution.data.exerciseTitle}
-      </h1>
+      <div class="day-indicator">Day {day} 解决方案</div>
+      
+      <h1 class="solution-title">{solution.data.exerciseTitle}</h1>
       
       <div class="solution-approach">
         <h2>💡 解决思路</h2>
@@ -80,11 +72,14 @@ const { Content } = await solution.render()
     <!-- 关键要点 -->
     <section class="key-takeaways">
       <h2>🎯 关键要点</h2>
-      <ul>
-        {solution.data.keyTakeaways.map((takeaway) => (
-          <li>{takeaway}</li>
+      <div class="takeaways-list">
+        {solution.data.keyTakeaways.map((takeaway, index) => (
+          <div class="takeaway-item">
+            <span class="takeaway-number">{index + 1}</span>
+            <span class="takeaway-text">{takeaway}</span>
+          </div>
         ))}
-      </ul>
+      </div>
     </section>
 
     <!-- 解决方案内容 -->
@@ -93,8 +88,6 @@ const { Content } = await solution.render()
       <Content components={components} />
     </article>
 
-    <!-- 解决方案内容中已经包含完整代码，移除重复的代码文件部分 -->
-
     <!-- 常见错误 -->
     {solution.data.commonMistakes && solution.data.commonMistakes.length > 0 && (
       <section class="common-mistakes">
@@ -102,8 +95,11 @@ const { Content } = await solution.render()
         <div class="mistakes-list">
           {solution.data.commonMistakes.map((mistake, index) => (
             <div class="mistake-item">
-              <span class="mistake-number">{index + 1}</span>
-              <p>{mistake}</p>
+              <div class="mistake-icon">⚠️</div>
+              <div class="mistake-content">
+                <h3>错误 {index + 1}</h3>
+                <p>{mistake}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -114,39 +110,19 @@ const { Content } = await solution.render()
     {solution.data.extensions && solution.data.extensions.length > 0 && (
       <section class="extensions">
         <h2>🚀 扩展练习</h2>
-        <p>完成基础练习后，可以尝试以下扩展挑战：</p>
         <div class="extensions-list">
-          {solution.data.extensions.map((extension) => (
+          {solution.data.extensions.map((extension, index) => (
             <div class="extension-item">
-              <h3>{extension.title}</h3>
-              <p>{extension.description}</p>
+              <div class="extension-icon">🎯</div>
+              <div class="extension-content">
+                <h3>扩展 {index + 1}</h3>
+                <p>{extension}</p>
+              </div>
             </div>
           ))}
         </div>
       </section>
     )}
-
-    <!-- 学习反馈 -->
-    <section class="learning-feedback">
-      <h2>📊 学习反馈</h2>
-      <div class="feedback-options">
-        <p>这个解决方案对你有帮助吗？</p>
-        <div class="feedback-buttons">
-          <button class="btn btn-success feedback-btn" data-feedback="helpful">
-            👍 很有帮助
-          </button>
-          <button class="btn btn-secondary feedback-btn" data-feedback="neutral">
-            😐 一般般
-          </button>
-          <button class="btn btn-secondary feedback-btn" data-feedback="confusing">
-            😕 还是不懂
-          </button>
-        </div>
-        <div class="feedback-message" style="display: none;">
-          <p>感谢你的反馈！</p>
-        </div>
-      </div>
-    </section>
 
     <!-- 导航按钮 -->
     <nav class="solution-navigation">
@@ -154,367 +130,537 @@ const { Content } = await solution.render()
         ← 返回练习
       </a>
       
-      <div class="nav-actions">
-        <a href={`/course/day-${day}`} class="btn btn-secondary">
-          回到课程
-        </a>
-        {parseInt(day) < 60 && (
-          <a href={`/course/day-${parseInt(day) + 1}`} class="btn btn-primary">
-            下一天课程 →
-          </a>
-        )}
-      </div>
+      <a href={`/course/day-${day}`} class="nav-course">
+        返回课程 →
+      </a>
     </nav>
+
+    <!-- 进度追踪 -->
+    <div class="progress-tracker">
+      <button class="btn btn-success mark-solution-complete" data-day={day}>
+        标记解决方案为已查看
+      </button>
+    </div>
+
+  </div>
   </div>
 
   <script>
-    // 学习反馈
-    const feedbackBtns = document.querySelectorAll('.feedback-btn')
-    const feedbackMessage = document.querySelector('.feedback-message') as HTMLElement
-    
-    feedbackBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const feedback = (e.target as HTMLElement).dataset.feedback
-        
-        // 保存反馈到localStorage
-        const feedbackData = {
-          day: Astro.params.day,
-          feedback: feedback,
-          timestamp: new Date().toISOString()
-        }
-        
-        const allFeedback = JSON.parse(localStorage.getItem('solutionFeedback') || '{}')
-        allFeedback[`day-${Astro.params.day}`] = feedbackData
-        localStorage.setItem('solutionFeedback', JSON.stringify(allFeedback))
-        
-        // 显示反馈消息
-        feedbackBtns.forEach(b => b.classList.remove('active'))
-        ;(e.target as HTMLElement).classList.add('active')
-        
-        if (feedbackMessage) {
-          feedbackMessage.style.display = 'block'
-          
-          // 根据反馈类型显示不同消息
-          const messages = {
-            helpful: '太好了！继续加油！🎉',
-            neutral: '如果有疑问，可以重新复习课程内容。',
-            confusing: '建议重新阅读课程内容，或在社区寻求帮助。'
-          }
-          
-          feedbackMessage.innerHTML = `<p>感谢你的反馈！${messages[feedback as keyof typeof messages]}</p>`
-        }
-      })
+    // 解决方案查看追踪脚本
+    document.querySelector('.mark-solution-complete')?.addEventListener('click', (e) => {
+      const day = (e.target as HTMLElement).dataset.day
+      let viewedSolutions = []
+      
+      try {
+        viewedSolutions = JSON.parse(localStorage.getItem('viewedSolutions') || '[]')
+      } catch (error) {
+        console.error('Error parsing viewedSolutions:', error)
+        viewedSolutions = []
+      }
+      
+      if (!viewedSolutions.includes(day)) {
+        viewedSolutions.push(day)
+        localStorage.setItem('viewedSolutions', JSON.stringify(viewedSolutions))
+        ;(e.target as HTMLElement).textContent = '✓ 已查看解决方案'
+        ;(e.target as HTMLElement).classList.add('completed')
+      }
     })
+
+    // 检查解决方案是否已查看
+    let viewedSolutions = []
+    try {
+      viewedSolutions = JSON.parse(localStorage.getItem('viewedSolutions') || '[]')
+    } catch (error) {
+      console.error('Error parsing viewedSolutions:', error)
+      viewedSolutions = []
+    }
     
-    // 恢复之前的反馈
-    const savedFeedback = JSON.parse(localStorage.getItem('solutionFeedback') || '{}')
-    const dayFeedback = savedFeedback[`day-${Astro.params.day}`]
+    const currentDay = document.querySelector('.mark-solution-complete')?.getAttribute('data-day')
     
-    if (dayFeedback) {
-      const btn = document.querySelector(`[data-feedback="${dayFeedback.feedback}"]`)
+    if (viewedSolutions.includes(currentDay)) {
+      const btn = document.querySelector('.mark-solution-complete') as HTMLElement
       if (btn) {
-        btn.classList.add('active')
+        btn.textContent = '✓ 已查看解决方案'
+        btn.classList.add('completed')
       }
     }
   </script>
 
   <style>
-    /* 解决方案页面特定样式 */
+    .solution-page-wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .solution-container {
+      max-width: 100%;
+    }
+
+    /* 面包屑导航 */
+    .breadcrumb {
+      margin-bottom: 2rem;
+    }
+
+    .breadcrumb ol {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+
+    .breadcrumb li:not(.current)::after {
+      content: '>';
+      margin-left: 0.5rem;
+      color: var(--color-border);
+    }
+
+    .breadcrumb a {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .breadcrumb .current {
+      color: var(--color-text);
+      font-weight: 500;
+    }
+
+    /* 解决方案头部 */
     .solution-header {
-      margin-bottom: var(--space-8);
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid var(--color-border);
     }
 
     .solution-meta {
       display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      margin-bottom: var(--space-4);
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .phase-badge,
+    .solution-badge,
+    .approach-badge {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .phase-badge {
+      background: var(--color-primary);
+      color: white;
     }
 
     .solution-badge {
-      background-color: var(--color-success);
+      background: var(--color-success);
       color: white;
-      padding: var(--space-1) var(--space-3);
-      border-radius: var(--radius-full);
-      font-size: var(--text-sm);
-      font-weight: 500;
     }
 
-    .solution-label {
-      color: var(--color-success);
-      font-size: var(--text-xl);
-      display: block;
-      margin-bottom: var(--space-2);
+    .approach-badge {
+      background: var(--color-bg-secondary);
+      color: var(--color-text-secondary);
+      border: 1px solid var(--color-border);
+    }
+
+    .day-indicator {
+      color: var(--color-primary);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .solution-title {
+      font-size: 2.75rem;
+      font-weight: 800;
+      margin-bottom: 2rem;
+      color: var(--color-text);
+      line-height: 1.2;
     }
 
     .solution-approach {
-      background-color: var(--bg-secondary);
-      padding: var(--space-6);
+      background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-secondary) 100%);
       border-radius: var(--radius-lg);
-      margin-top: var(--space-6);
+      padding: 2rem;
+      border: 1px solid var(--color-border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .solution-approach::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-success));
     }
 
     .solution-approach h2 {
-      margin-bottom: var(--space-3);
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--color-text);
+      font-weight: 700;
     }
 
-    .key-takeaways {
-      background-color: var(--bg-tertiary);
-      padding: var(--space-6);
-      border-radius: var(--radius-lg);
-      margin-bottom: var(--space-8);
-    }
-
-    .key-takeaways ul {
-      list-style-position: inside;
-      color: var(--text-secondary);
-    }
-
-    .key-takeaways li {
-      margin-bottom: var(--space-2);
-    }
-
-    /* 复制代码按钮样式 - 重新设计 */
-
-
-    .common-mistakes {
-      background-color: var(--bg-secondary);
-      padding: var(--space-6);
-      border-radius: var(--radius-lg);
-      margin-bottom: var(--space-8);
-      border: 1px solid var(--color-warning);
-    }
-
-    .mistakes-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-    }
-
-    .mistake-item {
-      display: flex;
-      gap: var(--space-3);
-    }
-
-    .mistake-number {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 24px;
-      background-color: var(--color-warning);
-      color: white;
-      border-radius: var(--radius-full);
-      font-size: var(--text-sm);
-      font-weight: 600;
-      flex-shrink: 0;
-    }
-
-    .extensions {
-      margin-bottom: var(--space-8);
-    }
-
-    .extensions-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: var(--space-4);
-      margin-top: var(--space-4);
-    }
-
-    .extension-item {
-      background-color: var(--bg-secondary);
-      padding: var(--space-4);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--color-primary);
-    }
-
-    .extension-item h3 {
-      color: var(--color-primary);
-      margin-bottom: var(--space-2);
-    }
-
-    .extension-item p {
-      color: var(--text-secondary);
+    .solution-approach p {
+      font-size: 1.125rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
       margin: 0;
     }
 
-    /* 解决方案内容样式 */
-    .solution-content {
-      margin-bottom: var(--space-8);
-      background: var(--bg-primary);
-      padding: 2.5rem;
+    /* 关键要点 */
+    .key-takeaways {
+      background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-secondary) 100%);
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      line-height: 1.9;
-    }
-
-    /* 针对解决方案内容的代码块样式 */
-    .solution-content pre {
-      background-color: #1e1e1e;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 1.5rem 3rem 1.5rem 1.5rem; /* 右侧增加padding为复制按钮留空间 */
-      margin: 1.5rem 0;
-      overflow-x: auto;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      border: 1px solid var(--color-border);
       position: relative;
-      max-height: 400px;
-      overflow-y: auto;
-      transition: max-height 0.3s ease;
+      overflow: hidden;
     }
 
+    .key-takeaways::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-success), var(--color-primary));
+    }
 
+    .key-takeaways h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--color-text);
+      font-weight: 700;
+    }
 
+    .takeaways-list {
+      display: grid;
+      gap: 1rem;
+    }
 
+    .takeaway-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+      transition: all 0.2s ease;
+    }
 
+    .takeaway-item:hover {
+      transform: translateX(5px);
+      border-color: var(--color-success);
+    }
 
-    .solution-content code {
-      font-family: var(--font-mono);
+    .takeaway-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      background: var(--color-success);
+      color: white;
+      border-radius: 50%;
+      font-weight: 700;
       font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    .takeaway-text {
+      color: var(--color-text-secondary);
+      font-weight: 500;
       line-height: 1.6;
     }
 
-    .solution-content pre code {
-      display: block;
-      background: none;
-      color: #d4d4d4;
-      white-space: pre;
-      overflow-x: visible;
+    /* 解决方案内容 */
+    .solution-content {
+      background: var(--color-bg);
+      border-radius: var(--radius-lg);
+      padding: 3rem;
+      margin-bottom: 3rem;
+      line-height: 1.8;
+      border: 1px solid var(--color-border);
     }
 
-    .solution-content :not(pre) > code {
-      background-color: var(--bg-tertiary);
-      padding: 0.125rem 0.25rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.875em;
-      color: var(--color-primary);
+    .solution-content > *:first-child {
+      margin-top: 0;
     }
 
-    /* 解决方案内容的其他元素样式 */
+    .solution-content > *:last-child {
+      margin-bottom: 0;
+    }
+
     .solution-content h2 {
       font-size: 1.75rem;
-      margin-top: 2.5rem;
-      margin-bottom: 1rem;
-      color: var(--text-primary);
-      font-weight: 600;
+      margin: 2.5rem 0 1.5rem 0;
+      color: var(--color-text);
+      font-weight: 700;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--color-border);
     }
 
     .solution-content h3 {
       font-size: 1.375rem;
-      margin-top: 2rem;
-      margin-bottom: 0.75rem;
-      color: var(--text-primary);
+      margin: 2rem 0 1rem 0;
+      color: var(--color-text);
+      font-weight: 600;
     }
 
     .solution-content p {
       margin-bottom: 1.5rem;
-      color: var(--text-secondary);
+      color: var(--color-text-secondary);
       line-height: 1.8;
     }
 
-    .solution-content ul,
-    .solution-content ol {
+    .solution-content pre {
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 2rem 1.5rem;
+      overflow-x: auto;
+      margin: 2rem 0 2.5rem 0;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .solution-content code {
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.875rem;
+    }
+
+    /* 常见错误 */
+    .common-mistakes {
+      margin-bottom: 3rem;
+    }
+
+    .common-mistakes h2 {
+      font-size: 1.5rem;
       margin-bottom: 1.5rem;
-      padding-left: 2rem;
-      color: var(--text-secondary);
+      color: var(--color-text);
+      font-weight: 700;
     }
 
-    .solution-content li {
-      margin-bottom: 0.5rem;
-      line-height: 1.7;
+    .mistakes-list {
+      display: grid;
+      gap: 1.5rem;
     }
 
-    .solution-content blockquote {
-      border-left: 4px solid var(--color-primary);
-      padding-left: 1.5rem;
-      margin: 1.5rem 0;
-      color: var(--text-secondary);
-      font-style: italic;
-    }
-
-    /* 代码块滚动条样式 */
-    .solution-content pre::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    .solution-content pre::-webkit-scrollbar-track {
-      background: #2d2d2d;
-      border-radius: 4px;
-    }
-
-    .solution-content pre::-webkit-scrollbar-thumb {
-      background: #555;
-      border-radius: 4px;
-    }
-
-    .solution-content pre::-webkit-scrollbar-thumb:hover {
-      background: #777;
-    }
-
-    .learning-feedback {
-      background-color: var(--bg-secondary);
-      padding: var(--space-6);
-      border-radius: var(--radius-lg);
-      margin-bottom: var(--space-8);
-      text-align: center;
-    }
-
-    .feedback-buttons {
+    .mistake-item {
       display: flex;
-      justify-content: center;
-      gap: var(--space-3);
-      margin: var(--space-4) 0;
+      gap: 1rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #fef2f2 0%, #fefefe 100%);
+      border: 1px solid #fecaca;
+      border-radius: var(--radius-lg);
+      transition: all 0.2s ease;
     }
 
-    .feedback-btn.active {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
+    .mistake-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);
     }
 
-    .feedback-message {
-      margin-top: var(--space-4);
-      color: var(--color-success);
-      font-weight: 500;
+    .mistake-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
     }
 
+    .mistake-content h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #dc2626;
+      margin-bottom: 0.5rem;
+    }
+
+    .mistake-content p {
+      color: #7f1d1d;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* 扩展练习 */
+    .extensions {
+      margin-bottom: 3rem;
+    }
+
+    .extensions h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--color-text);
+      font-weight: 700;
+    }
+
+    .extensions-list {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .extension-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #f0f9ff 0%, #fefefe 100%);
+      border: 1px solid #bae6fd;
+      border-radius: var(--radius-lg);
+      transition: all 0.2s ease;
+    }
+
+    .extension-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+    }
+
+    .extension-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .extension-content h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #2563eb;
+      margin-bottom: 0.5rem;
+    }
+
+    .extension-content p {
+      color: #1e40af;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* 导航按钮 */
     .solution-navigation {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: var(--space-8);
-      padding-top: var(--space-8);
-      border-top: 1px solid var(--border-color);
+      padding: 2.5rem 0;
+      margin: 3rem 0 2rem 0;
+      border-top: 2px solid var(--color-border);
+      border-bottom: 2px solid var(--color-border);
     }
 
+    .nav-back,
+    .nav-course {
+      padding: 0.875rem 1.75rem;
+      color: var(--color-text);
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      transition: all 0.2s;
+      font-weight: 600;
+      border: 1px solid var(--color-border);
+    }
+
+    .nav-back:hover,
+    .nav-course:hover {
+      background: var(--color-bg);
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+      transform: translateY(-2px);
+    }
+
+    .nav-course {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+
+    .nav-course:hover {
+      background: var(--color-primary);
+      opacity: 0.9;
+      color: white;
+    }
+
+    /* 按钮样式 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .btn-success {
+      background: var(--color-success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-success.completed {
+      background: var(--color-bg-secondary);
+      color: var(--color-success);
+      border: 1px solid var(--color-success);
+    }
+
+    /* 进度追踪 */
+    .progress-tracker {
+      text-align: center;
+      padding: 3rem 0;
+    }
+
+    .mark-solution-complete {
+      font-size: 1.125rem;
+      padding: 1.25rem 2.5rem;
+    }
+
+    /* 响应式设计 */
     @media (max-width: 768px) {
-      .feedback-buttons {
-        flex-direction: column;
+      .solution-page-wrapper {
+        padding: 0 1rem;
       }
 
-      .feedback-btn {
-        width: 100%;
+      .solution-title {
+        font-size: 2.25rem;
+      }
+
+      .solution-content {
+        padding: 2rem 1.5rem;
+      }
+
+      .key-takeaways {
+        padding: 2rem 1.5rem;
+      }
+
+      .solution-approach {
+        padding: 1.5rem;
       }
 
       .solution-navigation {
         flex-direction: column;
-        gap: var(--space-4);
+        gap: 1rem;
       }
 
-      .nav-actions {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-3);
-      }
-
-      .nav-actions .btn {
-        width: 100%;
-      }
-
-      .solution-content pre {
-        padding: 1rem; /* 移动端减少padding */
+      .mistake-item,
+      .extension-item {
+        padding: 1rem;
       }
     }
   </style>
-</body>
-</html>
+</BaseLayout>
