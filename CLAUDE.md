@@ -158,3 +158,46 @@ When working with this codebase using MCP Serena tools:
 # Initialize Serena for the project
 /mcp__serena__initial_instructions
 ```
+
+## Serena Tool Instructions
+
+When using Serena tools for code exploration and editing:
+
+### Code Reading Best Practices
+
+- **AVOID reading entire files** unless absolutely necessary
+- Use `get_symbols_overview` to understand file structure first
+- Use `find_symbol` to read specific symbols with `include_body=True`
+- Use `search_for_pattern` for flexible pattern searches
+- Read only the necessary code for the task at hand
+
+### Symbol-based Navigation
+
+Symbols are identified by:
+- `name_path`: The symbol's path within a file (e.g., `ClassName/methodName`)
+- `relative_path`: The file path containing the symbol
+
+Example workflow:
+1. Use `get_symbols_overview` to see top-level symbols in a file
+2. Use `find_symbol` with `depth=1` to see methods in a class
+3. Read specific method bodies with `include_body=True`
+
+### Editing Strategies
+
+**Symbol-based editing** (for whole functions/classes):
+- `replace_symbol_body`: Replace entire symbol
+- `insert_before_symbol`: Add imports or code before
+- `insert_after_symbol`: Add code after
+
+**Regex-based editing** (for partial changes):
+- Use `replace_regex` for small, targeted changes
+- Use wildcards (`.*?`) for larger replacements
+- Always escape special regex characters
+
+### Key Principles
+
+1. **Read incrementally**: Start with overview, then drill down
+2. **Use memories**: Check existing project knowledge first
+3. **Verify relationships**: Use `find_referencing_symbols` before breaking changes
+4. **Minimize reads**: Never re-read files you've already seen
+5. **Smart searching**: Use pattern search when symbol names are unknown
