@@ -1,12 +1,25 @@
 /* 全局代码块样式覆盖 */
 
-/* 强制所有代码块使用深色背景 */
+/* 现代化代码块样式 */
 pre[class*="shiki"],
 pre.shiki,
 pre:has(code) {
-  background-color: #1e1e1e !important;
-  background: #1e1e1e !important;
+  background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  padding: 1.5rem 1.75rem !important;
+  margin: 2rem 0 2.5rem 0 !important;
+  position: relative !important;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  font-size: 0.9rem !important;
+  line-height: 1.7 !important;
+  backdrop-filter: blur(20px) !important;
+  transition: all 0.3s ease !important;
   color: #d4d4d4 !important;
+  overflow-x: auto !important;
 }
 
 /* 确保代码块内的所有元素都有良好的对比度 */
