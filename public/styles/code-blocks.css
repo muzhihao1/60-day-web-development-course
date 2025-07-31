@@ -1,0 +1,61 @@
+/* 全局代码块样式覆盖 */
+
+/* 强制所有代码块使用深色背景 */
+pre[class*="shiki"],
+pre.shiki {
+  background-color: #1e1e1e !important;
+  background: #1e1e1e !important;
+}
+
+/* 确保代码块内的所有元素都有良好的对比度 */
+pre[class*="shiki"] code,
+pre.shiki code {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* 覆盖 Shiki 的内联样式 */
+.shiki span {
+  color: inherit !important;
+}
+
+/* 确保注释有良好的可见度 */
+.shiki .comment {
+  color: #6A9955 !important;
+  opacity: 1 !important;
+}
+
+/* 字符串 */
+.shiki .string {
+  color: #CE9178 !important;
+}
+
+/* 关键字 */
+.shiki .keyword {
+  color: #569CD6 !important;
+}
+
+/* 函数名 */
+.shiki .function {
+  color: #DCDCAA !important;
+}
+
+/* 变量 */
+.shiki .variable {
+  color: #9CDCFE !important;
+}
+
+/* 数字 */
+.shiki .number {
+  color: #B5CEA8 !important;
+}
+
+/* 操作符 */
+.shiki .operator {
+  color: #D4D4D4 !important;
+}
+
+/* 标点符号 */
+.shiki .punctuation {
+  color: #D4D4D4 !important;
+}

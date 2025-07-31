@@ -43,15 +43,20 @@ const { Content, headings } = await course.render()
 
 // Extract checklist items from course content
 const courseBody = course.body || ''
-const checklistRegex = /##.*?✅.*?(?=##|$)/s
+// Look for the checklist section more accurately
+const checklistRegex = /##\s*✅\s*今日检查清单[\s\S]*?(?=##|$)/
 const checklistMatch = courseBody.match(checklistRegex)
 let checklistItems = []
 
 if (checklistMatch) {
   const checklistSection = checklistMatch[0]
-  const itemMatches = checklistSection.match(/- \[ \] (.+)/g)
+  // Match checkbox items with the exact format from the markdown
+  const itemMatches = checklistSection.match(/^\s*-\s*\[\s*\]\s*(.+)$/gm)
   if (itemMatches) {
-    checklistItems = itemMatches.map(item => item.replace(/- \[ \] /, '').trim())
+    checklistItems = itemMatches.map(item => {
+      // Extract just the text after the checkbox syntax
+      return item.replace(/^\s*-\s*\[\s*\]\s*/, '').trim()
+    })
   }
 }
 ---
@@ -90,7 +95,7 @@ if (checklistMatch) {
     </section>
 
     <!-- 主要内容 -->
-    <article class="course-content">
+    <article class="course-content" id="course-content">
       <Content components={components} />
     </article>
 
@@ -194,6 +199,81 @@ if (checklistMatch) {
   </div>
 
   <script>
+    // 修复代码块可见性和添加复制功能
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. 修复代码块对比度
+      const codeBlocks = document.querySelectorAll('pre[class*="shiki"]')
+      codeBlocks.forEach(pre => {
+        // 强制深色背景
+        pre.style.setProperty('background-color', '#1e1e1e', 'important')
+        pre.style.setProperty('background', '#1e1e1e', 'important')
+        
+        // 确保所有代码文本有良好对比度
+        const codeElements = pre.querySelectorAll('code, span')
+        codeElements.forEach(el => {
+          const currentColor = window.getComputedStyle(el).color
+          const rgb = currentColor.match(/\d+/g)
+          if (rgb) {
+            const r = parseInt(rgb[0])
+            const g = parseInt(rgb[1])
+            const b = parseInt(rgb[2])
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000
+            
+            // 如果颜色太暗，提高亮度
+            if (brightness < 100) {
+              el.style.setProperty('filter', 'brightness(1.5)', 'important')
+            }
+          }
+        })
+        
+        // 2. 添加复制按钮
+        const wrapper = document.createElement('div')
+        wrapper.className = 'code-block-wrapper'
+        pre.parentNode.insertBefore(wrapper, pre)
+        wrapper.appendChild(pre)
+        
+        const copyButton = document.createElement('button')
+        copyButton.className = 'code-copy-button'
+        copyButton.innerHTML = '📋 复制'
+        copyButton.setAttribute('aria-label', '复制代码')
+        
+        copyButton.addEventListener('click', async () => {
+          const code = pre.textContent || ''
+          try {
+            await navigator.clipboard.writeText(code)
+            copyButton.innerHTML = '✅ 已复制!'
+            setTimeout(() => {
+              copyButton.innerHTML = '📋 复制'
+            }, 2000)
+          } catch (err) {
+            console.error('复制失败:', err)
+            copyButton.innerHTML = '❌ 复制失败'
+          }
+        })
+        
+        wrapper.appendChild(copyButton)
+      })
+      
+      // 3. 隐藏内容中的资源部分
+      const contentElement = document.getElementById('course-content')
+      if (contentElement) {
+        // 查找并隐藏内容中的学习资源部分
+        const headers = contentElement.querySelectorAll('h2')
+        headers.forEach(h2 => {
+          if (h2.textContent.includes('学习资源') || h2.textContent.includes('📚')) {
+            // 隐藏这个h2和它后面的内容直到下一个h2
+            let element = h2
+            while (element) {
+              const next = element.nextElementSibling
+              element.style.display = 'none'
+              element = next
+              if (!element || element.tagName === 'H2') break
+            }
+          }
+        })
+      }
+    })
+    
     // 进度追踪脚本
     document.querySelector('.mark-complete')?.addEventListener('click', (e) => {
       const day = (e.target as HTMLElement).dataset.day
@@ -454,30 +534,14 @@ if (checklistMatch) {
       max-width: 90%;
     }
 
-    /* 学习目标 */
+    /* 学习目标 - 简化样式 */
     .learning-objectives {
-      background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-secondary) 100%);
-      border-radius: var(--radius-lg);
-      padding: 2.5rem;
       margin-bottom: 3rem;
-      border: 1px solid var(--color-border);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .learning-objectives::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--color-primary), var(--color-success));
     }
 
     .learning-objectives h2 {
       font-size: 1.5rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       color: var(--color-text);
       font-weight: 700;
     }
@@ -485,39 +549,23 @@ if (checklistMatch) {
     .learning-objectives ul {
       list-style: none;
       padding: 0;
-      display: grid;
-      gap: 1rem;
+      margin: 0;
     }
 
     .learning-objectives li {
-      padding: 1rem 1.5rem;
-      background: var(--color-bg);
-      border-radius: var(--radius-md);
-      border: 1px solid var(--color-border);
-      position: relative;
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
       color: var(--color-text-secondary);
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-
-    .learning-objectives li:hover {
-      transform: translateX(5px);
-      border-color: var(--color-success);
+      line-height: 1.6;
+      position: relative;
     }
 
     .learning-objectives li::before {
-      content: "✓";
+      content: "•";
       position: absolute;
-      left: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--color-success);
+      left: 0;
+      color: var(--color-primary);
       font-weight: bold;
-      font-size: 1.1rem;
-    }
-
-    .learning-objectives li {
-      padding-left: 3rem;
     }
 
     /* 内容样式 */
@@ -539,56 +587,119 @@ if (checklistMatch) {
     }
 
     .course-content h2 {
-      font-size: 2rem;
-      margin: 3rem 0 1.5rem 0;
+      font-size: 1.75rem;
+      margin: 2.5rem 0 1.25rem 0;
       color: var(--color-text);
       font-weight: 700;
-      padding-bottom: 0.75rem;
-      border-bottom: 2px solid var(--color-border);
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--color-border);
     }
 
     .course-content h3 {
-      font-size: 1.5rem;
-      margin: 2.5rem 0 1rem 0;
+      font-size: 1.375rem;
+      margin: 2rem 0 1rem 0;
       color: var(--color-text);
       font-weight: 600;
+      padding-left: 0.5rem;
+      border-left: 3px solid var(--color-primary);
     }
 
     .course-content h4 {
-      font-size: 1.25rem;
-      margin: 2rem 0 0.75rem 0;
+      font-size: 1.125rem;
+      margin: 1.5rem 0 0.75rem 0;
       color: var(--color-text);
       font-weight: 600;
+      padding-left: 1rem;
     }
 
-    .course-content p {
+    .course-content > p {
       margin-bottom: 1.5rem;
       color: var(--color-text-secondary);
       line-height: 1.8;
       font-size: 1.05rem;
     }
+    
+    /* 列表内的段落 */
+    .course-content li p {
+      margin-bottom: 0.5rem;
+      font-size: inherit;
+    }
+    
+    /* 引用块内的段落 */
+    .course-content blockquote p {
+      margin-bottom: 0.75rem;
+    }
+    
+    .course-content blockquote p:last-child {
+      margin-bottom: 0;
+    }
 
     .course-content ul,
     .course-content ol {
       margin-bottom: 1.5rem;
-      padding-left: 2rem;
+      padding-left: 1.5rem;
     }
-
-    .course-content li {
-      margin-bottom: 0.5rem;
+    
+    /* 一级列表 */
+    .course-content > ul > li,
+    .course-content > ol > li {
+      margin-bottom: 0.75rem;
       color: var(--color-text-secondary);
-      line-height: 1.6;
+      line-height: 1.7;
+    }
+    
+    /* 嵌套列表 */
+    .course-content ul ul,
+    .course-content ol ol,
+    .course-content ul ol,
+    .course-content ol ul {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+      padding-left: 1.25rem;
+    }
+    
+    .course-content ul ul li,
+    .course-content ol ol li {
+      margin-bottom: 0.25rem;
+      font-size: 0.95rem;
+      opacity: 0.9;
     }
 
     .course-content pre {
-      background: var(--color-bg-secondary);
+      background: #1e1e1e !important;
       border: 1px solid var(--color-border);
       border-radius: var(--radius-md);
       padding: 2rem 1.5rem;
       overflow-x: auto;
       margin: 2rem 0 2.5rem 0;
       position: relative;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* 代码块包装器 */
+    .code-block-wrapper {
+      position: relative;
+      margin: 2rem 0 2.5rem 0;
+    }
+    
+    .code-copy-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      backdrop-filter: blur(10px);
+    }
+    
+    .code-copy-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
     }
 
     .course-content code {

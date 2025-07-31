@@ -133,6 +133,62 @@ const exerciseRequirements = Array.isArray(exercise.data.requirements) ? exercis
   </div>
 
   <script>
+    // 修复代码块可见性和添加复制功能
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. 修复代码块对比度
+      const codeBlocks = document.querySelectorAll('pre[class*="shiki"]')
+      codeBlocks.forEach(pre => {
+        // 强制深色背景
+        pre.style.setProperty('background-color', '#1e1e1e', 'important')
+        pre.style.setProperty('background', '#1e1e1e', 'important')
+        
+        // 确保所有代码文本有良好对比度
+        const codeElements = pre.querySelectorAll('code, span')
+        codeElements.forEach(el => {
+          const currentColor = window.getComputedStyle(el).color
+          const rgb = currentColor.match(/\d+/g)
+          if (rgb) {
+            const r = parseInt(rgb[0])
+            const g = parseInt(rgb[1])
+            const b = parseInt(rgb[2])
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000
+            
+            // 如果颜色太暗，提高亮度
+            if (brightness < 100) {
+              el.style.setProperty('filter', 'brightness(1.5)', 'important')
+            }
+          }
+        })
+        
+        // 2. 添加复制按钮
+        const wrapper = document.createElement('div')
+        wrapper.className = 'code-block-wrapper'
+        pre.parentNode.insertBefore(wrapper, pre)
+        wrapper.appendChild(pre)
+        
+        const copyButton = document.createElement('button')
+        copyButton.className = 'code-copy-button'
+        copyButton.innerHTML = '📋 复制'
+        copyButton.setAttribute('aria-label', '复制代码')
+        
+        copyButton.addEventListener('click', async () => {
+          const code = pre.textContent || ''
+          try {
+            await navigator.clipboard.writeText(code)
+            copyButton.innerHTML = '✅ 已复制!'
+            setTimeout(() => {
+              copyButton.innerHTML = '📋 复制'
+            }, 2000)
+          } catch (err) {
+            console.error('复制失败:', err)
+            copyButton.innerHTML = '❌ 复制失败'
+          }
+        })
+        
+        wrapper.appendChild(copyButton)
+      })
+    })
+    
     // 练习完成追踪脚本
     document.querySelector('.mark-exercise-complete')?.addEventListener('click', (e) => {
       const day = (e.target as HTMLElement).dataset.day
@@ -719,6 +775,49 @@ const exerciseRequirements = Array.isArray(exercise.data.requirements) ? exercis
       background-color: var(--color-bg);
       border-color: var(--color-text-secondary);
       color: var(--color-text);
+      transform: translateY(-1px);
+    }
+    
+    /* 代码块样式 */
+    .exercise-content pre {
+      background: #1e1e1e !important;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 2rem 1.5rem;
+      overflow-x: auto;
+      margin: 2rem 0 2.5rem 0;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .exercise-content code {
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.875rem;
+    }
+    
+    /* 代码块包装器 */
+    .code-block-wrapper {
+      position: relative;
+      margin: 2rem 0 2.5rem 0;
+    }
+    
+    .code-copy-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      backdrop-filter: blur(10px);
+    }
+    
+    .code-copy-button:hover {
+      background: rgba(255, 255, 255, 0.2);
       transform: translateY(-1px);
     }
 
