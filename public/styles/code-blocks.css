@@ -2,60 +2,87 @@
 
 /* 强制所有代码块使用深色背景 */
 pre[class*="shiki"],
-pre.shiki {
+pre.shiki,
+pre:has(code) {
   background-color: #1e1e1e !important;
   background: #1e1e1e !important;
+  color: #d4d4d4 !important;
 }
 
 /* 确保代码块内的所有元素都有良好的对比度 */
 pre[class*="shiki"] code,
-pre.shiki code {
+pre.shiki code,
+pre code {
   background-color: transparent !important;
   background: transparent !important;
+  color: #d4d4d4 !important;
 }
 
-/* 覆盖 Shiki 的内联样式 */
-.shiki span {
-  color: inherit !important;
+/* 默认文本颜色 */
+.shiki,
+.shiki span:not([style*="color"]) {
+  color: #d4d4d4 !important;
 }
 
 /* 确保注释有良好的可见度 */
-.shiki .comment {
+.shiki .comment,
+.shiki span[style*="color:"][style*="rgb(106, 153, 85)"] {
   color: #6A9955 !important;
   opacity: 1 !important;
 }
 
 /* 字符串 */
-.shiki .string {
+.shiki .string,
+.shiki span[style*="color:"][style*="rgb(206, 145, 120)"] {
   color: #CE9178 !important;
 }
 
 /* 关键字 */
-.shiki .keyword {
+.shiki .keyword,
+.shiki span[style*="color:"][style*="rgb(86, 156, 214)"] {
   color: #569CD6 !important;
 }
 
 /* 函数名 */
-.shiki .function {
+.shiki .function,
+.shiki span[style*="color:"][style*="rgb(220, 220, 170)"] {
   color: #DCDCAA !important;
 }
 
 /* 变量 */
-.shiki .variable {
+.shiki .variable,
+.shiki span[style*="color:"][style*="rgb(156, 220, 254)"] {
   color: #9CDCFE !important;
 }
 
 /* 数字 */
-.shiki .number {
+.shiki .number,
+.shiki span[style*="color:"][style*="rgb(181, 206, 168)"] {
   color: #B5CEA8 !important;
 }
 
-/* 操作符 */
-.shiki .operator {
+/* 操作符和标点符号 */
+.shiki .operator,
+.shiki .punctuation {
   color: #D4D4D4 !important;
 }
 
-/* 标点符号 */
-.shiki .punctuation {
-  color: #D4D4D4 !important;
+/* HTML标签 */
+.shiki span[style*="color:"][style*="rgb(128, 128, 128)"] {
+  color: #808080 !important;
+}
+
+/* HTML标签名 */
+.shiki span[style*="color:"][style*="rgb(78, 201, 176)"] {
+  color: #4EC9B0 !important;
+}
+
+/* HTML属性名 */
+.shiki span[style*="color:"][style*="rgb(156, 220, 254)"] {
+  color: #9CDCFE !important;
+}
+
+/* 确保所有未指定颜色的span都有默认颜色 */
+.shiki span {
+  color: #d4d4d4;
 }
