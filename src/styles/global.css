@@ -661,3 +661,61 @@ h6 {
     display: none;
   }
 }
+
+/* =================================================================
+   统一代码块样式 - 覆盖 Shiki 默认主题
+   ================================================================= */
+/* 确保所有代码块使用深色背景 */
+pre.shiki,
+pre.astro-code,
+pre[class*="language-"],
+.shiki,
+.astro-code {
+  background-color: #0d1117 !important;
+  background: #0d1117 !important;
+  padding: 1rem !important;
+  border-radius: 8px !important;
+  margin: 1.5rem 0 !important;
+  overflow-x: auto !important;
+  border: 1px solid rgba(240, 246, 252, 0.1) !important;
+}
+
+/* 确保代码文本颜色正确 */
+pre.shiki code,
+pre.astro-code code,
+pre[class*="language-"] code,
+.shiki code,
+.astro-code code {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #c9d1d9 !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.875rem !important;
+  line-height: 1.6 !important;
+}
+
+/* 在亮色主题下也保持深色代码块 */
+[data-theme="light"] pre.shiki,
+[data-theme="light"] pre.astro-code,
+[data-theme="light"] pre[class*="language-"],
+[data-theme="light"] .shiki,
+[data-theme="light"] .astro-code {
+  background-color: #0d1117 !important;
+  background: #0d1117 !important;
+  border-color: rgba(240, 246, 252, 0.1) !important;
+}
+
+[data-theme="light"] pre.shiki code,
+[data-theme="light"] pre.astro-code code,
+[data-theme="light"] pre[class*="language-"] code,
+[data-theme="light"] .shiki code,
+[data-theme="light"] .astro-code code {
+  color: #c9d1d9 !important;
+}
+
+  .course-navigation,
+  .progress-tracker,
+  .breadcrumb {
+    display: none;
+  }
+}
