@@ -67,6 +67,12 @@ const pageDescription = '从零基础到React全栈开发，40天系统学习Web
             <div class="progress-fill" id="overall-progress-fill" style="width: 0%"></div>
           </div>
         </div>
+        
+        <div class="progress-actions">
+          <a href="/course/progress" class="btn btn-primary">
+            查看详细进度
+          </a>
+        </div>
       </div>
     </header>
 
@@ -522,6 +528,36 @@ const pageDescription = '从零基础到React全栈开发，40天系统学习Web
       .btn-large {
         width: 100%;
       }
+    }
+
+    /* Progress Actions */
+    .progress-actions {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-md);
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(66, 184, 131, 0.3);
     }
   </style>
 </body>

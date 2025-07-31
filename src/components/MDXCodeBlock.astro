@@ -1,0 +1,255 @@
+---
+/**
+ * MDX代码块包装组件
+ * 为Shiki高亮的代码块添加复制功能
+ */
+export interface Props {
+  class?: string
+  'data-language'?: string
+  children: any
+}
+
+const { class: className, 'data-language': language = '', ...props } = Astro.props
+
+// 生成唯一ID
+const codeId = `mdx-code-${Math.random().toString(36).substr(2, 9)}`
+
+// 提取语言名称
+const langName = language || className?.replace('language-', '') || 'plaintext'
+---
+
+<div class="mdx-code-block" data-code-id={codeId}>
+  <div class="code-header">
+    <span class="code-language">{langName}</span>
+    <button 
+      class="copy-button" 
+      data-code-id={codeId}
+      aria-label="复制代码"
+      title="复制代码"
+    >
+      <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+      </svg>
+      <span class="copy-text">复制</span>
+    </button>
+  </div>
+  <div class="code-wrapper">
+    <pre class={className} {...props} data-code-content><slot /></pre>
+  </div>
+</div>
+
+<style>
+  .mdx-code-block {
+    position: relative;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0d1117;
+    border: 1px solid rgba(240, 246, 252, 0.1);
+  }
+
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: rgba(13, 17, 23, 0.8);
+    border-bottom: 1px solid rgba(240, 246, 252, 0.1);
+  }
+
+  .code-language {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #7d8590;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+
+  .copy-button {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    background: transparent;
+    color: #7d8590;
+    border: 1px solid rgba(240, 246, 252, 0.1);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  .copy-button:hover {
+    background: rgba(177, 186, 196, 0.12);
+    color: #f0f6fc;
+    border-color: rgba(240, 246, 252, 0.2);
+  }
+
+  .copy-button:active {
+    transform: scale(0.95);
+  }
+
+  .copy-button.copied {
+    background: #238636;
+    color: #ffffff;
+    border-color: #238636;
+  }
+
+  .copy-button.copied .copy-icon {
+    display: none;
+  }
+
+  .copy-button.copied .copy-text::before {
+    content: "✓ ";
+  }
+
+  .copy-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .code-wrapper {
+    position: relative;
+  }
+
+  .code-wrapper pre {
+    margin: 0;
+    padding: 1rem !important;
+    overflow-x: auto;
+    background: transparent !important;
+  }
+
+  /* 滚动条样式 */
+  .code-wrapper pre::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .code-wrapper pre::-webkit-scrollbar-track {
+    background: rgba(110, 118, 129, 0.1);
+  }
+
+  .code-wrapper pre::-webkit-scrollbar-thumb {
+    background: rgba(110, 118, 129, 0.4);
+    border-radius: 4px;
+  }
+
+  .code-wrapper pre::-webkit-scrollbar-thumb:hover {
+    background: rgba(110, 118, 129, 0.6);
+  }
+
+  /* 亮色主题适配 */
+  [data-theme="light"] .mdx-code-block {
+    background: #f6f8fa;
+    border-color: #d1d9e0;
+  }
+
+  [data-theme="light"] .code-header {
+    background: rgba(246, 248, 250, 0.8);
+    border-bottom-color: #d1d9e0;
+  }
+
+  [data-theme="light"] .code-language {
+    color: #57606a;
+  }
+
+  [data-theme="light"] .copy-button {
+    color: #57606a;
+    border-color: #d1d9e0;
+  }
+
+  [data-theme="light"] .copy-button:hover {
+    background: rgba(208, 215, 222, 0.32);
+    color: #24292f;
+    border-color: #57606a;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .code-header {
+      padding: 0.5rem 0.75rem;
+    }
+
+    .copy-button {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.7rem;
+    }
+
+    .copy-text {
+      display: none;
+    }
+
+    .copy-icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 为所有复制按钮添加功能
+    const copyButtons = document.querySelectorAll('.mdx-code-block .copy-button')
+    
+    copyButtons.forEach(button => {
+      button.addEventListener('click', async (e) => {
+        const btn = e.currentTarget as HTMLButtonElement
+        const codeId = btn.dataset.codeId
+        const codeBlock = document.querySelector(`[data-code-id="${codeId}"]`)
+        const codeContent = codeBlock?.querySelector('[data-code-content]')?.textContent
+        
+        if (!codeContent) return
+        
+        try {
+          await navigator.clipboard.writeText(codeContent.trim())
+          
+          // 添加成功状态
+          btn.classList.add('copied')
+          const copyText = btn.querySelector('.copy-text')
+          if (copyText) {
+            copyText.textContent = '已复制'
+          }
+          
+          // 2秒后恢复
+          setTimeout(() => {
+            btn.classList.remove('copied')
+            if (copyText) {
+              copyText.textContent = '复制'
+            }
+          }, 2000)
+        } catch (err) {
+          console.error('复制失败:', err)
+          // 提供降级方案
+          try {
+            const textArea = document.createElement('textarea')
+            textArea.value = codeContent.trim()
+            textArea.style.position = 'fixed'
+            textArea.style.opacity = '0'
+            document.body.appendChild(textArea)
+            textArea.select()
+            document.execCommand('copy')
+            document.body.removeChild(textArea)
+            
+            btn.classList.add('copied')
+            const copyText = btn.querySelector('.copy-text')
+            if (copyText) {
+              copyText.textContent = '已复制'
+            }
+            
+            setTimeout(() => {
+              btn.classList.remove('copied')
+              if (copyText) {
+                copyText.textContent = '复制'
+              }
+            }, 2000)
+          } catch (fallbackErr) {
+            console.error('降级复制也失败:', fallbackErr)
+          }
+        }
+      })
+    })
+  })
+</script>

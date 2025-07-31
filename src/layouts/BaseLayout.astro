@@ -2,6 +2,7 @@
 import Navigation from '@components/Navigation.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
 import ProgressBar from '@components/ProgressBar.astro';
+import BackToTop from '@components/BackToTop.astro';
 import { generateBreadcrumbs } from '@lib/navigation';
 
 export interface Props {
@@ -22,6 +23,7 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
     <meta name="description" content={description || "60天现代Web开发课程"} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/code-copy.css" />
     <title>{title} | 60天现代Web开发课程</title>
     
     <!-- 全局样式 -->
@@ -487,5 +489,9 @@ const breadcrumbs = generateBreadcrumbs(Astro.url.pathname);
         }
       });
     </script>
+    <script src="/code-copy.js" is:inline></script>
+    
+    <!-- Back to Top Button -->
+    <BackToTop />
   </body>
 </html>

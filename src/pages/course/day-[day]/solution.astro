@@ -6,6 +6,7 @@
 import { getCollection } from 'astro:content'
 import type { Solution, PhaseInfo } from '../../../types'
 import CodeDisplay from '../../../components/CodeDisplay.astro'
+import { components } from '../../../components/mdx-components'
 import '../../../styles/global.css'
 
 export async function getStaticPaths() {
@@ -89,7 +90,7 @@ const { Content } = await solution.render()
     <!-- 解决方案内容 -->
     <article class="solution-content">
       <h2>📝 详细解释</h2>
-      <Content />
+      <Content components={components} />
     </article>
 
     <!-- 解决方案内容中已经包含完整代码，移除重复的代码文件部分 -->

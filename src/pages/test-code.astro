@@ -1,0 +1,53 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="测试代码显示">
+  <div style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+    <h1>代码显示测试</h1>
+    
+    <h2>JavaScript 示例</h2>
+    <pre><code class="language-javascript">// JavaScript 示例代码
+function greet(name) {
+  console.log('Hello, ' + name + '!');
+}
+
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);
+console.log(doubled); // [2, 4, 6, 8, 10]</code></pre>
+
+    <h2>HTML 示例</h2>
+    <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;我的网页&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;欢迎来到我的网站&lt;/h1&gt;
+  &lt;p&gt;这是一个段落。&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <h2>CSS 示例</h2>
+    <pre><code class="language-css">/* CSS 样式 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.button {
+  background-color: #42b883;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #35495e;
+}</code></pre>
+  </div>
+</BaseLayout>

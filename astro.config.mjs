@@ -14,7 +14,7 @@ export default defineConfig({
     // remarkPlugins: [remarkInteractiveChecklist],
     shikiConfig: {
       // Choose from Shiki's built-in themes (or add your own)
-      theme: 'github-dark-default',
+      theme: 'one-dark-pro',
       langs: [],
       // Enable word wrap to prevent horizontal scrolling
       wrap: true,

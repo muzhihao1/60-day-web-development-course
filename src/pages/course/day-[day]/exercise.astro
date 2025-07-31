@@ -5,6 +5,7 @@
  */
 import { getCollection } from 'astro:content'
 import type { Exercise, PhaseInfo } from '../../../types'
+import { components } from '@components/mdx-components'
 import '../../../styles/global.css'
 
 export async function getStaticPaths() {
@@ -111,7 +112,7 @@ const { Content } = await exercise.render()
 
     <!-- 练习内容 -->
     <article class="exercise-content">
-      <Content />
+      <Content components={components} />
     </article>
 
     <!-- 提示部分 -->

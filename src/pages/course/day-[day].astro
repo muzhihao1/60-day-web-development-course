@@ -6,6 +6,8 @@
 import { getCollection, getEntry } from 'astro:content'
 import BaseLayout from '@layouts/BaseLayout.astro'
 import type { DayContent, PhaseInfo } from '../../types'
+import { components } from '@components/mdx-components'
+import TableOfContents from '@components/TableOfContents.astro'
 
 export async function getStaticPaths() {
   const courses = await getCollection('courses')
@@ -37,11 +39,12 @@ const pageTitle = `${course.data.title} | 40天Web开发课程`
 const pageDescription = course.data.description
 
 // Get the Content component from the course
-const { Content } = await course.render()
+const { Content, headings } = await course.render()
 ---
 
 <BaseLayout title={course.data.title} description={pageDescription} currentDay={parseInt(day)}>
-  <div class="course-container">
+  <div class="course-page-wrapper">
+    <div class="course-container">
 
     <!-- 课程头部 -->
     <header class="course-header">
@@ -74,7 +77,7 @@ const { Content } = await course.render()
 
     <!-- 主要内容 -->
     <article class="course-content">
-      <Content />
+      <Content components={components} />
     </article>
 
     <!-- 代码示例部分 -->
@@ -161,6 +164,12 @@ const { Content } = await course.render()
         标记为已完成
       </button>
     </div>
+  </div>
+  
+  <!-- Table of Contents -->
+  <aside class="toc-sidebar">
+    <TableOfContents headings={headings} />
+  </aside>
   </div>
 
   <script>
@@ -330,9 +339,24 @@ const { Content } = await course.render()
   </script>
 
   <style>
+    .course-page-wrapper {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 3rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      align-items: flex-start;
+    }
+
     .course-container {
       max-width: 900px;
-      margin: 0 auto;
+      width: 100%;
+    }
+
+    .toc-sidebar {
+      position: sticky;
+      top: 80px;
     }
 
     .course-header {
@@ -794,6 +818,17 @@ const { Content } = await course.render()
     }
 
     /* 响应式设计 */
+    @media (max-width: 1200px) {
+      .course-page-wrapper {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+      }
+
+      .toc-sidebar {
+        display: none;
+      }
+    }
+
     @media (max-width: 768px) {
       .course-title {
         font-size: 2rem;

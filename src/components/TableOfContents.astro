@@ -1,0 +1,212 @@
+---
+/**
+ * Floating Table of Contents Component
+ * Displays a sticky navigation sidebar with document headings
+ */
+export interface Props {
+  headings: Array<{
+    depth: number
+    text: string
+    slug: string
+  }>
+}
+
+const { headings } = Astro.props
+
+// Filter headings to only show h2 and h3
+const filteredHeadings = headings.filter(h => h.depth === 2 || h.depth === 3)
+---
+
+<nav class="toc-container">
+  <div class="toc-header">
+    <h4>目录</h4>
+  </div>
+  <ul class="toc-list">
+    {filteredHeadings.map((heading) => (
+      <li class={`toc-item toc-level-${heading.depth}`}>
+        <a href={`#${heading.slug}`} class="toc-link">
+          {heading.text}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .toc-container {
+    position: sticky;
+    top: 100px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    min-width: 250px;
+    max-width: 300px;
+  }
+
+  .toc-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .toc-header h4 {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .toc-item {
+    margin: 0;
+  }
+
+  .toc-level-3 {
+    padding-left: 1rem;
+  }
+
+  .toc-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+  }
+
+  .toc-link:hover {
+    color: var(--color-text);
+    background: var(--color-bg-secondary);
+    border-left-color: var(--color-primary);
+  }
+
+  .toc-link.active {
+    color: var(--color-primary);
+    font-weight: 500;
+    background: var(--color-bg-secondary);
+    border-left-color: var(--color-primary);
+  }
+
+  /* Smooth scrollbar */
+  .toc-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .toc-container::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+    border-radius: 3px;
+  }
+
+  .toc-container::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+
+  .toc-container::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-secondary);
+  }
+
+  /* Hide on mobile */
+  @media (max-width: 1200px) {
+    .toc-container {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Add active state based on scroll position
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('.toc-link')
+    const headings = document.querySelectorAll('h2[id], h3[id]')
+    
+    if (tocLinks.length === 0 || headings.length === 0) return
+
+    // Create a map of heading positions
+    const updateHeadingPositions = () => {
+      const positions = new Map()
+      headings.forEach(heading => {
+        positions.set(heading.id, heading.offsetTop)
+      })
+      return positions
+    }
+
+    let headingPositions = updateHeadingPositions()
+
+    // Update active link based on scroll position
+    const updateActiveLink = () => {
+      const scrollY = window.scrollY + 100 // Account for sticky header
+      let activeId = ''
+
+      // Find the current active heading
+      for (const [id, position] of headingPositions) {
+        if (scrollY >= position - 50) {
+          activeId = id
+        } else {
+          break
+        }
+      }
+
+      // Update active states
+      tocLinks.forEach(link => {
+        if (link.getAttribute('href') === `#${activeId}`) {
+          link.classList.add('active')
+        } else {
+          link.classList.remove('active')
+        }
+      })
+    }
+
+    // Smooth scroll to heading when clicking TOC link
+    tocLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault()
+        const targetId = link.getAttribute('href')?.substring(1)
+        if (!targetId) return
+
+        const targetElement = document.getElementById(targetId)
+        if (targetElement) {
+          const offset = 80 // Account for sticky header
+          const elementPosition = targetElement.offsetTop
+          const offsetPosition = elementPosition - offset
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          })
+        }
+      })
+    })
+
+    // Update on scroll with throttling
+    let scrollTimer: number
+    window.addEventListener('scroll', () => {
+      if (scrollTimer) {
+        clearTimeout(scrollTimer)
+      }
+      scrollTimer = setTimeout(updateActiveLink, 10)
+    })
+
+    // Update positions on resize
+    window.addEventListener('resize', () => {
+      headingPositions = updateHeadingPositions()
+      updateActiveLink()
+    })
+
+    // Initial update
+    updateActiveLink()
+  })
+</script>

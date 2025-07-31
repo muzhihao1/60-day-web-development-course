@@ -1,0 +1,421 @@
+---
+/**
+ * Visual Course Progress Indicator Component
+ * Shows progress with circular progress, milestone badges, and streak counter
+ */
+export interface Props {
+  currentDay: number
+  completedDays: number[]
+}
+
+const { currentDay, completedDays = [] } = Astro.props
+
+const totalDays = 60
+const progressPercentage = Math.round((completedDays.length / totalDays) * 100)
+
+// Calculate current streak
+let currentStreak = 0
+const today = new Date()
+const sortedDays = [...completedDays].sort((a, b) => b - a)
+
+// Simple streak calculation (would need actual dates in real implementation)
+if (sortedDays.includes(currentDay)) {
+  currentStreak = 1
+  let checkDay = currentDay - 1
+  while (checkDay > 0 && sortedDays.includes(checkDay)) {
+    currentStreak++
+    checkDay--
+  }
+}
+
+// Milestone achievements
+const milestones = [
+  { day: 7, name: '第一周', icon: '🌱', achieved: completedDays.some(d => d >= 7) },
+  { day: 14, name: '两周达人', icon: '🌿', achieved: completedDays.some(d => d >= 14) },
+  { day: 30, name: '月度英雄', icon: '🌳', achieved: completedDays.some(d => d >= 30) },
+  { day: 60, name: '完成挑战', icon: '🏆', achieved: completedDays.length >= 60 }
+]
+
+// Phase progress
+const phases = [
+  { name: '现代Web基础', start: 1, end: 12 },
+  { name: 'JavaScript精通', start: 13, end: 24 },
+  { name: 'React开发', start: 25, end: 40 },
+  { name: '后端开发', start: 41, end: 52 },
+  { name: '全栈部署', start: 53, end: 60 }
+]
+
+const phaseProgress = phases.map(phase => {
+  const phaseCompleted = completedDays.filter(d => d >= phase.start && d <= phase.end).length
+  const phaseTotal = phase.end - phase.start + 1
+  return {
+    ...phase,
+    progress: Math.round((phaseCompleted / phaseTotal) * 100),
+    completed: phaseCompleted,
+    total: phaseTotal
+  }
+})
+---
+
+<div class="progress-indicator-container">
+  <!-- Circular Progress -->
+  <div class="circular-progress-section">
+    <div class="circular-progress">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <circle
+          cx="60"
+          cy="60"
+          r="54"
+          fill="none"
+          stroke="var(--color-bg-secondary)"
+          stroke-width="12"
+        />
+        <circle
+          cx="60"
+          cy="60"
+          r="54"
+          fill="none"
+          stroke="var(--color-primary)"
+          stroke-width="12"
+          stroke-dasharray={`${(progressPercentage / 100) * 339.292} 339.292`}
+          stroke-dashoffset="0"
+          stroke-linecap="round"
+          transform="rotate(-90 60 60)"
+          class="progress-circle"
+        />
+      </svg>
+      <div class="progress-text">
+        <span class="progress-number">{progressPercentage}</span>
+        <span class="progress-symbol">%</span>
+      </div>
+    </div>
+    <div class="progress-stats">
+      <div class="stat-item">
+        <span class="stat-value">{completedDays.length}</span>
+        <span class="stat-label">已完成</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">{totalDays - completedDays.length}</span>
+        <span class="stat-label">剩余</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Streak Counter -->
+  <div class="streak-section">
+    <div class="streak-badge">
+      <span class="streak-icon">🔥</span>
+      <div class="streak-info">
+        <span class="streak-number">{currentStreak}</span>
+        <span class="streak-label">天连续学习</span>
+      </div>
+    </div>
+    {currentStreak >= 7 && (
+      <div class="streak-message">
+        保持势头！你已经连续学习一周了！
+      </div>
+    )}
+  </div>
+
+  <!-- Milestones -->
+  <div class="milestones-section">
+    <h3>里程碑成就</h3>
+    <div class="milestones-grid">
+      {milestones.map(milestone => (
+        <div class={`milestone-badge ${milestone.achieved ? 'achieved' : ''}`}>
+          <span class="milestone-icon">{milestone.icon}</span>
+          <span class="milestone-name">{milestone.name}</span>
+          <span class="milestone-day">Day {milestone.day}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Phase Progress -->
+  <div class="phase-progress-section">
+    <h3>阶段进度</h3>
+    <div class="phase-progress-list">
+      {phaseProgress.map((phase, index) => (
+        <div class="phase-item">
+          <div class="phase-header">
+            <span class="phase-name">{phase.name}</span>
+            <span class="phase-stats">{phase.completed}/{phase.total}</span>
+          </div>
+          <div class="phase-bar">
+            <div 
+              class="phase-fill"
+              style={`width: ${phase.progress}%`}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .progress-indicator-container {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Circular Progress */
+  .circular-progress-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .circular-progress {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+  }
+
+  .progress-circle {
+    transition: stroke-dasharray 1s ease;
+  }
+
+  .progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .progress-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .progress-symbol {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+  }
+
+  .progress-stats {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* Streak Section */
+  .streak-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .streak-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--color-warning);
+  }
+
+  .streak-icon {
+    font-size: 2rem;
+  }
+
+  .streak-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .streak-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-warning);
+  }
+
+  .streak-label {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .streak-message {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: var(--color-warning);
+    color: var(--color-secondary);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  /* Milestones */
+  .milestones-section h3,
+  .phase-progress-section h3 {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .milestones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .milestone-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background: var(--color-bg-secondary);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+  }
+
+  .milestone-badge.achieved {
+    opacity: 1;
+    border-color: var(--color-primary);
+    background: var(--color-bg);
+  }
+
+  .milestone-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    filter: grayscale(1);
+    transition: filter 0.3s ease;
+  }
+
+  .milestone-badge.achieved .milestone-icon {
+    filter: grayscale(0);
+  }
+
+  .milestone-name {
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.25rem;
+  }
+
+  .milestone-day {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* Phase Progress */
+  .phase-progress-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .phase-item {
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+  }
+
+  .phase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .phase-name {
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .phase-stats {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .phase-bar {
+    height: 8px;
+    background: var(--color-bg);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .phase-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .progress-indicator-container {
+      padding: 1.5rem;
+    }
+
+    .circular-progress-section {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .progress-stats {
+      justify-content: center;
+    }
+
+    .milestones-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+
+<script>
+  // Animate circular progress on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    const progressCircle = document.querySelector('.progress-circle') as SVGCircleElement
+    if (progressCircle) {
+      // Reset and animate
+      const finalValue = progressCircle.style.strokeDasharray
+      progressCircle.style.strokeDasharray = '0 339.292'
+      
+      setTimeout(() => {
+        progressCircle.style.strokeDasharray = finalValue
+      }, 100)
+    }
+
+    // Animate phase progress bars
+    const phaseFills = document.querySelectorAll('.phase-fill') as NodeListOf<HTMLElement>
+    phaseFills.forEach((fill, index) => {
+      const finalWidth = fill.style.width
+      fill.style.width = '0%'
+      
+      setTimeout(() => {
+        fill.style.width = finalWidth
+      }, 100 + (index * 100))
+    })
+  })
+</script>
